@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DictionaryProject.My.MySettings" Collapsed="true">
+    <Position X="14" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DictionaryProject.Project">
+    <Position X="6.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAABAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Project.vb</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="TokenSets" />
+      <Property Name="Rules" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DictionaryProject.TokenSet" Collapsed="true">
+    <Position X="15.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAQAAAAAAAAAIAQAAAAAAQAAAAAAAAABAAA=</HashCode>
+      <FileName>TokenSet.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DictionaryProject.TokenSetCollection">
+    <Position X="8.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TokenSetCollection.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DictionaryProject.Rule">
+    <Position X="0.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAgAAAAAAAAQAAAAAIJQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Rule.vb</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Commands" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DictionaryProject.RuleCollection">
+    <Position X="11.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>RuleCollection.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DictionaryProject.CommandBase">
+    <Position X="3.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\CommandBase.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DictionaryProject.Context" Collapsed="true">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAACAAAAAAAAAAAAAAAAAABCAA=</HashCode>
+      <FileName>Context.vb</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Project" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DictionaryProject.TokenCommand">
+    <Position X="4.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIQAACAAAAAABIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\TokenCommand.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DictionaryProject.CommandCollection">
+    <Position X="3.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\CommandCollection.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DictionaryProject.RuleCommand">
+    <Position X="2.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAQAAAAAAAAABQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\RuleCommand.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Module Name="DictionaryProject.My.Resources.Resources" Collapsed="true">
+    <Position X="15.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="DictionaryProject.My.MySettingsProperty" Collapsed="true">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
