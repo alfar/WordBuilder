@@ -1052,17 +1052,22 @@ Public Class Main
             End If
         End If
 
+        Dim startIndex As Integer = CodeTextBox.SelectionStart + CodeTextBox.SelectionLength
+        Dim endIndex As Integer = -1
+
         Dim findOptions As RichTextBoxFinds = RichTextBoxFinds.None
 
         If FindInCodeDialog.SearchUpCheckBox.Checked Then
             findOptions = RichTextBoxFinds.Reverse
+            endIndex = CodeTextBox.SelectionStart
+            startIndex = 0
         End If
 
         If FindInCodeDialog.WholeWordCheckBox.Checked Then
             findOptions = findOptions Or RichTextBoxFinds.WholeWord
         End If
 
-        If CodeTextBox.Find(FindInCodeDialog.FindTextBox.Text, CodeTextBox.SelectionStart + CodeTextBox.SelectionLength, findOptions) = -1 Then
+        If CodeTextBox.Find(FindInCodeDialog.FindTextBox.Text, startIndex, endIndex, findOptions) = -1 Then
             MessageBox.Show("No further matches found.", "Find in code", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
