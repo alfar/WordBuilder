@@ -1,0 +1,19 @@
+<inkscape-extension>
+  <_name>Generate with WordBuilder</_name>
+  <id>{dk.whee.WordBuilder}</id>
+	<dependency type="executable" location="extensions">WordBuilder.py</dependency>
+	<dependency type="executable" location="extensions">InkScapeWordBuilder.exe</dependency>
+	<dependency type="executable" location="extensions">Ionic.Zip.dll</dependency>
+	<dependency type="executable" location="extensions">DictionaryProject.dll</dependency>
+  <param name="project" type="string"></param>
+  <param name="rule" type="string"></param>
+  <effect>
+    <object-type>all</object-type>
+    <effects-menu>
+        <submenu _name="Text"/>
+    </effects-menu>
+  </effect>
+  <script>
+    <command reldir="extensions" interpreter="python">WordBuilder.py</command>
+  </script>
+</inkscape-extension>
