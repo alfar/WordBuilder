@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="WordBuilder" Language="1033" Version="2.0.0.3" Manufacturer="Whee.dk" UpgradeCode="3D2DBED5-C864-4acc-8B4C-DAB2CFB3037C">
+  <Product Id="*" Name="WordBuilder" Language="1033" Version="2.0.0.4" Manufacturer="Whee.dk" UpgradeCode="3D2DBED5-C864-4acc-8B4C-DAB2CFB3037C">
     <Package InstallerVersion="200" Compressed="yes" Id="*" />
 
     <Property Id="PREVIOUSVERSIONSINSTALLED" Secure="yes" />
     <Upgrade Id="e5b9a5e3-5d6a-44aa-8ecb-bbe0d2c677e6">
-      <UpgradeVersion Minimum="1.0.0.0" Maximum="2.0.0.3" Property="PREVIOUSVERSIONSINSTALLED" IncludeMinimum="yes" IncludeMaximum="no" OnlyDetect="no" />
+      <UpgradeVersion Minimum="1.0.0.0" Maximum="2.0.0.4" Property="PREVIOUSVERSIONSINSTALLED" IncludeMinimum="yes" IncludeMaximum="no" OnlyDetect="no" />
     </Upgrade>
 
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
