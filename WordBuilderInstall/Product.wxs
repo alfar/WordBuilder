@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="WordBuilder" Language="1033" Version="2.0.0.2" Manufacturer="Whee.dk" UpgradeCode="3D2DBED5-C864-4acc-8B4C-DAB2CFB3037C">
+    <Package InstallerVersion="200" Compressed="yes" Id="*" />
+
+    <Property Id="PREVIOUSVERSIONSINSTALLED" Secure="yes" />
+    <Upgrade Id="e5b9a5e3-5d6a-44aa-8ecb-bbe0d2c677e6">
+      <UpgradeVersion Minimum="1.0.0.0" Maximum="2.0.0.2" Property="PREVIOUSVERSIONSINSTALLED" IncludeMinimum="yes" IncludeMaximum="no" OnlyDetect="no" />
+    </Upgrade>
+
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramMenuFolder" Name="Programs">
+        <Directory Id="ProgramMenuDir" Name="WordBuilder">
+          <Component Id="ProgramMenuDir" Guid="7DCBD414-39CB-4730-946C-58757D818D13">
+            <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
+            <RegistryValue Root="HKCU" Key="Software\Whee.dk\WordBuilder" Type="string" Value="" KeyPath="yes" />
+          </Component>
+        </Directory>
+      </Directory>
+
+      <Directory Id="DesktopFolder" Name="Desktop" />
+
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLLOCATION" Name="WordBuilder">
+          <Component Id="ProductComponent" Guid="353e8ca5-ea68-411d-8ac4-8b5b8cb0250d">
+            <File Source="E:\Code\Lingo\WordBuilder2\bin\Release\WordBuilder.exe" Name="WordBuilder.exe" KeyPath="yes">
+              <Shortcut Id="startmenuWordBuilder" Directory="ProgramMenuDir" Name="WordBuilder"
+                                WorkingDirectory='INSTALLDIR' Icon="WordBuilder.exe" IconIndex="0" Advertise="yes" />
+              <Shortcut Id="desktopWordBuilder" Directory="DesktopFolder" Name="WordBuilder"
+                WorkingDirectory='INSTALLDIR' Icon="WordBuilder.exe" IconIndex="0" Advertise="yes" />
+            </File>
+            <File Source="e:\code\lingo\WordBuilder2\BaseDictionary.sdf" Name="BaseDictionary.sdf" />
+          </Component>
+          <Directory Id="InkscapeDir" Name="InkScapeExtension">
+            <Component Id="InkScapeExtension" Guid="">
+              <File Source="e:\code\lingo\InkScapeWordBuilder\Bin\Release\InkScapeWordBuilder.exe" Name="InkScapeWordBuilder.exe" KeyPath="yes" />
+              <CopyFile Id="DictionaryProjectISE" FileId="DictionaryProject.dll" DestinationName="DictionaryProject.dll" />
+              <CopyFile Id="Ionic.ZipISE" FileId="Ionic.Zip.dll" DestinationName="Ionic.Zip.dll" />
+            </Component>
+            <Component Id="InkScapeExtensionINX" Guid="">
+              <File Source="e:\code\lingo\InkScapeWordBuilder\WordBuilder.inx" Name="WordBuilder.inx" KeyPath="yes" />
+            </Component>
+            <Component Id="InkScapeExtensionPY" Guid="">
+              <File Source="e:\code\lingo\InkScapeWordBuilder\WordBuilder.py" Name="WordBuilder.py" KeyPath="yes" />
+            </Component>
+          </Directory>
+          <Component Id="DictionaryProject" Guid="F9C4BBD9-C270-4fd9-8333-F7C68FAFCC98">
+            <File Source="e:\code\lingo\WordBuilder2\Bin\Release\DictionaryProject.dll" Name="DictionaryProject.dll" KeyPath="yes" />
+          </Component>
+          <Component Id="WheeControls" Guid="5227148F-FC6E-41cd-91A8-8F284D3AF8D3">
+            <File Source="e:\code\lingo\WordBuilder2\Bin\Release\WheeControls.dll" Name="WheeControls.dll" KeyPath="yes" />
+          </Component>
+          <Component Id="DictionaryData" Guid="58E10642-27B3-4c31-979D-8822A21A6881">
+            <File Source="e:\code\lingo\WordBuilder2\Bin\Release\DictionaryData.dll" Name="DictionaryData.dll" KeyPath="yes" />
+            <File Source="E:\Code\Lingo\DictionaryData\bin\Release\System.Data.SqlServerCE.dll" Name="System.Data.SqlServerCE.dll" />
+            <File Source="e:\Code\Lingo\DictionaryData\Components\sqlceca35.dll" Name="sqlceca35.dll" />
+            <File Source="e:\Code\Lingo\DictionaryData\Components\sqlcecompact35.dll" Name="sqlcecompact35.dll" />
+            <File Source="e:\Code\Lingo\DictionaryData\Components\sqlceer35EN.dll" Name="sqlceer35EN.dll" />
+            <File Source="e:\Code\Lingo\DictionaryData\Components\sqlceme35.dll" Name="sqlceme35.dll" />
+            <File Source="e:\Code\Lingo\DictionaryData\Components\sqlceoledb35.dll" Name="sqlceoledb35.dll" />
+            <File Source="e:\Code\Lingo\DictionaryData\Components\sqlceqp35.dll" Name="sqlceqp35.dll" />
+            <File Source="e:\Code\Lingo\DictionaryData\Components\sqlcese35.dll" Name="sqlcese35.dll" />
+          </Component>
+          <Component Id="IonicZip" Guid="A61E6732-55B4-4cfd-82EC-D34CD479DFA5">
+            <File Source="e:\code\lingo\Wordo\Bin\Release\Ionic.Zip.dll" Name="Ionic.Zip.dll" KeyPath="yes" />
+          </Component>
+          <Directory Id="SamplesDir" Name="Samples">
+            <Component Id="SamplesComponent" Guid="6C8B646C-8CB8-4ced-A6BB-AD0D08523AAC">              
+              <File Source="e:\code\lingo\Wordo\Documents\esolanean.wordo" Name="Esolanean.wordo" KeyPath="yes" />
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="Complete" Title="WordBuilder 2.0" Level="1">
+      <Feature Id="MainProgram" Title="Program" Description="The main executable" Level="1">
+        <ComponentRef Id="ProductComponent" />
+        <ComponentRef Id='DictionaryProject' />
+        <ComponentRef Id='DictionaryData' />
+        <ComponentRef Id='WheeControls' />
+        <ComponentRef Id='IonicZip' />
+        <ComponentRef Id='ProgramMenuDir' />
+      </Feature>
+      <Feature Id="InkScapeExtension" Title="InkScape Extension" Description="An extension to InkScape" Level="1">
+        <ComponentRef Id="InkScapeExtension" />
+        <ComponentRef Id="InkScapeExtensionINX" />
+        <ComponentRef Id="InkScapeExtensionPY" />
+      </Feature>
+      <Feature Id="Samples" Title="Samples" Description="Just a single sample file, more will come in the future." Level="1">
+        <ComponentRef Id="SamplesComponent" />
+      </Feature>
+    </Feature>
+
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
+    <UIRef Id="WixUI_InstallDir" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+
+    <Icon Id="WordBuilder.exe" SourceFile="e:\code\lingo\WordBuilder2\Bin\Release\WordBuilder.exe" />
+    <InstallExecuteSequence>
+      <RemoveExistingProducts After="InstallFinalize" />
+    </InstallExecuteSequence>
+  </Product>
+</Wix>

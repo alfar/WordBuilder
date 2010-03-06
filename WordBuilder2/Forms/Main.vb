@@ -1040,6 +1040,7 @@ Public Class Main
         CodeTextBox.Paste(DataFormats.GetFormat(DataFormats.UnicodeText))
     End Sub
 
+    Private FindInCodeDialog As New FindInCodeDialog()
     Private Sub FindInCode(ByVal checkempty As Boolean)
         If String.IsNullOrEmpty(FindInCodeDialog.FindTextBox.Text) Then
             If checkempty Then

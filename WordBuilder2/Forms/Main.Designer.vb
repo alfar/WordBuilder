@@ -90,6 +90,7 @@ Partial Class Main
         Me.PasteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripSeparator
         Me.FindToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.FindAgainToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.WordsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.GenerateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.QuickGenerateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -116,7 +117,6 @@ Partial Class Main
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
         Me.OpenFileDialog2 = New System.Windows.Forms.OpenFileDialog
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
-        Me.FindAgainToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ProjectTabControl.SuspendLayout()
         Me.GeneratorTabPage.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -676,34 +676,41 @@ Partial Class Main
         '
         Me.CutToolStripMenuItem.Name = "CutToolStripMenuItem"
         Me.CutToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.X), System.Windows.Forms.Keys)
-        Me.CutToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.CutToolStripMenuItem.Size = New System.Drawing.Size(148, 22)
         Me.CutToolStripMenuItem.Text = "Cu&t"
         '
         'CopyToolStripMenuItem
         '
         Me.CopyToolStripMenuItem.Name = "CopyToolStripMenuItem"
         Me.CopyToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
-        Me.CopyToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.CopyToolStripMenuItem.Size = New System.Drawing.Size(148, 22)
         Me.CopyToolStripMenuItem.Text = "&Copy"
         '
         'PasteToolStripMenuItem
         '
         Me.PasteToolStripMenuItem.Name = "PasteToolStripMenuItem"
         Me.PasteToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
-        Me.PasteToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.PasteToolStripMenuItem.Size = New System.Drawing.Size(148, 22)
         Me.PasteToolStripMenuItem.Text = "&Paste"
         '
         'ToolStripMenuItem5
         '
         Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
-        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(145, 6)
         '
         'FindToolStripMenuItem
         '
         Me.FindToolStripMenuItem.Name = "FindToolStripMenuItem"
         Me.FindToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F), System.Windows.Forms.Keys)
-        Me.FindToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.FindToolStripMenuItem.Size = New System.Drawing.Size(148, 22)
         Me.FindToolStripMenuItem.Text = "&Find..."
+        '
+        'FindAgainToolStripMenuItem
+        '
+        Me.FindAgainToolStripMenuItem.Name = "FindAgainToolStripMenuItem"
+        Me.FindAgainToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3
+        Me.FindAgainToolStripMenuItem.Size = New System.Drawing.Size(148, 22)
+        Me.FindAgainToolStripMenuItem.Text = "F&ind again"
         '
         'WordsToolStripMenuItem
         '
@@ -873,13 +880,6 @@ Partial Class Main
         Me.OpenFileDialog1.DefaultExt = "wordo"
         Me.OpenFileDialog1.Filter = "Project file|*.wordo|All files|*.*"
         Me.OpenFileDialog1.Title = "Open WordBuilder project"
-        '
-        'FindAgainToolStripMenuItem
-        '
-        Me.FindAgainToolStripMenuItem.Name = "FindAgainToolStripMenuItem"
-        Me.FindAgainToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3
-        Me.FindAgainToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.FindAgainToolStripMenuItem.Text = "F&ind again"
         '
         'Main
         '
