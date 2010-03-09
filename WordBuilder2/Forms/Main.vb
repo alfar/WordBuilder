@@ -856,24 +856,28 @@ Public Class Main
             Dim proj As Project = GetProject()
 
             Dim result As New List(Of String)()
-            Dim tokens As List(Of String) = ProjectSerializer.ReadTokens(TranslatorSourceTextBox.Text.Trim())
+            Dim tokens As List(Of String) = ProjectSerializer.ReadTokens(TranslatorSourceTextBox.Text.Trim().Replace(vbCrLf, " " & vbCrLf & " "))
 
             For Each token As String In tokens
-                Dim matches As DictionaryData.WordCollection = DictionaryData.Word.Search(token, New Integer() {}, DictionaryData.Word.SearchOptions.IncludeWord Or DictionaryData.Word.SearchOptions.RequireMeaning)
-
-                If matches.Count > 0 Then
-                    Dim bestWord As DictionaryData.Word = matches.First()
-                    If matches.Count > 1 Then
-                        result.Add("<span class=""multimatch"" meaningfor=""" & token & """ title=""" & matches.Count.ToString() & " match(es)"">" & bestWord.Meaning & "</span>")
-                    Else
-                        result.Add("<span meaningfor=""" & token & """>" & bestWord.Meaning & "</span>")
-                    End If
+                If token = vbCrLf Then
+                    result.Add("</p><p>")
                 Else
-                    result.Add("<span class=""missing"" type=""meaning"">" & token & "</span>")
+                    Dim matches As DictionaryData.WordCollection = DictionaryData.Word.Search(token, New Integer() {}, DictionaryData.Word.SearchOptions.IncludeWord Or DictionaryData.Word.SearchOptions.RequireMeaning)
+
+                    If matches.Count > 0 Then
+                        Dim bestWord As DictionaryData.Word = matches.First()
+                        If matches.Count > 1 Then
+                            result.Add("<span class=""multimatch"" meaningfor=""" & token & """ title=""" & matches.Count.ToString() & " match(es)"">" & bestWord.Meaning & "</span>")
+                        Else
+                            result.Add("<span meaningfor=""" & token & """>" & bestWord.Meaning & "</span>")
+                        End If
+                    Else
+                        result.Add("<span class=""missing"" type=""meaning"">" & token & "</span>")
+                    End If
                 End If
             Next
 
-            TranslatorResultWebBrowser.DocumentText = "<html><head><style type=""text/css"">body { font-family: " & _configuration.DictionaryFont.Name & "; font-size: " & _configuration.DictionaryFont.Size.ToString(System.Globalization.CultureInfo.InvariantCulture) & "; } .missing { font-style: italic; color: #ff0000; } .multimatch { color: #0000ff; } </style></head><body>" & String.Join(" ", result.ToArray()) & "</body></html>"
+            TranslatorResultWebBrowser.DocumentText = "<html><head><style type=""text/css"">body { font-family: " & _configuration.DictionaryFont.Name & "; font-size: " & _configuration.DictionaryFont.Size.ToString(System.Globalization.CultureInfo.InvariantCulture) & "; } .missing { font-style: italic; color: #ff0000; } .multimatch { color: #0000ff; } </style></head><body><p>" & String.Join(" ", result.ToArray()) & "</p></body></html>"
         End If
     End Sub
 
