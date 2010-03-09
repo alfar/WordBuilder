@@ -74,6 +74,7 @@ Partial Class Main
         Me.TranslatorSourceTextBox = New System.Windows.Forms.TextBox
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip
         Me.TranslateToolStripButton = New System.Windows.Forms.ToolStripButton
+        Me.TranslateBackToolStripButton = New System.Windows.Forms.ToolStripButton
         Me.SaveFileDialog2 = New System.Windows.Forms.SaveFileDialog
         Me.ApplicationMenuStrip = New System.Windows.Forms.MenuStrip
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
@@ -583,7 +584,7 @@ Partial Class Main
         '
         'ToolStrip1
         '
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TranslateToolStripButton})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TranslateToolStripButton, Me.TranslateBackToolStripButton})
         Me.ToolStrip1.Location = New System.Drawing.Point(3, 3)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(621, 25)
@@ -597,7 +598,16 @@ Partial Class Main
         Me.TranslateToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TranslateToolStripButton.Name = "TranslateToolStripButton"
         Me.TranslateToolStripButton.Size = New System.Drawing.Size(59, 22)
-        Me.TranslateToolStripButton.Text = "Translate"
+        Me.TranslateToolStripButton.Text = "&Translate"
+        '
+        'TranslateBackToolStripButton
+        '
+        Me.TranslateBackToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.TranslateBackToolStripButton.Image = CType(resources.GetObject("TranslateBackToolStripButton.Image"), System.Drawing.Image)
+        Me.TranslateBackToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.TranslateBackToolStripButton.Name = "TranslateBackToolStripButton"
+        Me.TranslateBackToolStripButton.Size = New System.Drawing.Size(87, 22)
+        Me.TranslateBackToolStripButton.Text = "Translate &back"
         '
         'SaveFileDialog2
         '
@@ -1007,4 +1017,5 @@ Partial Class Main
     Friend WithEvents ToolStripMenuItem5 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents FindToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FindAgainToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TranslateBackToolStripButton As System.Windows.Forms.ToolStripButton
 End Class

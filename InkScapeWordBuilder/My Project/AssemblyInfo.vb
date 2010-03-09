@@ -9,10 +9,7 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("InkScapeWordBuilder")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("Whee.dk")> 
 <Assembly: AssemblyProduct("InkScape WordBuilder Extension")> 
-<Assembly: AssemblyCopyright("Copyright © Whee.dk 2009")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
@@ -30,6 +27,3 @@ Imports System.Runtime.InteropServices
 ' You can specify all the values or you can default the Build and Revision Numbers 
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
-
-<Assembly: AssemblyVersion("1.1.0.0")> 
-<Assembly: AssemblyFileVersion("1.1.0.0")> 

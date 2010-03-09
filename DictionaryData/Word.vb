@@ -9,6 +9,7 @@ Public Class Word
         IncludeMarks = 4
         WildcardStart = 8
         WildcardEnd = 16
+        RequireMeaning = 32
     End Enum
 #End Region
 
@@ -221,6 +222,7 @@ Public Class Word
                 End If
             End If
 
+
             Dim sb As New System.Text.StringBuilder()
 
             Dim crit As New List(Of String)()
@@ -233,12 +235,17 @@ Public Class Word
                 crit.Add("Words.Meaning like @term")
             End If
 
+            Dim requireMeaning As String = ""
+            If (searchOptions And DictionaryData.Word.SearchOptions.RequireMeaning) = DictionaryData.Word.SearchOptions.RequireMeaning Then
+                requireMeaning = "Words.Meaning <> '' and "
+            End If
+
             If (searchOptions And DictionaryData.Word.SearchOptions.IncludeMarks) = DictionaryData.Word.SearchOptions.IncludeMarks Then
                 crit.Add("WordMarks.Value like @term and WordMarks.markTypeId in (" & String.Join(", ", Array.ConvertAll(markTypeIds, Function(i As Integer) i.ToString())) & ")")
                 sb.Append(" inner join WordMarks on WordMarks.wordId = Words.id")
             End If
 
-            Return DatabaseHelper.ExecuteReader("select Words.Id, Words.Word, Words.Tokens, Words.Meaning from Words" & sb.ToString() & " where " & String.Join(" or ", crit.ToArray()) & " order by Words.Word", parms)
+            Return DatabaseHelper.ExecuteReader("select Words.Id, Words.Word, Words.Tokens, Words.Meaning from Words" & sb.ToString() & " where " & requireMeaning & "(" & String.Join(" or ", crit.ToArray()) & ") order by Words.Word", parms)
         End Function
 
         Public Shared Function GetWordsWithMeaning(ByVal meaning As String) As SqlCeDataReader

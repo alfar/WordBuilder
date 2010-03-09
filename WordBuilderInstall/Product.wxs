@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="WordBuilder" Language="1033" Version="2.0.0.4" Manufacturer="Whee.dk" UpgradeCode="3D2DBED5-C864-4acc-8B4C-DAB2CFB3037C">
+  <Product Id="*" Name="WordBuilder" Language="1033" Version="2.0.0.4" Manufacturer="Whee.dk" UpgradeCode="F07BCC71-9A10-4519-94AD-1D6AE830A672">
     <Package InstallerVersion="200" Compressed="yes" Id="*" />
 
     <Property Id="PREVIOUSVERSIONSINSTALLED" Secure="yes" />

@@ -802,38 +802,66 @@ Public Class Main
 #End Region
 
     Private Sub TranslateToolStripButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TranslateToolStripButton.Click
-        Dim proj As Project = GetProject()
+        If Not String.IsNullOrEmpty(TranslatorSourceTextBox.Text) Then
+            Dim proj As Project = GetProject()
 
-        Dim result As New List(Of String)()
-        Dim tokens As List(Of String) = ProjectSerializer.ReadTokens(TranslatorSourceTextBox.Text.Trim())
+            Dim result As New List(Of String)()
+            Dim tokens As List(Of String) = ProjectSerializer.ReadTokens(TranslatorSourceTextBox.Text.Trim())
 
-        For Each token As String In tokens
-            Dim parts() As String = token.Split(New Char() {"."c}, 2)
+            For Each token As String In tokens
+                Dim parts() As String = token.Split(New Char() {"."c}, 2)
 
-            Dim word As String = parts(0)
+                Dim word As String = parts(0)
 
-            Dim matches As DictionaryData.WordCollection = FindCandidates(DictionaryData.Word.Search(word, New Integer() {}, DictionaryData.Word.SearchOptions.IncludeMeaning), If(parts.Length = 2, parts(1), ""), proj)
-            If matches.Count > 0 Then
-                Dim bestWord As DictionaryData.Word = matches.First()
-                If matches.Count > 1 Then
-                    If parts.Length = 2 Then
-                        result.Add("<span class=""multimatch"" wordfor=""" & word & """ path=""" & parts(1) & """ title=""" & matches.Count.ToString() & " match(es)"">" & BrowseWord(bestWord, parts(1), proj) & "</span>")
+                Dim matches As DictionaryData.WordCollection = FindCandidates(DictionaryData.Word.Search(word, New Integer() {}, DictionaryData.Word.SearchOptions.IncludeMeaning), If(parts.Length = 2, parts(1), ""), proj)
+                If matches.Count > 0 Then
+                    Dim bestWord As DictionaryData.Word = matches.First()
+                    If matches.Count > 1 Then
+                        If parts.Length = 2 Then
+                            result.Add("<span class=""multimatch"" wordfor=""" & word & """ path=""" & parts(1) & """ title=""" & matches.Count.ToString() & " match(es)"">" & BrowseWord(bestWord, parts(1), proj) & "</span>")
+                        Else
+                            result.Add("<span class=""multimatch"" wordfor=""" & word & """ title=""" & matches.Count.ToString() & " match(es)"">" & bestWord.Word & "</span>")
+                        End If
                     Else
-                        result.Add("<span class=""multimatch"" wordfor=""" & word & """ title=""" & matches.Count.ToString() & " match(es)"">" & bestWord.Word & "</span>")
+                        If parts.Length = 2 Then
+                            result.Add("<span wordfor=""" & word & """>" & BrowseWord(bestWord, parts(1), proj) & "</span>")
+                        Else
+                            result.Add("<span wordfor=""" & word & """>" & bestWord.Word & "</span>")
+                        End If
                     End If
                 Else
-                    If parts.Length = 2 Then
-                        result.Add("<span wordfor=""" & word & """>" & BrowseWord(bestWord, parts(1), proj) & "</span>")
-                    Else
-                        result.Add("<span wordfor=""" & word & """>" & bestWord.Word & "</span>")
-                    End If
+                    result.Add("<span class=""missing"">" & word & "</span>")
                 End If
-            Else
-                result.Add("<span class=""missing"">" & word & "</span>")
-            End If
-        Next
+            Next
 
-        TranslatorResultWebBrowser.DocumentText = "<html><head><style type=""text/css"">body { font-family: " & _configuration.DictionaryFont.Name & "; font-size: " & _configuration.DictionaryFont.Size.ToString(System.Globalization.CultureInfo.InvariantCulture) & "; } .missing { font-style: italic; color: #ff0000; } .multimatch { color: #0000ff; } </style></head><body>" & String.Join(" ", result.ToArray()) & "</body></html>"
+            TranslatorResultWebBrowser.DocumentText = "<html><head><style type=""text/css"">body { font-family: " & _configuration.DictionaryFont.Name & "; font-size: " & _configuration.DictionaryFont.Size.ToString(System.Globalization.CultureInfo.InvariantCulture) & "; } .missing { font-style: italic; color: #ff0000; } .multimatch { color: #0000ff; } </style></head><body>" & String.Join(" ", result.ToArray()) & "</body></html>"
+        End If
+    End Sub
+
+    Private Sub TranslateBackToolStripButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TranslateBackToolStripButton.Click
+        If Not String.IsNullOrEmpty(TranslatorSourceTextBox.Text) Then
+            Dim proj As Project = GetProject()
+
+            Dim result As New List(Of String)()
+            Dim tokens As List(Of String) = ProjectSerializer.ReadTokens(TranslatorSourceTextBox.Text.Trim())
+
+            For Each token As String In tokens
+                Dim matches As DictionaryData.WordCollection = DictionaryData.Word.Search(token, New Integer() {}, DictionaryData.Word.SearchOptions.IncludeWord Or DictionaryData.Word.SearchOptions.RequireMeaning)
+
+                If matches.Count > 0 Then
+                    Dim bestWord As DictionaryData.Word = matches.First()
+                    If matches.Count > 1 Then
+                        result.Add("<span class=""multimatch"" meaningfor=""" & token & """ title=""" & matches.Count.ToString() & " match(es)"">" & bestWord.Meaning & "</span>")
+                    Else
+                        result.Add("<span meaningfor=""" & token & """>" & bestWord.Meaning & "</span>")
+                    End If
+                Else
+                    result.Add("<span class=""missing"" type=""meaning"">" & token & "</span>")
+                End If
+            Next
+
+            TranslatorResultWebBrowser.DocumentText = "<html><head><style type=""text/css"">body { font-family: " & _configuration.DictionaryFont.Name & "; font-size: " & _configuration.DictionaryFont.Size.ToString(System.Globalization.CultureInfo.InvariantCulture) & "; } .missing { font-style: italic; color: #ff0000; } .multimatch { color: #0000ff; } </style></head><body>" & String.Join(" ", result.ToArray()) & "</body></html>"
+        End If
     End Sub
 
     Private Function FindCandidates(ByVal words As DictionaryData.WordCollection, ByVal path As String, ByVal project As DictionaryProject.Project) As DictionaryData.WordCollection
@@ -931,21 +959,36 @@ Public Class Main
             If If(el.GetAttribute("className"), "") = "multimatch" Then
                 AddWordToolStripMenuItem.Visible = True
 
-                For Each w As DictionaryData.Word In DictionaryData.Word.Search(el.GetAttribute("wordfor"), New Integer() {}, DictionaryData.Word.SearchOptions.IncludeMeaning)
-                    Dim word As String
-                    If Not String.IsNullOrEmpty(el.GetAttribute("path")) Then
-                        word = BrowseWord(w, el.GetAttribute("path"), GetProject())
-                    Else
-                        word = w.Word
+                Dim wordfor As String = el.GetAttribute("wordfor")
+
+                If Not String.IsNullOrEmpty(wordfor) Then
+                    For Each w As DictionaryData.Word In DictionaryData.Word.Search(el.GetAttribute("wordfor"), New Integer() {}, DictionaryData.Word.SearchOptions.IncludeMeaning)
+                        Dim word As String
+                        If Not String.IsNullOrEmpty(el.GetAttribute("path")) Then
+                            word = BrowseWord(w, el.GetAttribute("path"), GetProject())
+                        Else
+                            word = w.Word
+                        End If
+                        Dim t As ToolStripItem = TranslatorResultContextMenuStrip.Items.Add(word, Nothing, AddressOf TranslatorChooseWord_Click)
+                        t.Tag = el
+                    Next
+                Else
+                    Dim meaningfor As String = el.GetAttribute("meaningfor")
+
+                    If Not String.IsNullOrEmpty(meaningfor) Then
+                        For Each w As DictionaryData.Word In DictionaryData.Word.Search(meaningfor, New Integer() {}, DictionaryData.Word.SearchOptions.IncludeWord Or DictionaryData.Word.SearchOptions.RequireMeaning)
+                            Dim word As String
+                            word = w.Meaning
+                            Dim t As ToolStripItem = TranslatorResultContextMenuStrip.Items.Add(word, Nothing, AddressOf TranslatorChooseWord_Click)
+                            t.Tag = el
+                        Next
                     End If
-                    Dim t As ToolStripItem = TranslatorResultContextMenuStrip.Items.Add(word, Nothing, AddressOf TranslatorChooseWord_Click)
-                    t.Tag = el
-                Next
+                End If
                 AddWordToolStripMenuItem.Visible = False
                 Exit While
             ElseIf If(el.GetAttribute("className"), "") = "missing" Then
-                AddWordToolStripMenuItem.Visible = True
-                AddWordToolStripMenuItem.Tag = el
+                AddWordToolStripMenuItem.Visible = False
+                '                AddWordToolStripMenuItem.Tag = el
                 Exit While
             End If
             el = el.Parent
@@ -1029,15 +1072,45 @@ Public Class Main
     End Sub
 
     Private Sub CutToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CutToolStripMenuItem.Click
-        CodeTextBox.Cut()
+        Dim ctb As WheeControls.SyntaxRichTextBox = TryCast(Me.ActiveControl, WheeControls.SyntaxRichTextBox)
+
+        If ctb IsNot Nothing Then
+            ctb.Cut()
+        Else
+            Dim tb As TextBox = TryCast(Me.ActiveControl, TextBox)
+
+            If tb IsNot Nothing Then
+                tb.Cut()
+            End If
+        End If
     End Sub
 
     Private Sub CopyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CopyToolStripMenuItem.Click
-        CodeTextBox.Copy()
+        Dim ctb As WheeControls.SyntaxRichTextBox = TryCast(Me.ActiveControl, WheeControls.SyntaxRichTextBox)
+
+        If ctb IsNot Nothing Then
+            ctb.Copy()
+        Else
+            Dim tb As TextBox = TryCast(Me.ActiveControl, TextBox)
+
+            If tb IsNot Nothing Then
+                tb.Copy()
+            End If
+        End If
     End Sub
 
     Private Sub PasteToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PasteToolStripMenuItem.Click
-        CodeTextBox.Paste(DataFormats.GetFormat(DataFormats.UnicodeText))
+        Dim ctb As WheeControls.SyntaxRichTextBox = TryCast(Me.ActiveControl, WheeControls.SyntaxRichTextBox)
+
+        If ctb IsNot Nothing Then
+            ctb.Paste(DataFormats.GetFormat(DataFormats.UnicodeText))
+        Else
+            Dim tb As TextBox = TryCast(Me.ActiveControl, TextBox)
+
+            If tb IsNot Nothing Then
+                tb.Paste()
+            End If
+        End If
     End Sub
 
     Private FindInCodeDialog As New FindInCodeDialog()
@@ -1081,4 +1154,5 @@ Public Class Main
     Private Sub FindAgainToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FindAgainToolStripMenuItem.Click
         FindInCode(True)
     End Sub
+
 End Class
