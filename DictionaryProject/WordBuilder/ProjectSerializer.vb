@@ -177,7 +177,7 @@ Public NotInheritable Class ProjectSerializer
         Return result
     End Function
 
-    Public Shared Function ExpandToken(ByVal input As String, ByVal origin As Integer, ByRef start As Integer, ByRef expandedToken As List(Of String), ByRef didExpand As Boolean) As String
+    Public Shared Function ExpandToken(ByVal input As String, ByVal origin As Integer, ByRef start As Integer, ByRef expandedToken As List(Of String), ByRef didExpand As Boolean, ByRef remove As Boolean) As String
         Dim token As String = input.Substring(origin, start - origin)
 
         If token.Contains("[") Then
@@ -203,17 +203,21 @@ Public NotInheritable Class ProjectSerializer
                     expandedToken.AddRange(copySet)
                 Next
                 didExpand = True
+            ElseIf expandedToken IsNot Nothing AndAlso parts(0) = "!" Then
+                expandedToken.AddRange(ReadTokens(parts(1)))
+                remove = True
             End If
         End If
 
         Return token
     End Function
 
-    Public Shared Function ReadToken(ByVal input As String, ByRef start As Integer, Optional ByRef expandedToken As List(Of String) = Nothing, Optional ByRef didExpand As Boolean = False) As String
+    Public Shared Function ReadToken(ByVal input As String, ByRef start As Integer, Optional ByRef expandedToken As List(Of String) = Nothing, Optional ByRef didExpand As Boolean = False, Optional ByRef remove As Boolean = False) As String
         If start = -1 Then
             Throw New ApplicationException("Read token past end of line")
         End If
         didExpand = False
+        remove = False
 
         Dim len As Integer = input.Length
 
@@ -251,7 +255,7 @@ Public NotInheritable Class ProjectSerializer
             start = input.IndexOf(" "c, start)
 
             If start > -1 Then
-                Dim foundtoken As String = ExpandToken(input, origin, start, expandedToken, didExpand)
+                Dim foundtoken As String = ExpandToken(input, origin, start, expandedToken, didExpand, remove)
                 While start < len AndAlso input(start) = " "c
                     start += 1
                 End While
@@ -262,7 +266,7 @@ Public NotInheritable Class ProjectSerializer
 
                 Return foundtoken
             ElseIf input.Last = "]"c Then
-                Dim foundtoken As String = ExpandToken(input, origin, len, expandedToken, didExpand)
+                Dim foundtoken As String = ExpandToken(input, origin, len, expandedToken, didExpand, remove)
                 start = -1
 
                 Return foundtoken
@@ -311,15 +315,29 @@ Public NotInheritable Class ProjectSerializer
 
                     Dim expand As New List(Of String)()
                     Dim didExpand As Boolean = False
+                    Dim remove As Boolean = False
                     While start > -1 AndAlso start < len
-                        token = ReadToken(line, start, expand, didExpand)
+                        token = ReadToken(line, start, expand, didExpand, remove)
 
-                        If Not didExpand Then
-                            tks.Tokens.Add(token)
+                        If Not didExpand AndAlso Not remove Then
+                            If token.StartsWith("$") AndAlso token.Length > 1 Then
+                                Dim refTks As TokenSet = project.TokenSets.Where(Function(ts As TokenSet) ts.Name = token.Substring(1)).FirstOrDefault()
+                                If refTks IsNot Nothing Then
+                                    tks.Tokens.AddRange(refTks.Tokens)
+                                Else
+                                    project.Warnings.Add(String.Format("Line {0}: The Tokens directive referenced another token set '{1}' which did not exist at the time of parsing.", lineNumber, token.Substring(1)))
+                                End If
+                            Else
+                                tks.Tokens.Add(token)
+                            End If
                         End If
                     End While
 
-                    tks.Tokens.AddRange(expand)
+                    If remove Then
+                        tks.Tokens.RemoveAll(Function(tok As String) expand.Contains(tok))
+                    Else
+                        tks.Tokens.AddRange(expand)
+                    End If
 
                     If tks.Tokens.Count = 0 Then
                         project.Warnings.Add(String.Format("Line {0}: The Tokens directive requires at least 2 arguments.", lineNumber))
