@@ -815,35 +815,39 @@ Public Class Main
             Dim proj As Project = GetProject()
 
             Dim result As New List(Of String)()
-            Dim tokens As List(Of String) = ProjectSerializer.ReadTokens(TranslatorSourceTextBox.Text.Trim())
+            Dim tokens As List(Of String) = ProjectSerializer.ReadTokens(TranslatorSourceTextBox.Text.Trim().Replace(vbCrLf, " " & vbCrLf & " "))
 
             For Each token As String In tokens
-                Dim parts() As String = token.Split(New Char() {"."c}, 2)
+                If token = vbCrLf Then
+                    result.Add("</p><p>")
+                Else
+                    Dim parts() As String = token.Split(New Char() {"."c}, 2)
 
-                Dim word As String = parts(0)
+                    Dim word As String = parts(0)
 
-                Dim matches As DictionaryData.WordCollection = FindCandidates(DictionaryData.Word.Search(word, New Integer() {}, DictionaryData.Word.SearchOptions.IncludeMeaning), If(parts.Length = 2, parts(1), ""), proj)
-                If matches.Count > 0 Then
-                    Dim bestWord As DictionaryData.Word = matches.First()
-                    If matches.Count > 1 Then
-                        If parts.Length = 2 Then
-                            result.Add("<span class=""multimatch"" wordfor=""" & word & """ path=""" & parts(1) & """ title=""" & matches.Count.ToString() & " match(es)"">" & BrowseWord(bestWord, parts(1), proj) & "</span>")
+                    Dim matches As DictionaryData.WordCollection = FindCandidates(DictionaryData.Word.Search(word, New Integer() {}, DictionaryData.Word.SearchOptions.IncludeMeaning), If(parts.Length = 2, parts(1), ""), proj)
+                    If matches.Count > 0 Then
+                        Dim bestWord As DictionaryData.Word = matches.First()
+                        If matches.Count > 1 Then
+                            If parts.Length = 2 Then
+                                result.Add("<span class=""multimatch"" wordfor=""" & word & """ path=""" & parts(1) & """ title=""" & matches.Count.ToString() & " match(es)"">" & BrowseWord(bestWord, parts(1), proj) & "</span>")
+                            Else
+                                result.Add("<span class=""multimatch"" wordfor=""" & word & """ title=""" & matches.Count.ToString() & " match(es)"">" & bestWord.Word & "</span>")
+                            End If
                         Else
-                            result.Add("<span class=""multimatch"" wordfor=""" & word & """ title=""" & matches.Count.ToString() & " match(es)"">" & bestWord.Word & "</span>")
+                            If parts.Length = 2 Then
+                                result.Add("<span wordfor=""" & word & """>" & BrowseWord(bestWord, parts(1), proj) & "</span>")
+                            Else
+                                result.Add("<span wordfor=""" & word & """>" & bestWord.Word & "</span>")
+                            End If
                         End If
                     Else
-                        If parts.Length = 2 Then
-                            result.Add("<span wordfor=""" & word & """>" & BrowseWord(bestWord, parts(1), proj) & "</span>")
-                        Else
-                            result.Add("<span wordfor=""" & word & """>" & bestWord.Word & "</span>")
-                        End If
+                        result.Add("<span class=""missing"">" & word & "</span>")
                     End If
-                Else
-                    result.Add("<span class=""missing"">" & word & "</span>")
                 End If
             Next
 
-            TranslatorResultWebBrowser.DocumentText = "<html><head><style type=""text/css"">body { font-family: " & _configuration.DictionaryFont.Name & "; font-size: " & _configuration.DictionaryFont.Size.ToString(System.Globalization.CultureInfo.InvariantCulture) & "; } .missing { font-style: italic; color: #ff0000; } .multimatch { color: #0000ff; } </style></head><body>" & String.Join(" ", result.ToArray()) & "</body></html>"
+            TranslatorResultWebBrowser.DocumentText = "<html><head><style type=""text/css"">body { font-family: " & _configuration.DictionaryFont.Name & "; font-size: " & _configuration.DictionaryFont.Size.ToString(System.Globalization.CultureInfo.InvariantCulture) & "; } .missing { font-style: italic; color: #ff0000; } .multimatch { color: #0000ff; } </style></head><body><p>" & String.Join(" ", result.ToArray()) & "</p></body></html>"
         End If
     End Sub
 
@@ -1104,6 +1108,12 @@ Public Class Main
 
             If tb IsNot Nothing Then
                 tb.Copy()
+            Else
+                Dim b As WebBrowser = TryCast(Me.ActiveControl, WebBrowser)
+
+                If b IsNot Nothing Then
+                    b.Document.ExecCommand("Copy", False, Nothing)
+                End If
             End If
         End If
     End Sub
@@ -1164,4 +1174,37 @@ Public Class Main
         FindInCode(True)
     End Sub
 
+    Private Sub AddAnotherMeaningToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddAnotherMeaningToolStripMenuItem.Click
+        Dim word As DictionaryData.Word = DictionaryData.Word.LoadSingle(_DictionaryActiveWordId)
+
+        If word IsNot Nothing Then
+            Dim ctx As Context = CreateContextFromWord(word)
+
+            AssignMeaningDialog1.Context = ctx
+            If AssignMeaningDialog1.ShowDialog() = Windows.Forms.DialogResult.OK Then
+                ShowWordInDictionary(CreateWordFromContext(ctx, AssignMeaningDialog1.Meaning).Id)
+            End If
+        End If
+    End Sub
+
+    Private Sub SelectAllToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectAllToolStripMenuItem1.Click
+        Dim ctb As WheeControls.SyntaxRichTextBox = TryCast(Me.ActiveControl, WheeControls.SyntaxRichTextBox)
+
+        If ctb IsNot Nothing Then
+            ctb.SelectionStart = 0
+            ctb.SelectionLength = ctb.TextLength
+        Else
+            Dim tb As TextBox = TryCast(Me.ActiveControl, TextBox)
+
+            If tb IsNot Nothing Then
+                tb.SelectAll()
+            Else
+                Dim b As WebBrowser = TryCast(Me.ActiveControl, WebBrowser)
+
+                If b IsNot Nothing Then
+                    b.Document.ExecCommand("SelectAll", False, Nothing)
+                End If
+            End If
+        End If
+    End Sub
 End Class

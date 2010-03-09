@@ -118,6 +118,8 @@ Partial Class Main
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
         Me.OpenFileDialog2 = New System.Windows.Forms.OpenFileDialog
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
+        Me.AddAnotherMeaningToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.SelectAllToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.ProjectTabControl.SuspendLayout()
         Me.GeneratorTabPage.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -371,47 +373,46 @@ Partial Class Main
         Me.DictionaryResultsWebBrowser.ScriptErrorsSuppressed = True
         Me.DictionaryResultsWebBrowser.Size = New System.Drawing.Size(615, 150)
         Me.DictionaryResultsWebBrowser.TabIndex = 2
-        Me.DictionaryResultsWebBrowser.WebBrowserShortcutsEnabled = False
         '
         'DictionaryResultsContextMenuStrip
         '
-        Me.DictionaryResultsContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditWordToolStripMenuItem1, Me.DictionaryResultEditMeaningToolStripMenuItem, Me.LinkToolStripMenuItem, Me.DictionarySeparatorToolStripMenuItem, Me.DeleteWordToolStripMenuItem, Me.DeleteLinkToolStripMenuItem})
+        Me.DictionaryResultsContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditWordToolStripMenuItem1, Me.AddAnotherMeaningToolStripMenuItem, Me.DictionaryResultEditMeaningToolStripMenuItem, Me.LinkToolStripMenuItem, Me.DictionarySeparatorToolStripMenuItem, Me.DeleteWordToolStripMenuItem, Me.DeleteLinkToolStripMenuItem})
         Me.DictionaryResultsContextMenuStrip.Name = "DictionaryResultsContextMenuStrip"
-        Me.DictionaryResultsContextMenuStrip.Size = New System.Drawing.Size(154, 120)
+        Me.DictionaryResultsContextMenuStrip.Size = New System.Drawing.Size(200, 142)
         '
         'EditWordToolStripMenuItem1
         '
         Me.EditWordToolStripMenuItem1.Name = "EditWordToolStripMenuItem1"
-        Me.EditWordToolStripMenuItem1.Size = New System.Drawing.Size(153, 22)
+        Me.EditWordToolStripMenuItem1.Size = New System.Drawing.Size(199, 22)
         Me.EditWordToolStripMenuItem1.Text = "&Edit word..."
         '
         'DictionaryResultEditMeaningToolStripMenuItem
         '
         Me.DictionaryResultEditMeaningToolStripMenuItem.Name = "DictionaryResultEditMeaningToolStripMenuItem"
-        Me.DictionaryResultEditMeaningToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.DictionaryResultEditMeaningToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.DictionaryResultEditMeaningToolStripMenuItem.Text = "Edit &meaning..."
         '
         'LinkToolStripMenuItem
         '
         Me.LinkToolStripMenuItem.Name = "LinkToolStripMenuItem"
-        Me.LinkToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.LinkToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.LinkToolStripMenuItem.Text = "&Link..."
         '
         'DictionarySeparatorToolStripMenuItem
         '
         Me.DictionarySeparatorToolStripMenuItem.Name = "DictionarySeparatorToolStripMenuItem"
-        Me.DictionarySeparatorToolStripMenuItem.Size = New System.Drawing.Size(150, 6)
+        Me.DictionarySeparatorToolStripMenuItem.Size = New System.Drawing.Size(196, 6)
         '
         'DeleteWordToolStripMenuItem
         '
         Me.DeleteWordToolStripMenuItem.Name = "DeleteWordToolStripMenuItem"
-        Me.DeleteWordToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.DeleteWordToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.DeleteWordToolStripMenuItem.Text = "&Delete word"
         '
         'DeleteLinkToolStripMenuItem
         '
         Me.DeleteLinkToolStripMenuItem.Name = "DeleteLinkToolStripMenuItem"
-        Me.DeleteLinkToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.DeleteLinkToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.DeleteLinkToolStripMenuItem.Text = "Dele&te link"
         '
         'DictionarySearchGroupBox
@@ -550,7 +551,6 @@ Partial Class Main
         Me.TranslatorResultWebBrowser.ScriptErrorsSuppressed = True
         Me.TranslatorResultWebBrowser.Size = New System.Drawing.Size(621, 163)
         Me.TranslatorResultWebBrowser.TabIndex = 2
-        Me.TranslatorResultWebBrowser.WebBrowserShortcutsEnabled = False
         '
         'TranslatorResultContextMenuStrip
         '
@@ -677,7 +677,7 @@ Partial Class Main
         '
         'EditToolStripMenuItem1
         '
-        Me.EditToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CutToolStripMenuItem, Me.CopyToolStripMenuItem, Me.PasteToolStripMenuItem, Me.ToolStripMenuItem5, Me.FindToolStripMenuItem, Me.FindAgainToolStripMenuItem})
+        Me.EditToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CutToolStripMenuItem, Me.CopyToolStripMenuItem, Me.PasteToolStripMenuItem, Me.SelectAllToolStripMenuItem1, Me.ToolStripMenuItem5, Me.FindToolStripMenuItem, Me.FindAgainToolStripMenuItem})
         Me.EditToolStripMenuItem1.Name = "EditToolStripMenuItem1"
         Me.EditToolStripMenuItem1.Size = New System.Drawing.Size(39, 20)
         Me.EditToolStripMenuItem1.Text = "&Edit"
@@ -891,6 +891,19 @@ Partial Class Main
         Me.OpenFileDialog1.Filter = "Project file|*.wordo|All files|*.*"
         Me.OpenFileDialog1.Title = "Open WordBuilder project"
         '
+        'AddAnotherMeaningToolStripMenuItem
+        '
+        Me.AddAnotherMeaningToolStripMenuItem.Name = "AddAnotherMeaningToolStripMenuItem"
+        Me.AddAnotherMeaningToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
+        Me.AddAnotherMeaningToolStripMenuItem.Text = "&Add another meaning..."
+        '
+        'SelectAllToolStripMenuItem1
+        '
+        Me.SelectAllToolStripMenuItem1.Name = "SelectAllToolStripMenuItem1"
+        Me.SelectAllToolStripMenuItem1.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
+        Me.SelectAllToolStripMenuItem1.Size = New System.Drawing.Size(162, 22)
+        Me.SelectAllToolStripMenuItem1.Text = "&Select all"
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1018,4 +1031,6 @@ Partial Class Main
     Friend WithEvents FindToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FindAgainToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TranslateBackToolStripButton As System.Windows.Forms.ToolStripButton
+    Friend WithEvents AddAnotherMeaningToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SelectAllToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
 End Class
