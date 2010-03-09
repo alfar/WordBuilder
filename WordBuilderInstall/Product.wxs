@@ -7,8 +7,12 @@
 
     <Property Id="BADPREVIOUSVERSIONSINSTALLED1" Secure="yes" />
     <Property Id="BADPREVIOUSVERSIONSINSTALLED2" Secure="yes" />
+    <Property Id="BADPREVIOUSVERSIONSINSTALLED3" Secure="yes" />
     <Property Id="PREVIOUSVERSIONSINSTALLED" Secure="yes" />
 
+    <Upgrade Id="4CE093E1-8447-4A0E-B361-F7243BAFE661">
+      <UpgradeVersion Minimum="1.0.0.0" Maximum="$(var.ProductVersion)" Property="BADPREVIOUSVERSIONSINSTALLED3" IncludeMinimum="yes" IncludeMaximum="no" OnlyDetect="no" />
+    </Upgrade>
     <Upgrade Id="135CDCBF-9C5B-4564-9102-7EA0093C323B">
       <UpgradeVersion Minimum="1.0.0.0" Maximum="$(var.ProductVersion)" Property="BADPREVIOUSVERSIONSINSTALLED1" IncludeMinimum="yes" IncludeMaximum="no" OnlyDetect="no" />
     </Upgrade>

@@ -263,6 +263,15 @@ Public Class Main
                     For i As Integer = 1 To p.StartRules(sr)
                         Dim c As Context = p.GetWord(sr)
                         ResultsListBox.Items.Add(New ContextListViewItem(p, c))
+
+                        If p.Warnings.Count > 0 Then
+                            For Each warning As String In p.Warnings
+                                WarningsListBox.Items.Add(warning)
+                            Next
+                            WarningsPanel.Visible = True
+                            WarningsSplitter.Visible = True
+                            Exit For
+                        End If
                     Next
                 Next
 

@@ -31,11 +31,15 @@
     Public Function GetWord(ByVal startRule As String) As Context
         Dim c As New Context()
 
-        Dim r As Rule = _Rules.GetRuleByName(startRule)
+        Try
+            Dim r As Rule = _Rules.GetRuleByName(startRule)
 
-        If r IsNot Nothing Then
-            r.Execute(c)
-        End If
+            If r IsNot Nothing Then
+                r.Execute(c)
+            End If
+        Catch ex As Exception
+            Warnings.Add(ex.Message)
+        End Try
 
         Return c
     End Function

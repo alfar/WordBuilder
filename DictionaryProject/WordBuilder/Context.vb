@@ -3,6 +3,18 @@ Public Class Context
     Public Sub New()
     End Sub
 
+    Private _RuleCount As Integer = 0
+    Public ReadOnly Property RuleCount() As Integer
+        Get
+            Return _RuleCount
+        End Get
+    End Property
+
+    Public Function IncrementRuleCount() As Integer
+        _RuleCount += 1
+        Return _RuleCount
+    End Function
+
     Private _Tokens As New List(Of String)()
     Public ReadOnly Property Tokens() As List(Of String)
         Get
@@ -19,6 +31,7 @@ Public Class Context
 
     Public Function Branch(ByVal name As String) As Context
         Dim result As New Context()
+        result._RuleCount = Me.RuleCount
         result.Tokens.AddRange(Me.Tokens)
 
         If _Branches.ContainsKey(name) Then

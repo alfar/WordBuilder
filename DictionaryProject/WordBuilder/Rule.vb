@@ -39,6 +39,9 @@ Public Class Rule
     End Property
 
     Public Sub Execute(ByVal context As Context)
+        If context.IncrementRuleCount() > 500 Then
+            Throw New ApplicationException("Rule count exceeded 500 when running rule " & Me.Name)
+        End If
         Commands.Execute(context)
     End Sub
 End Class
