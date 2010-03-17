@@ -40,7 +40,6 @@ Partial Class Main
         Me.ResultsTextBox = New System.Windows.Forms.TextBox
         Me.Splitter1 = New System.Windows.Forms.Splitter
         Me.CodePanel = New System.Windows.Forms.Panel
-        Me.CodeTextBox = New WheeControls.SyntaxRichTextBox
         Me.RulesComboBox = New System.Windows.Forms.ComboBox
         Me.WarningsSplitter = New System.Windows.Forms.Splitter
         Me.WarningsPanel = New System.Windows.Forms.Panel
@@ -121,6 +120,7 @@ Partial Class Main
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
         Me.OpenFileDialog2 = New System.Windows.Forms.OpenFileDialog
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
+        Me.CodeTextBox = New WheeControls.SyntaxRichTextBox
         Me.ProjectTabControl.SuspendLayout()
         Me.GeneratorTabPage.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -272,19 +272,6 @@ Partial Class Main
         Me.CodePanel.Name = "CodePanel"
         Me.CodePanel.Size = New System.Drawing.Size(207, 193)
         Me.CodePanel.TabIndex = 8
-        '
-        'CodeTextBox
-        '
-        Me.CodeTextBox.AcceptsTab = True
-        Me.CodeTextBox.CodeFont = New System.Drawing.Font("Courier New", 11.0!)
-        Me.CodeTextBox.DetectUrls = False
-        Me.CodeTextBox.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CodeTextBox.Location = New System.Drawing.Point(0, 21)
-        Me.CodeTextBox.Name = "CodeTextBox"
-        Me.CodeTextBox.Size = New System.Drawing.Size(207, 172)
-        Me.CodeTextBox.TabIndex = 0
-        Me.CodeTextBox.Text = ""
-        Me.CodeTextBox.WordWrap = False
         '
         'RulesComboBox
         '
@@ -552,11 +539,11 @@ Partial Class Main
         Me.TranslatorResultWebBrowser.ContextMenuStrip = Me.TranslatorResultContextMenuStrip
         Me.TranslatorResultWebBrowser.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TranslatorResultWebBrowser.IsWebBrowserContextMenuEnabled = False
-        Me.TranslatorResultWebBrowser.Location = New System.Drawing.Point(3, 123)
+        Me.TranslatorResultWebBrowser.Location = New System.Drawing.Point(3, 148)
         Me.TranslatorResultWebBrowser.MinimumSize = New System.Drawing.Size(20, 20)
         Me.TranslatorResultWebBrowser.Name = "TranslatorResultWebBrowser"
         Me.TranslatorResultWebBrowser.ScriptErrorsSuppressed = True
-        Me.TranslatorResultWebBrowser.Size = New System.Drawing.Size(621, 188)
+        Me.TranslatorResultWebBrowser.Size = New System.Drawing.Size(621, 163)
         Me.TranslatorResultWebBrowser.TabIndex = 2
         '
         'TranslatorResultContextMenuStrip
@@ -574,7 +561,7 @@ Partial Class Main
         'TranslatorSplitter
         '
         Me.TranslatorSplitter.Dock = System.Windows.Forms.DockStyle.Top
-        Me.TranslatorSplitter.Location = New System.Drawing.Point(3, 118)
+        Me.TranslatorSplitter.Location = New System.Drawing.Point(3, 143)
         Me.TranslatorSplitter.Name = "TranslatorSplitter"
         Me.TranslatorSplitter.Size = New System.Drawing.Size(621, 5)
         Me.TranslatorSplitter.TabIndex = 1
@@ -583,7 +570,7 @@ Partial Class Main
         'TranslatorSourceTextBox
         '
         Me.TranslatorSourceTextBox.Dock = System.Windows.Forms.DockStyle.Top
-        Me.TranslatorSourceTextBox.Location = New System.Drawing.Point(3, 3)
+        Me.TranslatorSourceTextBox.Location = New System.Drawing.Point(3, 28)
         Me.TranslatorSourceTextBox.Multiline = True
         Me.TranslatorSourceTextBox.Name = "TranslatorSourceTextBox"
         Me.TranslatorSourceTextBox.Size = New System.Drawing.Size(621, 115)
@@ -597,7 +584,6 @@ Partial Class Main
         Me.ToolStrip1.Size = New System.Drawing.Size(621, 25)
         Me.ToolStrip1.TabIndex = 3
         Me.ToolStrip1.Text = "ToolStrip1"
-        Me.ToolStrip1.Visible = False
         '
         'TranslateToolStripButton
         '
@@ -848,24 +834,24 @@ Partial Class Main
         'NewDictionaryToolStripMenuItem
         '
         Me.NewDictionaryToolStripMenuItem.Name = "NewDictionaryToolStripMenuItem"
-        Me.NewDictionaryToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NewDictionaryToolStripMenuItem.Size = New System.Drawing.Size(129, 22)
         Me.NewDictionaryToolStripMenuItem.Text = "&New..."
         '
         'OpenDictionaryToolStripMenuItem
         '
         Me.OpenDictionaryToolStripMenuItem.Name = "OpenDictionaryToolStripMenuItem"
-        Me.OpenDictionaryToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.OpenDictionaryToolStripMenuItem.Size = New System.Drawing.Size(129, 22)
         Me.OpenDictionaryToolStripMenuItem.Text = "&Open..."
         '
         'ToolStripMenuItem3
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(126, 6)
         '
         'StatisticsToolStripMenuItem
         '
         Me.StatisticsToolStripMenuItem.Name = "StatisticsToolStripMenuItem"
-        Me.StatisticsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.StatisticsToolStripMenuItem.Size = New System.Drawing.Size(129, 22)
         Me.StatisticsToolStripMenuItem.Text = "&Statistics..."
         '
         'OptionsToolStripMenuItem
@@ -911,6 +897,19 @@ Partial Class Main
         Me.OpenFileDialog1.DefaultExt = "wordo"
         Me.OpenFileDialog1.Filter = "Project file|*.wordo|All files|*.*"
         Me.OpenFileDialog1.Title = "Open WordBuilder project"
+        '
+        'CodeTextBox
+        '
+        Me.CodeTextBox.AcceptsTab = True
+        Me.CodeTextBox.CodeFont = New System.Drawing.Font("Courier New", 11.0!)
+        Me.CodeTextBox.DetectUrls = False
+        Me.CodeTextBox.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.CodeTextBox.Location = New System.Drawing.Point(0, 21)
+        Me.CodeTextBox.Name = "CodeTextBox"
+        Me.CodeTextBox.Size = New System.Drawing.Size(207, 172)
+        Me.CodeTextBox.TabIndex = 0
+        Me.CodeTextBox.Text = ""
+        Me.CodeTextBox.WordWrap = False
         '
         'Main
         '

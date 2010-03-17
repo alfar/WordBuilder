@@ -48,7 +48,7 @@ Public Class CsvExporter
         Next
 
         For Each b As String In ctx.Branches.Keys
-            dic.Add(b, ctx.Branches(b).ToString())
+            dic.Add(prefix & b, ctx.Branches(b).ToString())
             ApplyContext(ctx.Branches(b), dic, prefix & b & ".")
         Next
     End Sub

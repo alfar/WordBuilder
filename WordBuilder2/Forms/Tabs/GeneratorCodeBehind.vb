@@ -1,5 +1,6 @@
 ﻿Imports DictionaryProject
 Imports WheeControls
+Imports System.Reflection
 
 Partial Public Class Main
 

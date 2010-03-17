@@ -147,6 +147,15 @@
     <Compile Include="Forms\PickDictionaryDialog.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\Tabs\DictionaryCodeBehind.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Tabs\GeneratorCodeBehind.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Tabs\TranslatorCodeBehind.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Helpers\ContextListViewItem.vb" />
     <Compile Include="Forms\Main.vb">
       <SubType>Form</SubType>

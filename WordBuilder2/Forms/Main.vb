@@ -1,7 +1,7 @@
 ﻿Imports System.Reflection
 Imports DictionaryProject
 
-Public Class Main
+Partial Public Class Main
 #Region "Config"
     Private Sub LoadConfig()
         Dim path As String = IO.Path.Combine(My.Application.Info.DirectoryPath, "config.xml")
