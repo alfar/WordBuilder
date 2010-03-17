@@ -120,6 +120,22 @@ Public Class Word
 #End Region
 
 #Region "Loaders"
+    Public Shared Function CountTotal() As Integer
+        Return Database.CountTotal()
+    End Function
+
+    Public Shared Function CountRootWords() As Integer
+        Return Database.CountRootWords()
+    End Function
+
+    Public Shared Function CountUnlinkedWords() As Integer
+        Return Database.CountUnlinkedWords()
+    End Function
+
+    Public Shared Function CountUnlinkedRootWords() As Integer
+        Return Database.CountUnlinkedRootWords()
+    End Function
+
     Public Shared Function LoadSingle(ByVal id As Integer) As Word
         Dim result As Word = Nothing
 
@@ -200,6 +216,22 @@ Public Class Word
 
             DatabaseHelper.Execute("delete from Words where id = @id", parms)
         End Sub
+
+        Public Shared Function CountTotal() As Integer
+            Return DatabaseHelper.ExecuteInt32("select count(*) from Words", Nothing)
+        End Function
+
+        Public Shared Function CountRootWords() As Integer
+            Return DatabaseHelper.ExecuteInt32("select count(*) from Words where not exists(select null as empty from WordBranches where WordBranches.targetWordId = Words.id)", Nothing)
+        End Function
+
+        Public Shared Function CountUnlinkedWords() As Integer
+            Return DatabaseHelper.ExecuteInt32("select count(*) from Words where not exists(select null as empty from WordRelations where WordRelations.sourceWordId = Words.id or WordRelations.destinationWordId = Words.id)", Nothing)
+        End Function
+
+        Public Shared Function CountUnlinkedRootWords() As Integer
+            Return DatabaseHelper.ExecuteInt32("select count(*) from Words where not exists(select null as empty from WordRelations where WordRelations.sourceWordId = Words.id or WordRelations.destinationWordId = Words.id) and not exists(select null as empty from WordBranches where WordBranches.targetWordId = Words.id)", Nothing)
+        End Function
 
         Public Shared Function GetWords() As SqlCeDataReader
             Return DatabaseHelper.ExecuteReader("select Id, Word, Tokens, Meaning from Words order by Words.Word", Nothing)

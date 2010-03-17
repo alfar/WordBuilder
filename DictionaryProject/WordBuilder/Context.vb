@@ -10,6 +10,10 @@ Public Class Context
         End Get
     End Property
 
+    Public Sub ResetRuleCount()
+        _RuleCount = 0
+    End Sub
+
     Public Function IncrementRuleCount() As Integer
         _RuleCount += 1
         Return _RuleCount

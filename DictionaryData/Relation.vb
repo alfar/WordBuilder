@@ -93,6 +93,10 @@ Public Class Relation
 #End Region
 
 #Region "Methods"
+    Public Shared Function CountTotal() As Integer
+        Return Database.CountTotal()
+    End Function
+
     Public Sub Save()
         If RelationTypeId = 0 And Not String.IsNullOrEmpty(Name) Then
             Dim rt As RelationType = RelationType.LoadSingle(Name)
@@ -116,8 +120,8 @@ Public Class Relation
 
     Public Sub Delete()
         If Me._Id <> 0 Then
-            Database.delete(Me)
-            Me._id = 0
+            Database.Delete(Me)
+            Me._Id = 0
         End If
     End Sub
 #End Region
@@ -162,6 +166,10 @@ Public Class Relation
     Private NotInheritable Class Database
         Private Sub New()
         End Sub
+
+        Public Shared Function CountTotal() As Integer
+            Return DatabaseHelper.ExecuteInt32("select count(*) from WordRelations", Nothing)
+        End Function
 
         Public Shared Sub Save(ByVal rel As Relation)
             Dim parms As New List(Of SqlCeParameter)()

@@ -173,6 +173,7 @@ Public Class ContextEditorForm
 
     Private Sub ApplyRuleButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ApplyRuleButton.Click
         Dim c As Context = TryCast(ContextTreeView.SelectedNode.Tag, Context)
+        c.ResetRuleCount()
 
         If ClearBeforeApplyingCheckBox.Checked Then
             c = New Context()

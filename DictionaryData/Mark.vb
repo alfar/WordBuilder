@@ -60,6 +60,10 @@ Public Class Mark
 #End Region
 
 #Region "Methods"
+    Public Shared Function CountTotal() As Integer
+        Return Database.CountTotal()
+    End Function
+
     Public Sub Save()
         Database.Save(Me)
     End Sub
@@ -91,6 +95,10 @@ Public Class Mark
     Private NotInheritable Class Database
         Private Sub New()
         End Sub
+
+        Public Shared Function CountTotal() As Integer
+            Return DatabaseHelper.ExecuteInt32("select count(*) from WordMarks", Nothing)
+        End Function
 
         Public Shared Function GetMarkTypeId(ByVal name As String) As Int32
             Dim parms As New List(Of SqlCeParameter)()

@@ -111,6 +111,12 @@
     <Compile Include="Forms\DictionaryLinkDialog.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\DictionaryStatisticsDialog.Designer.vb">
+      <DependentUpon>DictionaryStatisticsDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DictionaryStatisticsDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\FindInCodeDialog.Designer.vb">
       <DependentUpon>FindInCodeDialog.vb</DependentUpon>
     </Compile>
@@ -184,6 +190,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\DictionaryLinkDialog.resx">
       <DependentUpon>DictionaryLinkDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DictionaryStatisticsDialog.resx">
+      <DependentUpon>DictionaryStatisticsDialog.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FindInCodeDialog.resx">
       <DependentUpon>FindInCodeDialog.vb</DependentUpon>
