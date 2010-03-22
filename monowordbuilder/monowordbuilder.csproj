@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{06518BDB-7EAB-488B-80A2-E23BC493E3A3}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>dk.whee.wordbuilder</RootNamespace>
+    <AssemblyName>monowordbuilder</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
+    <Commandlineparameters>../../Projects/test.wordo</Commandlineparameters>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Main.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="WordBuilderProject\RuleCollection.cs" />
+    <Compile Include="WordBuilderProject\Rule.cs" />
+    <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\CommandCollection.cs" />
+    <Compile Include="WordBuilderProject\TokenSet.cs" />
+    <Compile Include="WordBuilderProject\TokenSetCollection.cs" />
+    <Compile Include="WordBuilderProject\WeightedCommand.cs" />
+    <Compile Include="WordBuilderProject\Context.cs" />
+    <Compile Include="WordBuilderProject\Project.cs" />
+    <Compile Include="Commands\ApplyCommand.cs" />
+    <Compile Include="Commands\BranchCommand.cs" />
+    <Compile Include="Commands\CapitalizeCommand.cs" />
+    <Compile Include="Commands\CloneHighlightingAttribute.cs" />
+    <Compile Include="Commands\DropCommand.cs" />
+    <Compile Include="Commands\HighlightAttribute.cs" />
+    <Compile Include="Commands\LeaveCommand.cs" />
+    <Compile Include="Commands\LiteralCommand.cs" />
+    <Compile Include="Commands\LoopCommand.cs" />
+    <Compile Include="Commands\MarkCommand.cs" />
+    <Compile Include="Commands\PrefixCommand.cs" />
+    <Compile Include="Commands\PreLitCommand.cs" />
+    <Compile Include="Commands\RandomCommand.cs" />
+    <Compile Include="Commands\RepeatCommand.cs" />
+    <Compile Include="Commands\RuleCommand.cs" />
+    <Compile Include="Commands\SubstringCommand.cs" />
+    <Compile Include="Commands\TokenCommand.cs" />
+    <Compile Include="Commands\TranslateCommand.cs" />
+    <Compile Include="WordBuilderProject\ProjectSerializer.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="WordBuilderProject\" />
+    <Folder Include="Commands\" />
+    <Folder Include="Projects\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Projects\test.wordo" />
+  </ItemGroup>
+</Project>

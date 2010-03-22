@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "monowordbuilder", "monowordbuilder.csproj", "{06518BDB-7EAB-488B-80A2-E23BC493E3A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{06518BDB-7EAB-488B-80A2-E23BC493E3A3}.Debug|x86.ActiveCfg = Debug|x86
+		{06518BDB-7EAB-488B-80A2-E23BC493E3A3}.Debug|x86.Build.0 = Debug|x86
+		{06518BDB-7EAB-488B-80A2-E23BC493E3A3}.Release|x86.ActiveCfg = Release|x86
+		{06518BDB-7EAB-488B-80A2-E23BC493E3A3}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = monowordbuilder.csproj
+	EndGlobalSection
+EndGlobal
