@@ -32,9 +32,11 @@ namespace test
 			m_ClipBoardHelper = new DynamicMock(typeof(IClipBoardHelper));
 			m_ResultViewHelper = new DynamicMock(typeof(IResultViewHelper));
 			m_DetailsTextViewHelper = new DynamicMock(typeof(ITextViewHelper));
+			m_ExportHelper = new DynamicMock(typeof(IExportHelper));
 			m_GeneratorController = new GeneratorController((IResultViewHelper)m_ResultViewHelper.MockInstance, (IClipBoardHelper)m_ClipBoardHelper.MockInstance, (ITextViewHelper)m_DetailsTextViewHelper.MockInstance);			
 		}
 		
+		private DynamicMock m_ExportHelper;
 		private DynamicMock m_DetailsTextViewHelper;
 		private DynamicMock m_ResultViewHelper;
 		private DynamicMock m_ClipBoardHelper;
@@ -216,6 +218,30 @@ namespace test
 		public void TestGenerateNullProject()
 		{			
 			m_GeneratorController.Generate(null);
+		}
+		
+		[Test()]
+		public void TestExport()
+		{
+			List<Context> selected = new List<Context>();
+			
+			Context result = new Context();
+			result.Tokens.Add("a");
+			result.Tokens.Add("b");
+			result.Tokens.Add("c");
+			
+			Context branch = result.Branch("b1");
+			branch.Tokens.Add("d");
+			
+			selected.Add(result);
+			
+			m_ResultViewHelper.ExpectAndReturn("GetAllItems", selected);
+			m_ExportHelper.Expect("Export", selected);
+			
+			m_GeneratorController.Export((IExportHelper)m_ExportHelper.MockInstance);
+					
+			m_ResultViewHelper.Verify();
+			m_ExportHelper.Verify();
 		}
 	}
 }

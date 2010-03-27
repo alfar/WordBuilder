@@ -20,6 +20,7 @@ namespace Whee.WordBuilder.UIHelpers
 		void Clear();
 		void AddItem(Context context);
 		List<Context> GetSelectedItems();
+		List<Context> GetAllItems();
 		event EventHandler<EventArgs> SelectionChanged;
 	}
 }

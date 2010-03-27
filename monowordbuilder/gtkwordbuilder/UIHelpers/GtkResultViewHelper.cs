@@ -78,6 +78,21 @@ namespace Whee.WordBuilder.UIHelpers
 			return result;
 		}
 		
+		public System.Collections.Generic.List<Context> GetAllItems ()
+		{
+			List<Context> result = new List<Context>();
+			
+			TreeIter iter;
+			for (m_Results.GetIterFirst(out iter); m_Results.IterNext(ref iter);)
+			{
+				Context context = (Context)m_ResultsTreeView.Model.GetValue(iter, 0);
+				
+				result.Add(context);
+			}
+			
+			return result;
+		}
+
 		public event EventHandler<EventArgs> SelectionChanged;		
 		#endregion
 	}

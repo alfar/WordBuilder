@@ -52,6 +52,8 @@
     <Compile Include="UIHelpers\GtkResultViewHelper.cs" />
     <Compile Include="UIHelpers\ClipBoardHelper.cs" />
     <Compile Include="UIHelpers\GtkWarningViewHelper.cs" />
+    <Compile Include="ExportDialog.cs" />
+    <Compile Include="gtk-gui\ExportDialog.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

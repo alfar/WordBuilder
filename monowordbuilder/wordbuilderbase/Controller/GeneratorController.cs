@@ -13,6 +13,7 @@ using System.Text;
 using System.Collections.Generic;
 
 using Whee.WordBuilder.Model;
+using Whee.WordBuilder.Helpers;
 using Whee.WordBuilder.UIHelpers;
 
 namespace Whee.WordBuilder.Controller
@@ -95,6 +96,11 @@ namespace Whee.WordBuilder.Controller
 		public void OnTreeViewSelectionChanged(List<Context> items)
 		{
 			m_DetailsTextViewHelper.OnDocumentChanged(this, RenderContexts(items, DescriptionRenderer));
+		}
+		
+		public void Export(IExportHelper exporter)
+		{
+			exporter.Export(m_ResultViewHelper.GetAllItems());
 		}
 	}
 }
