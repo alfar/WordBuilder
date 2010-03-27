@@ -183,7 +183,7 @@ namespace test
 			selected.Add(result);
 			m_ResultViewHelper.ExpectAndReturn("GetSelectedItems", selected);
 
-			m_ClipBoardHelper.Expect("Copy", "abc\r\n\tb1: abcd");
+			m_ClipBoardHelper.Expect("Copy", String.Format("abc{0}\tb1: abcd", Environment.NewLine));
 			m_GeneratorController.CopyDescription();
 			
 			m_ResultViewHelper.Verify();
@@ -205,7 +205,7 @@ namespace test
 			
 			selected.Add(result);
 
-			m_DetailsTextViewHelper.Expect("OnDocumentChanged", m_GeneratorController, "abc\r\n\tb1: abcd");
+			m_DetailsTextViewHelper.Expect("OnDocumentChanged", m_GeneratorController, string.Format("abc{0}\tb1: abcd", Environment.NewLine));
 
 			m_GeneratorController.OnTreeViewSelectionChanged(selected);
 			

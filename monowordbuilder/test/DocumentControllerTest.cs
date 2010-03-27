@@ -89,7 +89,7 @@ namespace test
 			m_Document.Text = "abc";
 			m_Document.FileName = @"c:\abc.wordo";
 					
-			m_FileSystem.ExpectAndReturn("WriteAllText", true, @"c:\abc.wordo", "abc");
+			m_FileSystem.Expect("WriteAllText", @"c:\abc.wordo", "abc");
 
 			m_DocumentController.Save();
 
@@ -103,7 +103,7 @@ namespace test
 			
 			m_FileDialogHelper.ExpectAndReturn("ShowSaveDialog", @"c:\abc.wordo");
 			
-			m_FileSystem.ExpectAndReturn("WriteAllText", true, @"c:\abc.wordo", "abc");
+			m_FileSystem.Expect("WriteAllText", @"c:\abc.wordo", "abc");
 
 			m_DocumentController.Save();
 
@@ -137,7 +137,7 @@ namespace test
 
 			m_FileDialogHelper.ExpectAndReturn("ShowSaveDialog", @"c:\abc2.wordo");
 			
-			m_FileSystem.ExpectAndReturn("WriteAllText", true, @"c:\abc2.wordo", "abc");
+			m_FileSystem.Expect("WriteAllText", @"c:\abc2.wordo", "abc");
 
 			m_DocumentController.SaveAs();
 

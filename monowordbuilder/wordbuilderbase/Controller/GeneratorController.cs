@@ -69,9 +69,7 @@ namespace Whee.WordBuilder.Controller
 				sb.AppendLine(renderer(ctx));
 			}
 
-			sb.Remove(sb.Length - 2, 2);
-			
-			return sb.ToString();
+			return sb.ToString().Trim();
 		}
 		
 		private string ToStringRenderer(Context ctx)
