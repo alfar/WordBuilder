@@ -26,7 +26,7 @@ namespace monotest
 	
 				Dictionary<string, int> rules = new Dictionary<string, int>();
 				string rule = "";
-				int ruleCount;
+				int ruleCount;	
 				int mode = 0;
 	
 				for (int c = 2; c <= args.Length - 1; c++) {
