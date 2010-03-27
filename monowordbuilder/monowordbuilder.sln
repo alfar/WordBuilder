@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "monowordbuilder", "monowordbuilder.csproj", "{06518BDB-7EAB-488B-80A2-E23BC493E3A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gtkwordbuilder", "..\gtkwordbuilder\gtkwordbuilder.csproj", "{13DD6E14-228D-4E4B-8853-0E74DEC85FE1}"
-EndProject
 Project("{9344bdbb-3e7f-41fc-a0dd-8665d75ee146}") = "Packages", "Packages.mdproj", "{A19E3FD2-E223-4CEE-BC8D-0E18ECBBEB03}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{CD4D4718-76EA-460F-8519-2DC7C86AF117}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wordbuilderbase", "wordbuilderbase\wordbuilderbase.csproj", "{443D90FC-817F-4D32-AF69-092E5A6EE944}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gtkwordbuilder", "gtkwordbuilder\gtkwordbuilder.csproj", "{13DD6E14-228D-4E4B-8853-0E74DEC85FE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +37,6 @@ Global
 		{CD4D4718-76EA-460F-8519-2DC7C86AF117}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = ..\gtkwordbuilder\gtkwordbuilder.csproj
+		StartupItem = monowordbuilder.csproj
 	EndGlobalSection
 EndGlobal

@@ -82,15 +82,15 @@ namespace test
 			
 			c.Mark("m1", "m1");
 			
-			Assert.AreEqual("abc\r\nm1: m1", c.Description(""));
+			Assert.AreEqual(String.Format("abc{0}m1: m1", Environment.NewLine), c.Description(""));
 			
 			Context branch = c.Branch("b1");
 			branch.Tokens.Add("d");
 			
-			Assert.AreEqual("abc\r\nm1: m1\r\n\tb1: abcd", c.Description(""));
+			Assert.AreEqual(String.Format("abc{0}m1: m1{0}\tb1: abcd", Environment.NewLine), c.Description(""));
 			
 			branch.Mark("m2", "m2");
-			Assert.AreEqual("abc\r\nm1: m1\r\n\tb1: abcd\r\n\tm2: m2", c.Description(""));			
+			Assert.AreEqual(String.Format("abc{0}m1: m1{0}\tb1: abcd{0}\tm2: m2", Environment.NewLine), c.Description(""));			
 		}
 		
 		[Test()]

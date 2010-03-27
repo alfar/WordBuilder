@@ -68,7 +68,7 @@
     </MonoDevelop>
   </ProjectExtensions>
   <ItemGroup>
-    <ProjectReference Include="..\monowordbuilder\wordbuilderbase\wordbuilderbase.csproj">
+    <ProjectReference Include="..\wordbuilderbase\wordbuilderbase.csproj">
       <Project>{443D90FC-817F-4D32-AF69-092E5A6EE944}</Project>
       <Name>wordbuilderbase</Name>
     </ProjectReference>
