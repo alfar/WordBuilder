@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TestRecord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Results>
+    <UnitTestResult>
+      <TestDate>2010-03-29T21:53:40</TestDate>
+      <Status>Failure</Status>
+      <TotalFailures>1</TotalFailures>
+      <TotalSuccess>0</TotalSuccess>
+      <TotalIgnored>0</TotalIgnored>
+      <Time />
+      <Message>Child test failed</Message>
+    </UnitTestResult>
+    <UnitTestResult>
+      <TestDate>2010-03-29T22:07:17</TestDate>
+      <Status>Failure</Status>
+      <TotalFailures>1</TotalFailures>
+      <TotalSuccess>0</TotalSuccess>
+      <TotalIgnored>0</TotalIgnored>
+      <Time />
+      <Message>Child test failed</Message>
+    </UnitTestResult>
+    <UnitTestResult>
+      <TestDate>2010-03-29T22:08:00</TestDate>
+      <Status>Failure</Status>
+      <TotalFailures>0</TotalFailures>
+      <TotalSuccess>0</TotalSuccess>
+      <TotalIgnored>0</TotalIgnored>
+      <Time />
+      <Message>Couldn't create a remote process.</Message>
+      <StackTrace>   at MonoDevelop.Core.Execution.ProcessHostController.CreateInstance(String assemblyPath, String typeName, String[] addins)
+   at MonoDevelop.Core.Execution.ProcessService.CreateExternalProcessObject(Type type, IExecutionHandler executionHandler)
+   at MonoDevelop.NUnit.NUnitAssemblyTestSuite.RunUnitTest(UnitTest test, String suiteName, String testName, TestContext testContext)
+   at MonoDevelop.NUnit.NUnitAssemblyTestSuite.OnRun(TestContext testContext)
+   at MonoDevelop.NUnit.UnitTest.Run(TestContext testContext)</StackTrace>
+    </UnitTestResult>
+  </Results>
+  <Tests>
+    <TestRecord Name="test">
+      <Results>
+        <UnitTestResult>
+          <TestDate>2010-03-29T21:53:40</TestDate>
+          <Status>Failure</Status>
+          <TotalFailures>1</TotalFailures>
+          <TotalSuccess>0</TotalSuccess>
+          <TotalIgnored>0</TotalIgnored>
+          <Time />
+          <Message>Child test failed</Message>
+        </UnitTestResult>
+        <UnitTestResult>
+          <TestDate>2010-03-29T22:07:17</TestDate>
+          <Status>Failure</Status>
+          <TotalFailures>1</TotalFailures>
+          <TotalSuccess>0</TotalSuccess>
+          <TotalIgnored>0</TotalIgnored>
+          <Time />
+          <Message>Child test failed</Message>
+        </UnitTestResult>
+      </Results>
+      <Tests>
+        <TestRecord Name="Test">
+          <Results>
+            <UnitTestResult>
+              <TestDate>2010-03-29T21:53:40</TestDate>
+              <Status>Failure</Status>
+              <TotalFailures>1</TotalFailures>
+              <TotalSuccess>0</TotalSuccess>
+              <TotalIgnored>0</TotalIgnored>
+              <Time />
+              <Message>Child test failed</Message>
+            </UnitTestResult>
+          </Results>
+          <Tests>
+            <TestRecord Name="TestCase">
+              <Results>
+                <UnitTestResult>
+                  <TestDate>2010-03-29T21:53:40</TestDate>
+                  <Status>Failure</Status>
+                  <TotalFailures>1</TotalFailures>
+                  <TotalSuccess>0</TotalSuccess>
+                  <TotalIgnored>0</TotalIgnored>
+                  <Time />
+                  <Message>Test failed</Message>
+                  <StackTrace>   at NUnit.Framework.Assert.Fail(String message, Object[] args)
+   at NUnit.Framework.Assert.Fail()
+   at test.Test.TestCase()</StackTrace>
+                  <ConsoleOutput />
+                  <ConsoleError />
+                </UnitTestResult>
+              </Results>
+              <Tests />
+            </TestRecord>
+          </Tests>
+        </TestRecord>
+        <TestRecord Name="DocumentControllerTest">
+          <Results>
+            <UnitTestResult>
+              <TestDate>2010-03-29T22:07:17</TestDate>
+              <Status>Failure</Status>
+              <TotalFailures>1</TotalFailures>
+              <TotalSuccess>0</TotalSuccess>
+              <TotalIgnored>0</TotalIgnored>
+              <Time />
+              <Message>Child test failed</Message>
+            </UnitTestResult>
+          </Results>
+          <Tests>
+            <TestRecord Name="TestConstructor">
+              <Results>
+                <UnitTestResult>
+                  <TestDate>2010-03-29T22:07:17</TestDate>
+                  <Status>Failure</Status>
+                  <TotalFailures>1</TotalFailures>
+                  <TotalSuccess>0</TotalSuccess>
+                  <TotalIgnored>0</TotalIgnored>
+                  <Time />
+                  <Message>System.IO.FileLoadException : Attempt to load an unverifiable executable with fixups (IAT with more than 2 sections or a TLS section.) (Exception from HRESULT: 0x80131019)</Message>
+                  <StackTrace>   at test.DocumentControllerTest.TestConstructor()</StackTrace>
+                  <ConsoleOutput />
+                  <ConsoleError />
+                </UnitTestResult>
+              </Results>
+            </TestRecord>
+          </Tests>
+        </TestRecord>
+      </Tests>
+    </TestRecord>
+  </Tests>
+</TestRecord>

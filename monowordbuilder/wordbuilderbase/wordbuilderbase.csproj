@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{443D90FC-817F-4D32-AF69-092E5A6EE944}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>wordbuilderbase</RootNamespace>
+    <AssemblyName>wordbuilderbase</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MyClass.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Controller\DocumentController.cs" />
+    <Compile Include="Model\Document.cs" />
+    <Compile Include="UIHelpers\ITextViewHelper.cs" />
+    <Compile Include="Model\Events\DocumentChangedEventArgs.cs" />
+    <Compile Include="Helpers\IFileSystem.cs" />
+    <Compile Include="Helpers\FileSystem.cs" />
+    <Compile Include="UIHelpers\IFileDialogHelper.cs" />
+    <Compile Include="UIHelpers\SaveCheckDialogResult.cs" />
+    <Compile Include="Project\Context.cs" />
+    <Compile Include="Project\Project.cs" />
+    <Compile Include="Project\ProjectSerializer.cs" />
+    <Compile Include="Project\Rule.cs" />
+    <Compile Include="Project\RuleCollection.cs" />
+    <Compile Include="Project\TokenSet.cs" />
+    <Compile Include="Project\TokenSetCollection.cs" />
+    <Compile Include="Project\WeightedCommand.cs" />
+    <Compile Include="Commands\ApplyCommand.cs" />
+    <Compile Include="Commands\BranchCommand.cs" />
+    <Compile Include="Commands\CapitalizeCommand.cs" />
+    <Compile Include="Commands\CloneHighlightingAttribute.cs" />
+    <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\CommandCollection.cs" />
+    <Compile Include="Commands\DropCommand.cs" />
+    <Compile Include="Commands\HighlightAttribute.cs" />
+    <Compile Include="Commands\LeaveCommand.cs" />
+    <Compile Include="Commands\LiteralCommand.cs" />
+    <Compile Include="Commands\LoopCommand.cs" />
+    <Compile Include="Commands\MarkCommand.cs" />
+    <Compile Include="Commands\PrefixCommand.cs" />
+    <Compile Include="Commands\PreLitCommand.cs" />
+    <Compile Include="Commands\RandomCommand.cs" />
+    <Compile Include="Commands\RepeatCommand.cs" />
+    <Compile Include="Commands\RuleCommand.cs" />
+    <Compile Include="Commands\SubstringCommand.cs" />
+    <Compile Include="Commands\TokenCommand.cs" />
+    <Compile Include="Commands\TranslateCommand.cs" />
+    <Compile Include="Helpers\IRandom.cs" />
+    <Compile Include="Helpers\Random.cs" />
+    <Compile Include="Controller\GeneratorController.cs" />
+    <Compile Include="UIHelpers\IResultViewHelper.cs" />
+    <Compile Include="UIHelpers\IClipBoardHelper.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Model\Events\" />
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+</Project>

@@ -12,5 +12,6 @@
       </translations>
     </translations>
     <outputType>RelativeToOutput</outputType>
+    <ReleaseVersion>1.0</ReleaseVersion>
   </PropertyGroup>
 </Project>

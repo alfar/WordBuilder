@@ -27,5 +27,6 @@
         </Package>
       </Packages>
     </Packages>
+    <ReleaseVersion>1.0</ReleaseVersion>
   </PropertyGroup>
 </Project>

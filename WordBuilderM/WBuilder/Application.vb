@@ -5,7 +5,7 @@ Public Class Application
 		Dim args As String() = System.Environment.GetCommandLineArgs()
 		
 		If 2 > args.Length Then
-			System.Console.WriteLine("wbuilder <filename>")
+			System.Console.WriteLine("wbuilder <filename>[ -v][ -r <rule> <amount>]*")
 			Exit Sub
 		End If
 
@@ -18,13 +18,50 @@ Public Class Application
 				System.Console.WriteLine(String.Join(vbCrLf, project.Warnings.ToArray()))
 				Exit Sub
 			End If
-		
-			If project.StartRules.Count = 0 Then
-				project.StartRules.Add("root", 100)
+
+			Dim rules As New Dictionary(Of String, Integer)()
+			Dim rule As String
+			Dim ruleCount As Integer			
+			Dim mode As Integer = 0
+					
+			For c As Integer = 2 To args.Length - 1
+				Select Case mode
+					Case 0
+						If "-r" = args(c).ToLower() Then
+							mode = 1
+						End If
+					Case 1
+						rule = args(c)
+						
+						If project.Rules.GetRuleByName(rule) IsNot Nothing Then
+							mode = 2
+						Else
+							System.Console.WriteLine("wbuilder <filename>[ -v][ -r <rule> <amount>]*")
+							System.Console.WriteLine("Rule {0} not found", args(c))
+							Exit Sub
+						End If
+					Case 2
+						If Integer.TryParse(args(c), ruleCount) Then
+							rules.Add(rule, ruleCount)
+							mode = 0
+						Else
+							System.Console.WriteLine("wbuilder <filename>[ -v][ -r <rule> <amount>]*")
+							System.Console.WriteLine("Expected amount, got {0}", args(c))
+							Exit Sub
+						End If
+				End Select
+			Next
+
+			If rules.Count = 0 Then
+				rules = project.StartRules
+
+				If rules.Count = 0 Then
+					rules.Add("root", 100)
+				End If
 			End If
 			
-			For Each rule As String In project.StartRules.Keys
-				For c As Integer = 1 To project.StartRules(rule)
+			For Each rule As String In rules.Keys
+				For c As Integer = 1 To rules(rule)
 					If extendedOutput Then
 						System.Console.WriteLine(project.GetWord(rule).Description())
 					Else

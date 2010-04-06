@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gtkwordbuilder", "..\gtkwor
 EndProject
 Project("{9344bdbb-3e7f-41fc-a0dd-8665d75ee146}") = "Packages", "Packages.mdproj", "{A19E3FD2-E223-4CEE-BC8D-0E18ECBBEB03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{CD4D4718-76EA-460F-8519-2DC7C86AF117}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wordbuilderbase", "wordbuilderbase\wordbuilderbase.csproj", "{443D90FC-817F-4D32-AF69-092E5A6EE944}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -21,10 +25,18 @@ Global
 		{13DD6E14-228D-4E4B-8853-0E74DEC85FE1}.Debug|x86.Build.0 = Debug|x86
 		{13DD6E14-228D-4E4B-8853-0E74DEC85FE1}.Release|x86.ActiveCfg = Release|x86
 		{13DD6E14-228D-4E4B-8853-0E74DEC85FE1}.Release|x86.Build.0 = Release|x86
+		{443D90FC-817F-4D32-AF69-092E5A6EE944}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{443D90FC-817F-4D32-AF69-092E5A6EE944}.Debug|x86.Build.0 = Debug|Any CPU
+		{443D90FC-817F-4D32-AF69-092E5A6EE944}.Release|x86.ActiveCfg = Release|Any CPU
+		{443D90FC-817F-4D32-AF69-092E5A6EE944}.Release|x86.Build.0 = Release|Any CPU
 		{A19E3FD2-E223-4CEE-BC8D-0E18ECBBEB03}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{A19E3FD2-E223-4CEE-BC8D-0E18ECBBEB03}.Release|x86.ActiveCfg = Release|Any CPU
+		{CD4D4718-76EA-460F-8519-2DC7C86AF117}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CD4D4718-76EA-460F-8519-2DC7C86AF117}.Debug|x86.Build.0 = Debug|Any CPU
+		{CD4D4718-76EA-460F-8519-2DC7C86AF117}.Release|x86.ActiveCfg = Release|Any CPU
+		{CD4D4718-76EA-460F-8519-2DC7C86AF117}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = monowordbuilder.csproj
+		StartupItem = ..\gtkwordbuilder\gtkwordbuilder.csproj
 	EndGlobalSection
 EndGlobal

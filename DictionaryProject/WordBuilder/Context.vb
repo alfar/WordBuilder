@@ -1,4 +1,4 @@
-﻿
+
 Public Class Context
     Public Sub New()
     End Sub
@@ -96,7 +96,8 @@ Public Class Context
         ElseIf parts(0).StartsWith("*") Then
             Dim r As Rule = project.Rules.GetRuleByName(parts(0).Substring(1))
 
-            Dim c As New Context() With {._Tokens = New List(Of String)(Me.Tokens)}
+            Dim c As New Context()
+            c._Tokens = New List(Of String)(Me.Tokens)
             r.Execute(c)
 
             If parts.Length > 1 Then

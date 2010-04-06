@@ -1,4 +1,4 @@
-﻿Public Delegate Function LineParserDelegate(ByVal context As Object, ByVal reader As IO.TextReader, ByVal line As String, ByRef lineNumber As Integer) As Boolean
+Public Delegate Function LineParserDelegate(ByVal context As Object, ByVal reader As IO.TextReader, ByVal line As String, ByRef lineNumber As Integer) As Boolean
 
 Public NotInheritable Class ProjectSerializer
     Private Sub New()
@@ -416,7 +416,12 @@ Public NotInheritable Class ProjectSerializer
     Private Shared ReadOnly Property Commands() As List(Of Type)
         Get
             If s_Commands Is Nothing Then
-                s_Commands = (From t As Type In Reflection.Assembly.GetAssembly(GetType(ProjectSerializer)).GetTypes() Where t.IsSubclassOf(GetType(CommandBase))).ToList()
+            	s_Commands = New List(Of Type)()
+            	For Each t As Type In Reflection.Assembly.GetAssembly(GetType(ProjectSerializer)).GetTypes()
+            		If t.IsSubclassOf(GetType(CommandBase)) Then
+            			s_Commands.Add(t)
+            		End If
+            	Next
             End If
             Return s_Commands
         End Get
@@ -446,9 +451,14 @@ Public NotInheritable Class ProjectSerializer
         Else
             Dim command As String = ReadToken(line, start)
 
-            Dim commandCandidates As IEnumerable(Of Type) = From cmd As Type In Commands Where cmd.Name.ToLower().StartsWith(command.ToLower())
+	        Dim commandCandidates As New List(Of Type)()
+	        For Each cmd As Type In Commands
+	        	If cmd.Name.ToLower().StartsWith(command.ToLower())
+	        		commandCandidates.Add(cmd)
+	        	End If
+			Next
 
-            If commandCandidates.Count > 1 Then
+			If commandCandidates.Count > 1 Then
                 project.Warnings.Add(String.Format("Line {1}: The command '{0}' is ambiguous.", command, lineNumber))
             Else
                 Dim tp As Type = commandCandidates.FirstOrDefault()
@@ -462,7 +472,10 @@ Public NotInheritable Class ProjectSerializer
                         project.Warnings.Add(String.Format("Line {1}: The command '{0}' is not valid.", command, lineNumber))
                     End If
 
-                    cmds.Add(New WeightedCommand() With {.Command = c, .Weight = weight})
+					Dim wc As New WeightedCommand()
+					wc.Command = c
+					wc.Weight = weight
+                    cmds.Add(wc)
                 Else
                     project.Warnings.Add(String.Format("Line {1}: The command '{0}' is not valid.", command, lineNumber))
                 End If
@@ -488,8 +501,13 @@ Public NotInheritable Class ProjectSerializer
         Dim start As Integer = 0
         Dim command As String = ReadToken(line, start)
 
-        Dim commandCandidates As IEnumerable(Of Type) = From cmd As Type In Commands Where cmd.Name.ToLower().StartsWith(command.ToLower())
-
+        Dim commandCandidates As New List(Of Type)()
+        For cmd As Type In Commands
+        	If cmd.Name.ToLower().StartsWith(command.ToLower())
+        		commandCandidates.Add(cmd)
+        	End If
+		Next
+		
         If commandCandidates.Count > 1 Then
             project.Warnings.Add(String.Format("Line {1}: The command '{0}' is ambiguous.", command, lineNumber))
         Else

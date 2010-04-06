@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="UNNAMED" total="10" failures="3" not-run="0" date="2010-03-31" time="09:39:36">
+  <environment nunit-version="2.4.8.0" clr-version="2.0.50727.1433" os-version="Microsoft Windows NT 6.0.6002.0" platform="Win32NT" cwd="E:\Code\MonoWB\WordBuilder\monowordbuilder\test\bin\Debug" machine-name="BAKA" user="Arne Sostack" user-domain="BAKA" />
+  <culture-info current-culture="da-DK" current-uiculture="da-DK" />
+  <test-suite name="UNNAMED" success="False" time="0.262" asserts="0">
+    <results>
+      <test-suite name="test.dll" success="False" time="0.124" asserts="0">
+        <results>
+          <test-suite name="test" success="False" time="0.122" asserts="0">
+            <results>
+              <test-suite name="DocumentControllerTest" success="False" time="0.081" asserts="0">
+                <results>
+                  <test-case name="test.DocumentControllerTest.TestClear" executed="True" success="True" time="0.016" asserts="3" />
+                  <test-case name="test.DocumentControllerTest.TestConstructor" executed="True" success="True" time="0.002" asserts="1" />
+                  <test-case name="test.DocumentControllerTest.TestLoad" executed="True" success="False" time="0.011" asserts="8">
+                    <failure>
+                      <message><![CDATA[  Expected string length 11 but was 12. Strings differ at index 11.
+  Expected: "c:\\abc.word"
+  But was:  "c:\\abc.wordo"
+  -----------------------^
+]]></message>
+                      <stack-trace><![CDATA[at test.DocumentControllerTest.TestLoad () [0x00000] in <filename unknown>:0
+at (wrapper managed-to-native) System.Reflection.MonoMethod:InternalInvoke (object,object[],System.Exception&)
+at System.Reflection.MonoMethod.Invoke (System.Object obj, BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x00000] in <filename unknown>:0
+]]></stack-trace>
+                    </failure>
+                  </test-case>
+                  <test-case name="test.DocumentControllerTest.TestSaveWithFileName" executed="True" success="False" time="0.001" asserts="4">
+                    <failure>
+                      <message><![CDATA[System.InvalidCastException : Return value has an invalid type]]></message>
+                      <stack-trace><![CDATA[at System.Runtime.Remoting.Proxies.RealProxy.ProcessResponse (IMethodReturnMessage mrm, System.Runtime.Remoting.Messaging.MonoMethodMessage call) [0x00000] in <filename unknown>:0
+at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke (System.Runtime.Remoting.Proxies.RealProxy rp, IMessage msg, System.Exception& exc, System.Object[]& out_args) [0x00000] in <filename unknown>:0
+]]></stack-trace>
+                    </failure>
+                  </test-case>
+                  <test-case name="test.DocumentControllerTest.TestSaveWithoutFileName" executed="True" success="False" time="0.001" asserts="6">
+                    <failure>
+                      <message><![CDATA[System.InvalidCastException : Return value has an invalid type]]></message>
+                      <stack-trace><![CDATA[at System.Runtime.Remoting.Proxies.RealProxy.ProcessResponse (IMethodReturnMessage mrm, System.Runtime.Remoting.Messaging.MonoMethodMessage call) [0x00000] in <filename unknown>:0
+at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke (System.Runtime.Remoting.Proxies.RealProxy rp, IMessage msg, System.Exception& exc, System.Object[]& out_args) [0x00000] in <filename unknown>:0
+]]></stack-trace>
+                    </failure>
+                  </test-case>
+                  <test-case name="test.DocumentControllerTest.TestSaveWithoutFileNameCanceled" executed="True" success="True" time="0.001" asserts="4" />
+                  <test-case name="test.DocumentControllerTest.TestTransferTextFromModel" executed="True" success="True" time="0.000" asserts="5" />
+                  <test-case name="test.DocumentControllerTest.TestTransferTextToModel" executed="True" success="True" time="0.000" asserts="1" />
+                </results>
+              </test-suite>
+              <test-suite name="DocumentTest" success="True" time="0.002" asserts="0">
+                <results>
+                  <test-case name="test.DocumentTest.TestLoad" executed="True" success="True" time="0.001" asserts="5" />
+                  <test-case name="test.DocumentTest.TestSave" executed="True" success="True" time="0.000" asserts="5" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite name="wordbuilderbase.dll" success="True" time="0.001" asserts="0">
+        <results />
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

@@ -1,8 +1,13 @@
-﻿
+
 Public Class TokenSetCollection
     Inherits Collections.ObjectModel.Collection(Of TokenSet)
 
     Public Function FindByName(ByVal name As String) As TokenSet
-        Return (From t As TokenSet In Me Where t.Name = name).FirstOrDefault
+    	For t As TokenSet In Me
+    		If t.Name = name Then
+    			Return t
+    		End If
+    	Next
+        Return Nothing
     End Function
 End Class

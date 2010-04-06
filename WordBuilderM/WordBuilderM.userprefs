@@ -1,25 +1,27 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" ctype="Workspace" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="WBuilder\Application.vb" ctype="Workbench">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" ActiveRuntime="Mono 2.6.1" ctype="Workspace" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\DictionaryProject\WordBuilder\WeightedCommand.vb" ctype="Workbench">
     <Files>
-      <File FileName="Main.vb" Line="12" Column="2" />
-      <File FileName="WBuilder\Application.vb" Line="24" Column="4" />
-      <File FileName="..\DictionaryProject\WordBuilder\ProjectSerializer.vb" Line="115" Column="30" />
-      <File FileName="..\DictionaryProject\WordBuilder\Project.vb" Line="51" Column="16" />
-      <File FileName="..\DictionaryProject\WordBuilder\Context.vb" Line="75" Column="1" />
-      <File FileName="WBuilder\Projects\test.wordo" Line="8" Column="1" />
-      <File FileName="..\DictionaryProject\WordBuilder\RuleCollection.vb" Line="8" Column="1" />
+      <File FileName="..\DictionaryProject\WordBuilder\ProjectSerializer.vb" Line="1" Column="1" />
+      <File FileName="..\DictionaryProject\WordBuilder\Context.vb" Line="1" Column="1" />
+      <File FileName="..\DictionaryProject\WordBuilder\Project.vb" Line="1" Column="1" />
+      <File FileName="..\DictionaryProject\WordBuilder\Rule.vb" Line="1" Column="1" />
+      <File FileName="..\DictionaryProject\WordBuilder\RuleCollection.vb" Line="1" Column="1" />
+      <File FileName="..\DictionaryProject\WordBuilder\TokenSet.vb" Line="1" Column="1" />
+      <File FileName="..\DictionaryProject\WordBuilder\TokenSetCollection.vb" Line="1" Column="1" />
+      <File FileName="..\DictionaryProject\WordBuilder\WeightedCommand.vb" Line="12" Column="30" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="DictionaryProject" expanded="True">
-            <Node name="WordBuilder" expanded="True" />
-          </Node>
-          <Node name="WBuilder" expanded="True" selected="True">
+          <Node name="DictionaryProject" expanded="True" selected="True" />
+          <Node name="Packages" expanded="True" />
+          <Node name="WBuilder" expanded="True">
+            <Node name="References" expanded="True" />
             <Node name="Projects" expanded="True" />
           </Node>
           <Node name="WordBuilderM" expanded="True" />
+          <Node name="WordBuilderProject" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">
