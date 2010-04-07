@@ -16,8 +16,8 @@ using System.Collections.Generic;
 using Whee.WordBuilder.Controller;
 using Whee.WordBuilder.Helpers;
 using Whee.WordBuilder.UIHelpers;
-using Whee.WordBuilder.Project;
-using Whee.WordBuilder.Project.Commands;
+using Whee.WordBuilder.Model;
+using Whee.WordBuilder.Model.Commands;
 
 namespace test
 {
@@ -31,9 +31,11 @@ namespace test
 		{
 			m_ClipBoardHelper = new DynamicMock(typeof(IClipBoardHelper));
 			m_ResultViewHelper = new DynamicMock(typeof(IResultViewHelper));
-			m_GeneratorController = new GeneratorController((IResultViewHelper)m_ResultViewHelper.MockInstance, (IClipBoardHelper)m_ClipBoardHelper.MockInstance);
+			m_DetailsTextViewHelper = new DynamicMock(typeof(ITextViewHelper));
+			m_GeneratorController = new GeneratorController((IResultViewHelper)m_ResultViewHelper.MockInstance, (IClipBoardHelper)m_ClipBoardHelper.MockInstance, (ITextViewHelper)m_DetailsTextViewHelper.MockInstance);			
 		}
 		
+		private DynamicMock m_DetailsTextViewHelper;
 		private DynamicMock m_ResultViewHelper;
 		private DynamicMock m_ClipBoardHelper;
 		private GeneratorController m_GeneratorController;
@@ -187,6 +189,33 @@ namespace test
 			m_ResultViewHelper.Verify();
 			m_ClipBoardHelper.Verify();
 		}
+
+		[Test()]
+		public void TestDetailsView()
+		{
+			List<Context> selected = new List<Context>();
+			
+			Context result = new Context();
+			result.Tokens.Add("a");
+			result.Tokens.Add("b");
+			result.Tokens.Add("c");
+			
+			Context branch = result.Branch("b1");
+			branch.Tokens.Add("d");
+			
+			selected.Add(result);
+
+			m_DetailsTextViewHelper.Expect("OnDocumentChanged", m_GeneratorController, "abc\r\n\tb1: abcd");
+
+			m_GeneratorController.OnTreeViewSelectionChanged(selected);
+			
+			m_DetailsTextViewHelper.Verify();
+		}
 		
+		[Test()]
+		public void TestGenerateNullProject()
+		{			
+			m_GeneratorController.Generate(null);
+		}
 	}
 }

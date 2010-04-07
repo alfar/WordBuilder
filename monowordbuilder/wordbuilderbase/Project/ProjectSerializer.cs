@@ -3,11 +3,11 @@ using System.IO;
 using System.Collections.Generic;
 using System.Reflection;
 using Whee.WordBuilder.Helpers;
-using Whee.WordBuilder.Project.Commands;
+using Whee.WordBuilder.Model.Commands;
 
 public delegate bool LineParserDelegate(object context, TextReader reader, string line, ref int lineNumber);
 
-namespace Whee.WordBuilder.Project
+namespace Whee.WordBuilder.Model
 {
 	public sealed class ProjectSerializer
 	{

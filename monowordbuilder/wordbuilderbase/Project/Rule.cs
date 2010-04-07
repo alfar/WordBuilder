@@ -1,7 +1,7 @@
 using System;
-using Whee.WordBuilder.Project.Commands;
+using Whee.WordBuilder.Model.Commands;
 
-namespace Whee.WordBuilder.Project
+namespace Whee.WordBuilder.Model
 {
 	public class Rule
 	{

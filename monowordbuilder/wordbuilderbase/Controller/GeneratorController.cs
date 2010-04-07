@@ -10,66 +10,93 @@
 
 using System;
 using System.Text;
+using System.Collections.Generic;
 
-using Whee.WordBuilder.Project;
+using Whee.WordBuilder.Model;
 using Whee.WordBuilder.UIHelpers;
 
 namespace Whee.WordBuilder.Controller
 {
 	public class GeneratorController
 	{
-		public GeneratorController(IResultViewHelper resultViewHelper, IClipBoardHelper clipBoardHelper)
+		public GeneratorController(IResultViewHelper resultViewHelper, IClipBoardHelper clipBoardHelper, ITextViewHelper detailsTextViewHelper)
 		{
 			m_ResultViewHelper = resultViewHelper;
+			m_ResultViewHelper.SelectionChanged += HandleM_ResultViewHelperSelectionChanged;
 			m_ClipBoardHelper = clipBoardHelper;
+			m_DetailsTextViewHelper = detailsTextViewHelper;
+		}
+
+		void HandleM_ResultViewHelperSelectionChanged (object sender, EventArgs e)
+		{
+			OnTreeViewSelectionChanged(m_ResultViewHelper.GetSelectedItems());
 		}
 		
 		private IResultViewHelper m_ResultViewHelper;
 		private IClipBoardHelper m_ClipBoardHelper;
+		private ITextViewHelper m_DetailsTextViewHelper;
 		
 		public void Clear()
 		{
 			m_ResultViewHelper.Clear();
 		}
 		
-		public void Generate(Whee.WordBuilder.Project.Project project)
+		public void Generate(Whee.WordBuilder.Model.Project project)
 		{
-			if (project.StartRules.Count == 0) {
-				project.StartRules.Add("root", 100);
-			}
-			
-			foreach (string ruleiter in project.StartRules.Keys) {
-				for (int c = 1; c <= project.StartRules[ruleiter]; c++) {
-					Context item = project.GetWord(ruleiter);
-					m_ResultViewHelper.AddItem(item);
+			if (project != null)
+			{
+				if (project.StartRules.Count == 0) {
+					project.StartRules.Add("root", 100);
+				}
+				
+				foreach (string ruleiter in project.StartRules.Keys) {
+					for (int c = 1; c <= project.StartRules[ruleiter]; c++) {
+						Context item = project.GetWord(ruleiter);
+						m_ResultViewHelper.AddItem(item);
+					}
 				}
 			}
+		}
+
+		private delegate string ContextRendererDelegate(Context ctx);
+		
+		private string RenderContexts(List<Context> contexts, ContextRendererDelegate renderer)
+		{
+			StringBuilder sb = new StringBuilder();
+
+			foreach (Context ctx in contexts)
+			{
+				sb.AppendLine(renderer(ctx));
+			}
+
+			sb.Remove(sb.Length - 2, 2);
+			
+			return sb.ToString();
+		}
+		
+		private string ToStringRenderer(Context ctx)
+		{
+			return ctx.ToString();
+		}
+		
+		private string DescriptionRenderer(Context ctx)
+		{
+			return ctx.Description("");
 		}
 		
 		public void Copy()
 		{
-			StringBuilder sb = new StringBuilder();
-			foreach (Context ctx in m_ResultViewHelper.GetSelectedItems())
-			{
-				sb.AppendLine(ctx.ToString());
-			}
-			
-			sb.Remove(sb.Length - 2, 2);
-
-			m_ClipBoardHelper.Copy(sb.ToString());
+			m_ClipBoardHelper.Copy(RenderContexts(m_ResultViewHelper.GetSelectedItems(), ToStringRenderer));
 		}
 		
 		public void CopyDescription()
 		{
-			StringBuilder sb = new StringBuilder();
-			foreach (Context ctx in m_ResultViewHelper.GetSelectedItems())
-			{
-				sb.AppendLine(ctx.Description(""));
-			}
-			
-			sb.Remove(sb.Length - 2, 2);
-			
-			m_ClipBoardHelper.Copy(sb.ToString());
-		}			
+			m_ClipBoardHelper.Copy(RenderContexts(m_ResultViewHelper.GetSelectedItems(), DescriptionRenderer));
+		}
+		
+		public void OnTreeViewSelectionChanged(List<Context> items)
+		{
+			m_DetailsTextViewHelper.OnDocumentChanged(this, RenderContexts(items, DescriptionRenderer));
+		}
 	}
 }

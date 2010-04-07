@@ -49,8 +49,9 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="UIHelpers\GtkTextViewHelper.cs" />
     <Compile Include="UIHelpers\FileDialogHelper.cs" />
-    <Compile Include="UIHelpers\ResultViewHelper.cs" />
+    <Compile Include="UIHelpers\GtkResultViewHelper.cs" />
     <Compile Include="UIHelpers\ClipBoardHelper.cs" />
+    <Compile Include="UIHelpers\GtkWarningViewHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

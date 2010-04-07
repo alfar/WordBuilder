@@ -10,6 +10,7 @@
 
 using System;
 using Whee.WordBuilder.UIHelpers;
+using Gtk;
 
 namespace Whee.WordBuilder.UIHelpers
 {
@@ -17,7 +18,7 @@ namespace Whee.WordBuilder.UIHelpers
 
 	public class GtkTextViewHelper : ITextViewHelper
 	{
-		public GtkTextViewHelper (Gtk.TextView textView)
+		public GtkTextViewHelper (TextView textView)
 		{
 			m_textView = textView;
 			m_textView.Buffer.Changed += HandleM_textViewBufferChanged;
@@ -31,7 +32,7 @@ namespace Whee.WordBuilder.UIHelpers
 			}
 		}
 		
-		private Gtk.TextView m_textView;
+		private TextView m_textView;
 		
 		public void Clear() 
 		{
@@ -43,6 +44,14 @@ namespace Whee.WordBuilder.UIHelpers
 			m_textView.Buffer.Text = newText;
 		}
 
+		public void GotoLine (int linenumber)
+		{
+			TextIter iter = m_textView.Buffer.GetIterAtLine(linenumber);
+			m_textView.Buffer.PlaceCursor(iter);
+			m_textView.PlaceCursorOnscreen();
+			m_textView.GrabFocus();
+		}
+		
 		public event EventHandler<Whee.WordBuilder.Model.Events.DocumentChangedEventArgs> BufferChanged;		
 	}
 }

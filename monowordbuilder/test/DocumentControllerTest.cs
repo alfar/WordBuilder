@@ -14,7 +14,6 @@ using Whee.WordBuilder.Model;
 using Whee.WordBuilder.Controller;
 using Whee.WordBuilder.UIHelpers;
 using Whee.WordBuilder.Helpers;
-using Whee.WordBuilder.Project;
 using NUnit.Mocks;
 
 namespace test
@@ -30,14 +29,16 @@ namespace test
 			m_TextViewHelper = new DynamicMock(typeof(ITextViewHelper));
 			m_FileSystem = new DynamicMock(typeof(IFileSystem));
 			m_FileDialogHelper = new DynamicMock(typeof(IFileDialogHelper));
-
-			m_DocumentController = new DocumentController((IFileSystem)m_FileSystem.MockInstance, (IFileDialogHelper)m_FileDialogHelper.MockInstance, (ITextViewHelper)m_TextViewHelper.MockInstance, m_Document);
+			m_WarningViewHelper = new DynamicMock(typeof(IWarningViewHelper));
+			
+			m_DocumentController = new DocumentController((IWarningViewHelper)m_WarningViewHelper.MockInstance, (IFileSystem)m_FileSystem.MockInstance, (IFileDialogHelper)m_FileDialogHelper.MockInstance, (ITextViewHelper)m_TextViewHelper.MockInstance, m_Document);
 		}
 
 		private Document m_Document;
 		private DocumentController m_DocumentController;
 		private DynamicMock m_TextViewHelper;
 		private DynamicMock m_FileSystem;
+		private DynamicMock m_WarningViewHelper;
 		private DynamicMock m_FileDialogHelper;
 		
 		[Test()]
@@ -308,6 +309,30 @@ namespace test
 			Assert.IsNotNull(project);
 			Assert.IsNotNull(project.Rules.GetRuleByName("root"));
 			Assert.IsEmpty(project.Warnings);
+		}
+		
+		[Test()]
+		public void TestWarnings()
+		{
+			m_Document.Text = "rule root {\n  token a\n}\n";
+
+			m_WarningViewHelper.Expect("Clear");
+			m_WarningViewHelper.Expect("AddWarning");
+			Project project = m_DocumentController.Compile();
+			
+			Assert.IsNull(project);
+
+			m_WarningViewHelper.Verify();
+		}
+		
+		[Test()]
+		public void TestGotoLine()
+		{
+			m_TextViewHelper.Expect("GotoLine", 2);
+			
+			m_DocumentController.GotoLine(2);
+			
+			m_TextViewHelper.Verify();
 		}
 	}
 }

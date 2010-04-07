@@ -1,6 +1,6 @@
 using System;
 
-namespace Whee.WordBuilder.Project
+namespace Whee.WordBuilder.Model
 {
 	public class TokenSetCollection : System.Collections.ObjectModel.Collection<TokenSet>
 	{

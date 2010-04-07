@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Whee.WordBuilder.Project.Commands
+namespace Whee.WordBuilder.Model.Commands
 {
 	[Highlight(RegEx = "^\\s*loop ", Color = "Green")]
 	public class LoopCommand : CommandBase

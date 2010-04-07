@@ -1,35 +1,53 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" ctype="Workspace" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="test\Test.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="test\DocumentControllerTest.cs" ctype="Workbench">
     <Files>
-      <File FileName="Main.cs" Line="29" Column="19" />
-      <File FileName="..\gtkwordbuilder\MainWindow.cs" Line="43" Column="1" />
-      <File FileName="..\gtkwordbuilder\Model\Document.cs" Line="25" Column="35" />
-      <File FileName="..\gtkwordbuilder\Controller\DocumentController.cs" Line="26" Column="28" />
-      <File FileName="test\Test.cs" Line="25" Column="4" />
+      <File FileName="test\DocumentControllerTest.cs" Line="312" Column="4" />
+      <File FileName="wordbuilderbase\UIHelpers\IWarningViewHelper.cs" Line="21" Column="1" />
+      <File FileName="wordbuilderbase\Controller\DocumentController.cs" Line="144" Column="5" />
+      <File FileName="..\gtkwordbuilder\UIHelpers\GtkResultViewHelper.cs" Line="51" Column="1" />
+      <File FileName="test\TokenSetTest.cs" Line="16" Column="1" />
+      <File FileName="test\ContextTest.cs" Line="14" Column="1" />
+      <File FileName="test\RuleTest.cs" Line="14" Column="29" />
+      <File FileName="test\GeneratorControllerTest.cs" Line="22" Column="15" />
+      <File FileName="..\gtkwordbuilder\MainWindow.cs" Line="20" Column="3" />
+      <File FileName="..\gtkwordbuilder\UIHelpers\GtkWarningViewHelper.cs" Line="44" Column="44" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="gtkwordbuilder" expanded="True" selected="True">
+          <Node name="gtkwordbuilder" expanded="True">
             <Node name="References" expanded="True" />
-            <Node name="Controller" expanded="True" />
+            <Node name="UserInterface" expanded="True">
+              <Node name="MainWindow" expanded="True" />
+            </Node>
+            <Node name="UIHelpers" expanded="True" />
           </Node>
-          <Node name="monowordbuilder" expanded="True">
-            <Node name="References" expanded="True" />
-          </Node>
-          <Node name="Packages" expanded="True" />
+          <Node name="monowordbuilder" expanded="True" />
           <Node name="test" expanded="True" />
+          <Node name="wordbuilderbase" expanded="True">
+            <Node name="Controller" expanded="True">
+              <Node name="DocumentController.cs" selected="True" />
+            </Node>
+            <Node name="UIHelpers" expanded="True" />
+          </Node>
         </State>
       </Pad>
       <Pad Id="ClassPad">
-        <State expanded="True" selected="True" />
+        <State expanded="True">
+          <Node name="gtkwordbuilder" expanded="True" />
+          <Node name="wordbuilderbase" expanded="True" />
+        </State>
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
         <State />
       </Pad>
       <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State expanded="True" selected="True" />
+        <State expanded="True" selected="True">
+          <Node name="test" expanded="True">
+            <Node name="test" expanded="True" />
+          </Node>
+        </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

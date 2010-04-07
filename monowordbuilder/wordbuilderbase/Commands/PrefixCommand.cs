@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Whee.WordBuilder.Project.Commands
+namespace Whee.WordBuilder.Model.Commands
 {
 	[Highlight(RegEx = "^\\s*prefix ", Color = "Green")]
 	public class PrefixCommand : CommandBase

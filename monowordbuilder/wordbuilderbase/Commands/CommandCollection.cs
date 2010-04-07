@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace Whee.WordBuilder.Project.Commands
+namespace Whee.WordBuilder.Model.Commands
 {
 	public class CommandCollection : System.Collections.ObjectModel.Collection<CommandBase>
 	{

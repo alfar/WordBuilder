@@ -11,7 +11,7 @@
 using NUnit.Framework;
 using System;
 using NUnit.Mocks;
-using Whee.WordBuilder.Project;
+using Whee.WordBuilder.Model;
 using Whee.WordBuilder.Helpers;
 
 namespace test

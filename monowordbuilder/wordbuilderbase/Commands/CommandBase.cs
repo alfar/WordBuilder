@@ -1,8 +1,8 @@
 using System;
 using System.IO;
-using Whee.WordBuilder.Project;
+using Whee.WordBuilder.Model;
 
-namespace Whee.WordBuilder.Project.Commands
+namespace Whee.WordBuilder.Model.Commands
 {
 	public abstract class CommandBase
 	{

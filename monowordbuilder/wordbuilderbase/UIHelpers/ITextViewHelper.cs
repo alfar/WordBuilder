@@ -17,6 +17,7 @@ namespace Whee.WordBuilder.UIHelpers
 	{
 		void Clear();
 		void OnDocumentChanged(Object sender, string newText);
+		void GotoLine(int linenumber);
 		event EventHandler<Whee.WordBuilder.Model.Events.DocumentChangedEventArgs> BufferChanged;
 	}
 }

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Whee.WordBuilder.Project.Commands
+namespace Whee.WordBuilder.Model.Commands
 {
 	[Highlight(RegEx = "^\\s*apply \\\\\\{", Color = "Green", NextLevel = 4)]
 	[CloneHighlighting(1, 4)]
@@ -52,7 +52,7 @@ namespace Whee.WordBuilder.Project.Commands
 	
 			List<string> parts = ProjectSerializer.ReadTokens(line);
 	
-			if (parts[0] != "{") {
+			if (parts[parts.Count - 1] != "{") {
 				project.Warnings.Add(string.Format("Line {0}: The Apply command requires a {{ at the end of the line.", lineNumber));
 			}
 			else {

@@ -12,14 +12,13 @@ using System;
 using Whee.WordBuilder.Model;
 using Whee.WordBuilder.Model.Events;
 using Whee.WordBuilder.Helpers;
-using Whee.WordBuilder.Project;
 using Whee.WordBuilder.UIHelpers;
 
 namespace Whee.WordBuilder.Controller
 {
 	public class DocumentController
 	{
-		public DocumentController (IFileSystem fileSystem, IFileDialogHelper fileDialogHelper, ITextViewHelper textView, Document model)
+		public DocumentController (IWarningViewHelper warningViewHelper, IFileSystem fileSystem, IFileDialogHelper fileDialogHelper, ITextViewHelper textView, Document model)
 		{
 			m_FileDialogHelper = fileDialogHelper;
 			m_FileSystem = fileSystem;
@@ -27,6 +26,13 @@ namespace Whee.WordBuilder.Controller
 			m_textView.BufferChanged += HandleM_textViewBufferChanged;
 			m_model = model;
 			m_model.DocumentChanged += HandleM_modelDocumentChanged;
+			m_WarningViewHelper = warningViewHelper;
+			m_WarningViewHelper.WarningActivated += HandleM_WarningViewHelperWarningActivated;
+		}
+
+		void HandleM_WarningViewHelperWarningActivated (object sender, WarningEventArgs e)
+		{
+			GotoLine(e.LineNumber - 1);
 		}
 
 		void HandleM_textViewBufferChanged (object sender, DocumentChangedEventArgs e)
@@ -48,7 +54,8 @@ namespace Whee.WordBuilder.Controller
 				m_updating = false;				
 			}
 		}
-		
+
+		private IWarningViewHelper m_WarningViewHelper;
 		private IFileSystem m_FileSystem;
 		private IFileDialogHelper m_FileDialogHelper;
 		private ITextViewHelper m_textView;
@@ -71,6 +78,11 @@ namespace Whee.WordBuilder.Controller
 			m_updating = true;
 			m_model.Text = newText;
 			m_updating = false;
+		}
+
+		public void GotoLine(int linenumber)
+		{
+			m_textView.GotoLine(linenumber);
 		}
 		
 		public void Save()
@@ -132,9 +144,24 @@ namespace Whee.WordBuilder.Controller
 			return result;
 		}
 		
-		public Whee.WordBuilder.Project.Project Compile()
+		public Whee.WordBuilder.Model.Project Compile()
 		{
-			return ProjectSerializer.LoadProjectString(m_model.Text);
+			Project result = ProjectSerializer.LoadProjectString(m_model.Text);
+			
+			m_WarningViewHelper.Clear();
+			foreach(string warning in result.Warnings)
+			{
+				m_WarningViewHelper.AddWarning(warning);
+			}
+		
+			if (0 == result.Warnings.Count)
+			{
+				return result;
+			}
+			else
+			{
+				return null;
+			}
 		}
 	}
 }

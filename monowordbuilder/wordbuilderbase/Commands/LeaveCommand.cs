@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Whee.WordBuilder.Project.Commands
+namespace Whee.WordBuilder.Model.Commands
 {
 	[Highlight(RegEx = "^\\s*leave ", Color = "Green")]
 	public class LeaveCommand : CommandBase

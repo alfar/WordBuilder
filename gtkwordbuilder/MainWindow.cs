@@ -12,8 +12,8 @@ public partial class MainWindow : Gtk.Window
 	{
 		Build();
 		
-		m_DocumentController = new DocumentController(new FileSystem(), new FileDialogHelper(), new GtkTextViewHelper(this.codeTextview), new Document());
-		m_GeneratorController = new GeneratorController(new ResultViewHelper(resultsTreeview), new ClipBoardHelper());
+		m_DocumentController = new DocumentController(new GtkWarningViewHelper(warningsScrolledWindow, warningsTreeView), new FileSystem(), new FileDialogHelper(), new GtkTextViewHelper(this.codeTextview), new Document());
+		m_GeneratorController = new GeneratorController(new GtkResultViewHelper(resultsTreeview), new ClipBoardHelper(), new GtkTextViewHelper(this.detailsTextview));
 	}
 
 	protected SaveCheckDialogResult Quit()

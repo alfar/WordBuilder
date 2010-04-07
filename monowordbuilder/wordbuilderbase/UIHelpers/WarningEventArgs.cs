@@ -9,17 +9,20 @@
 //------------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-
-using Whee.WordBuilder.Model;
 
 namespace Whee.WordBuilder.UIHelpers
 {
-	public interface IResultViewHelper
+
+	public class WarningEventArgs : EventArgs
 	{
-		void Clear();
-		void AddItem(Context context);
-		List<Context> GetSelectedItems();
-		event EventHandler<EventArgs> SelectionChanged;
+		public WarningEventArgs (int linenumber)
+		{
+			LineNumber = linenumber;
+		}
+		
+		public int LineNumber {
+			get;
+			set;
+		}
 	}
 }

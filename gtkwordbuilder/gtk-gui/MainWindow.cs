@@ -36,9 +36,13 @@ public partial class MainWindow {
     
     private Gtk.Action CopySelectedAction;
     
+    private Gtk.Action CopyDescriptionsAction;
+    
     private Gtk.VBox mainVBox;
     
     private Gtk.MenuBar mainMenuBar;
+    
+    private Gtk.VPaned vpaned2;
     
     private Gtk.HPaned mainHPanes;
     
@@ -46,9 +50,19 @@ public partial class MainWindow {
     
     private Gtk.TextView codeTextview;
     
+    private Gtk.VPaned resultVPanes;
+    
     private Gtk.ScrolledWindow GtkScrolledWindow;
     
     private Gtk.TreeView resultsTreeview;
+    
+    private Gtk.ScrolledWindow GtkScrolledWindow2;
+    
+    private Gtk.TextView detailsTextview;
+    
+    private Gtk.ScrolledWindow warningsScrolledWindow;
+    
+    private Gtk.TreeView warningsTreeView;
     
     protected virtual void Build() {
         Stetic.Gui.Initialize(this);
@@ -87,7 +101,10 @@ public partial class MainWindow {
         w1.Add(this.ClearAction, "<Control><Alt>l");
         this.CopySelectedAction = new Gtk.Action("CopySelectedAction", "Copy selected", null, null);
         this.CopySelectedAction.ShortLabel = "Copy selected";
-        w1.Add(this.CopySelectedAction, null);
+        w1.Add(this.CopySelectedAction, "<Control>j");
+        this.CopyDescriptionsAction = new Gtk.Action("CopyDescriptionsAction", "Copy descriptions", null, null);
+        this.CopyDescriptionsAction.ShortLabel = "Copy descriptions";
+        w1.Add(this.CopyDescriptionsAction, "<Control><Alt>j");
         this.UIManager.InsertActionGroup(w1, 0);
         this.AddAccelGroup(this.UIManager.AccelGroup);
         this.Name = "MainWindow";
@@ -99,7 +116,7 @@ public partial class MainWindow {
         this.mainVBox.Name = "mainVBox";
         this.mainVBox.Spacing = 6;
         // Container child mainVBox.Gtk.Box+BoxChild
-        this.UIManager.AddUiFromString(@"<ui><menubar name='mainMenuBar'><menu name='FileAction' action='FileAction'><menuitem name='newAction' action='newAction'/><menuitem name='openAction' action='openAction'/><separator/><menuitem name='saveAction' action='saveAction'/><menuitem name='saveAsAction' action='saveAsAction'/><separator/><menuitem name='quitAction' action='quitAction'/></menu><menu name='WordsAction' action='WordsAction'><menuitem name='GenerateAction' action='GenerateAction'/><menuitem name='ClearAndGenerateAction' action='ClearAndGenerateAction'/><menuitem name='ClearAction' action='ClearAction'/><separator/><menuitem name='CopySelectedAction' action='CopySelectedAction'/></menu></menubar></ui>");
+        this.UIManager.AddUiFromString(@"<ui><menubar name='mainMenuBar'><menu name='FileAction' action='FileAction'><menuitem name='newAction' action='newAction'/><menuitem name='openAction' action='openAction'/><separator/><menuitem name='saveAction' action='saveAction'/><menuitem name='saveAsAction' action='saveAsAction'/><separator/><menuitem name='quitAction' action='quitAction'/></menu><menu name='WordsAction' action='WordsAction'><menuitem name='GenerateAction' action='GenerateAction'/><menuitem name='ClearAndGenerateAction' action='ClearAndGenerateAction'/><menuitem name='ClearAction' action='ClearAction'/><separator/><menuitem name='CopySelectedAction' action='CopySelectedAction'/><menuitem name='CopyDescriptionsAction' action='CopyDescriptionsAction'/></menu></menubar></ui>");
         this.mainMenuBar = ((Gtk.MenuBar)(this.UIManager.GetWidget("/mainMenuBar")));
         this.mainMenuBar.Name = "mainMenuBar";
         this.mainVBox.Add(this.mainMenuBar);
@@ -108,6 +125,11 @@ public partial class MainWindow {
         w2.Expand = false;
         w2.Fill = false;
         // Container child mainVBox.Gtk.Box+BoxChild
+        this.vpaned2 = new Gtk.VPaned();
+        this.vpaned2.CanFocus = true;
+        this.vpaned2.Name = "vpaned2";
+        this.vpaned2.Position = 199;
+        // Container child vpaned2.Gtk.Paned+PanedChild
         this.mainHPanes = new Gtk.HPaned();
         this.mainHPanes.CanFocus = true;
         this.mainHPanes.Name = "mainHPanes";
@@ -125,6 +147,11 @@ public partial class MainWindow {
         Gtk.Paned.PanedChild w4 = ((Gtk.Paned.PanedChild)(this.mainHPanes[this.GtkScrolledWindow1]));
         w4.Resize = false;
         // Container child mainHPanes.Gtk.Paned+PanedChild
+        this.resultVPanes = new Gtk.VPaned();
+        this.resultVPanes.CanFocus = true;
+        this.resultVPanes.Name = "resultVPanes";
+        this.resultVPanes.Position = 127;
+        // Container child resultVPanes.Gtk.Paned+PanedChild
         this.GtkScrolledWindow = new Gtk.ScrolledWindow();
         this.GtkScrolledWindow.Name = "GtkScrolledWindow";
         this.GtkScrolledWindow.ShadowType = ((Gtk.ShadowType)(1));
@@ -133,16 +160,45 @@ public partial class MainWindow {
         this.resultsTreeview.CanFocus = true;
         this.resultsTreeview.Name = "resultsTreeview";
         this.GtkScrolledWindow.Add(this.resultsTreeview);
-        this.mainHPanes.Add(this.GtkScrolledWindow);
-        this.mainVBox.Add(this.mainHPanes);
-        Gtk.Box.BoxChild w7 = ((Gtk.Box.BoxChild)(this.mainVBox[this.mainHPanes]));
-        w7.Position = 1;
+        this.resultVPanes.Add(this.GtkScrolledWindow);
+        Gtk.Paned.PanedChild w6 = ((Gtk.Paned.PanedChild)(this.resultVPanes[this.GtkScrolledWindow]));
+        w6.Resize = false;
+        // Container child resultVPanes.Gtk.Paned+PanedChild
+        this.GtkScrolledWindow2 = new Gtk.ScrolledWindow();
+        this.GtkScrolledWindow2.Name = "GtkScrolledWindow2";
+        this.GtkScrolledWindow2.ShadowType = ((Gtk.ShadowType)(1));
+        // Container child GtkScrolledWindow2.Gtk.Container+ContainerChild
+        this.detailsTextview = new Gtk.TextView();
+        this.detailsTextview.CanFocus = true;
+        this.detailsTextview.Name = "detailsTextview";
+        this.detailsTextview.Editable = false;
+        this.detailsTextview.AcceptsTab = false;
+        this.GtkScrolledWindow2.Add(this.detailsTextview);
+        this.resultVPanes.Add(this.GtkScrolledWindow2);
+        this.mainHPanes.Add(this.resultVPanes);
+        this.vpaned2.Add(this.mainHPanes);
+        Gtk.Paned.PanedChild w10 = ((Gtk.Paned.PanedChild)(this.vpaned2[this.mainHPanes]));
+        w10.Resize = false;
+        // Container child vpaned2.Gtk.Paned+PanedChild
+        this.warningsScrolledWindow = new Gtk.ScrolledWindow();
+        this.warningsScrolledWindow.Name = "warningsScrolledWindow";
+        this.warningsScrolledWindow.ShadowType = ((Gtk.ShadowType)(1));
+        // Container child warningsScrolledWindow.Gtk.Container+ContainerChild
+        this.warningsTreeView = new Gtk.TreeView();
+        this.warningsTreeView.CanFocus = true;
+        this.warningsTreeView.Name = "warningsTreeView";
+        this.warningsScrolledWindow.Add(this.warningsTreeView);
+        this.vpaned2.Add(this.warningsScrolledWindow);
+        this.mainVBox.Add(this.vpaned2);
+        Gtk.Box.BoxChild w13 = ((Gtk.Box.BoxChild)(this.mainVBox[this.vpaned2]));
+        w13.Position = 1;
         this.Add(this.mainVBox);
         if ((this.Child != null)) {
             this.Child.ShowAll();
         }
-        this.DefaultWidth = 400;
-        this.DefaultHeight = 300;
+        this.DefaultWidth = 538;
+        this.DefaultHeight = 411;
+        this.warningsScrolledWindow.Hide();
         this.Show();
         this.newAction.Activated += new System.EventHandler(this.OnNewActionActivated);
         this.openAction.Activated += new System.EventHandler(this.OnOpenActionActivated);
@@ -153,5 +209,6 @@ public partial class MainWindow {
         this.ClearAndGenerateAction.Activated += new System.EventHandler(this.OnClearAndGenerateActionActivated);
         this.ClearAction.Activated += new System.EventHandler(this.OnClearActionActivated);
         this.CopySelectedAction.Activated += new System.EventHandler(this.OnCopySelectedActionActivated);
+        this.CopyDescriptionsAction.Activated += new System.EventHandler(this.OnCopyDescriptionsActionActivated);
     }
 }

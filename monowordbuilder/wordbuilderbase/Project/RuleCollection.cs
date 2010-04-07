@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Whee.WordBuilder.Helpers;
 
-namespace Whee.WordBuilder.Project
+namespace Whee.WordBuilder.Model
 {
 	public class RuleCollection : System.Collections.ObjectModel.Collection<Rule>
 	{

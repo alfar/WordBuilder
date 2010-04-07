@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Whee.WordBuilder.Project
+namespace Whee.WordBuilder.Model
 {
 	public class Context
 	{

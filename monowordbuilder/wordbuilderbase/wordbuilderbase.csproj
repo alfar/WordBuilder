@@ -76,6 +76,8 @@
     <Compile Include="Controller\GeneratorController.cs" />
     <Compile Include="UIHelpers\IResultViewHelper.cs" />
     <Compile Include="UIHelpers\IClipBoardHelper.cs" />
+    <Compile Include="UIHelpers\IWarningViewHelper.cs" />
+    <Compile Include="UIHelpers\WarningEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

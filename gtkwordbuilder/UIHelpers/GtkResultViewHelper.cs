@@ -10,17 +10,18 @@
 
 using System;
 using System.Collections.Generic;
-using Whee.WordBuilder.Project;
+using Whee.WordBuilder.Model;
 using Whee.WordBuilder.UIHelpers;
 using Gtk;
 
 namespace Whee.WordBuilder.UIHelpers
 {
-	public class ResultViewHelper : IResultViewHelper
+	public class GtkResultViewHelper : IResultViewHelper
 	{
-		public ResultViewHelper(TreeView resultsTreeView)
+		public GtkResultViewHelper(TreeView resultsTreeView)
 		{
 			m_ResultsTreeView = resultsTreeView;
+			m_ResultsTreeView.Selection.Changed += HandleM_ResultsTreeViewSelectionChanged;
 			m_ResultsTreeView.Selection.Mode = SelectionMode.Multiple;
 			
 			TreeViewColumn wordCol = new TreeViewColumn();
@@ -37,6 +38,14 @@ namespace Whee.WordBuilder.UIHelpers
 			m_ResultsTreeView.Model = m_Results;
 		}
 
+		void HandleM_ResultsTreeViewSelectionChanged(object sender, EventArgs e)
+		{
+			if (SelectionChanged != null)
+			{
+				SelectionChanged(this, EventArgs.Empty);
+			}			
+		}
+
 		private TreeView m_ResultsTreeView;
 		private ListStore m_Results;
 		
@@ -47,12 +56,12 @@ namespace Whee.WordBuilder.UIHelpers
 		}
 		
 		
-		public void AddItem (Whee.WordBuilder.Project.Context context)
+		public void AddItem (Context context)
 		{
 			m_Results.AppendValues(context, context.ToString());			
 		}
 				
-		public System.Collections.Generic.List<Whee.WordBuilder.Project.Context> GetSelectedItems ()
+		public System.Collections.Generic.List<Context> GetSelectedItems ()
 		{
 			List<Context> result = new List<Context>();
 			TreePath[] selected = m_ResultsTreeView.Selection.GetSelectedRows();
@@ -69,6 +78,7 @@ namespace Whee.WordBuilder.UIHelpers
 			return result;
 		}
 		
+		public event EventHandler<EventArgs> SelectionChanged;		
 		#endregion
 	}
 }

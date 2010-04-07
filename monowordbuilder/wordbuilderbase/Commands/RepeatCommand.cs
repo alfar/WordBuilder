@@ -1,5 +1,5 @@
 
-namespace Whee.WordBuilder.Project.Commands
+namespace Whee.WordBuilder.Model.Commands
 {
 	[Highlight(RegEx = "^\\s*repeat$", Color = "Green")]
 	public class RepeatCommand : CommandBase

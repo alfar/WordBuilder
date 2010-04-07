@@ -9,17 +9,13 @@
 //------------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-
-using Whee.WordBuilder.Model;
 
 namespace Whee.WordBuilder.UIHelpers
 {
-	public interface IResultViewHelper
+	public interface IWarningViewHelper
 	{
 		void Clear();
-		void AddItem(Context context);
-		List<Context> GetSelectedItems();
-		event EventHandler<EventArgs> SelectionChanged;
+		void AddWarning(string message);
+		event EventHandler<WarningEventArgs> WarningActivated;
 	}
 }

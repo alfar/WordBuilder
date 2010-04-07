@@ -1,6 +1,6 @@
 using System;
 
-namespace Whee.WordBuilder.Project.Commands
+namespace Whee.WordBuilder.Model.Commands
 {
 	public class CloneHighlightingAttribute : Attribute
 	{

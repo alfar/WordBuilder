@@ -10,7 +10,7 @@
 
 using NUnit.Framework;
 using System;
-using Whee.WordBuilder.Project;
+using Whee.WordBuilder.Model;
 
 namespace test
 {

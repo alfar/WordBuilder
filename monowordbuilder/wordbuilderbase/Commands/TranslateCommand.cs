@@ -4,7 +4,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Whee.WordBuilder.Project.Commands
+namespace Whee.WordBuilder.Model.Commands
 {
 	[Highlight(RegEx = "^\\s*translate \\\\\\{", Color = "Green", NextLevel = 2)]
 	[Highlight(RegEx = "#|=>", Color = "Red", Level = 2)]
