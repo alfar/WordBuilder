@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using Whee.WordBuilder.Controller;
 using Whee.WordBuilder.Helpers;
 using Whee.WordBuilder.UIHelpers;
+using Whee.WordBuilder.Exporters;
 using Whee.WordBuilder.Model;
 using Whee.WordBuilder.Model.Commands;
 
@@ -29,13 +30,15 @@ namespace test
 		[SetUp()]
 		public void Setup()
 		{
+			m_FileSystem = new DynamicMock(typeof(IFileSystem));
 			m_ClipBoardHelper = new DynamicMock(typeof(IClipBoardHelper));
 			m_ResultViewHelper = new DynamicMock(typeof(IResultViewHelper));
 			m_DetailsTextViewHelper = new DynamicMock(typeof(ITextViewHelper));
-			m_ExportHelper = new DynamicMock(typeof(IExportHelper));
-			m_GeneratorController = new GeneratorController((IResultViewHelper)m_ResultViewHelper.MockInstance, (IClipBoardHelper)m_ClipBoardHelper.MockInstance, (ITextViewHelper)m_DetailsTextViewHelper.MockInstance);			
+			m_ExportHelper = new DynamicMock(typeof(IExporter));
+			m_GeneratorController = new GeneratorController((IFileSystem)m_FileSystem.MockInstance, (IResultViewHelper)m_ResultViewHelper.MockInstance, (IClipBoardHelper)m_ClipBoardHelper.MockInstance, (ITextViewHelper)m_DetailsTextViewHelper.MockInstance);			
 		}
 		
+		private DynamicMock m_FileSystem;
 		private DynamicMock m_ExportHelper;
 		private DynamicMock m_DetailsTextViewHelper;
 		private DynamicMock m_ResultViewHelper;
@@ -236,9 +239,9 @@ namespace test
 			selected.Add(result);
 			
 			m_ResultViewHelper.ExpectAndReturn("GetAllItems", selected);
-			m_ExportHelper.Expect("Export", selected);
+			m_ExportHelper.Expect("Export");
 			
-			m_GeneratorController.Export((IExportHelper)m_ExportHelper.MockInstance);
+			m_GeneratorController.Export((IExporter)m_ExportHelper.MockInstance, @"c:\abc.csv");
 					
 			m_ResultViewHelper.Verify();
 			m_ExportHelper.Verify();

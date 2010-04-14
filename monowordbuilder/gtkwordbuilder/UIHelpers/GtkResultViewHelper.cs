@@ -83,7 +83,8 @@ namespace Whee.WordBuilder.UIHelpers
 			List<Context> result = new List<Context>();
 			
 			TreeIter iter;
-			for (m_Results.GetIterFirst(out iter); m_Results.IterNext(ref iter);)
+
+			for (bool run = m_Results.GetIterFirst(out iter); run; run = m_Results.IterNext(ref iter))
 			{
 				Context context = (Context)m_ResultsTreeView.Model.GetValue(iter, 0);
 				

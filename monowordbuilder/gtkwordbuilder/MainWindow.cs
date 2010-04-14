@@ -5,6 +5,7 @@ using Whee.WordBuilder.Controller;
 using Whee.WordBuilder.Model;
 using Whee.WordBuilder.Helpers;
 using Whee.WordBuilder.UIHelpers;
+using Whee.WordBuilder.Dialogs;
 
 public partial class MainWindow : Gtk.Window
 {
@@ -13,7 +14,7 @@ public partial class MainWindow : Gtk.Window
 		Build();
 		
 		m_DocumentController = new DocumentController(new GtkWarningViewHelper(warningsScrolledWindow, warningsTreeView), new FileSystem(), new FileDialogHelper(), new GtkTextViewHelper(this.codeTextview), new Document());
-		m_GeneratorController = new GeneratorController(new GtkResultViewHelper(resultsTreeview), new ClipBoardHelper(), new GtkTextViewHelper(this.detailsTextview));
+		m_GeneratorController = new GeneratorController(new FileSystem(), new GtkResultViewHelper(resultsTreeview), new ClipBoardHelper(), new GtkTextViewHelper(this.detailsTextview));
 	}
 
 	protected SaveCheckDialogResult Quit()
@@ -86,6 +87,18 @@ public partial class MainWindow : Gtk.Window
 	protected virtual void OnCopyDescriptionsActionActivated (object sender, System.EventArgs e)
 	{
 		m_GeneratorController.CopyDescription();
+	}
+	
+	protected virtual void OnExportActionActivated (object sender, System.EventArgs e)
+	{
+		ExportDialog dlg = new ExportDialog();
+		
+		if (dlg.Run() == (int)ResponseType.Ok)
+		{
+			m_GeneratorController.Export(dlg.GetExporter(), dlg.GetFilename());
+		}
+
+		dlg.Destroy();
 	}
 	
 	private DocumentController m_DocumentController;

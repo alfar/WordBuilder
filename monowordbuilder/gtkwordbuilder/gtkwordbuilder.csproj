@@ -53,7 +53,7 @@
     <Compile Include="UIHelpers\ClipBoardHelper.cs" />
     <Compile Include="UIHelpers\GtkWarningViewHelper.cs" />
     <Compile Include="ExportDialog.cs" />
-    <Compile Include="gtk-gui\ExportDialog.cs" />
+    <Compile Include="gtk-gui\Whee.WordBuilder.Dialogs.ExportDialog.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

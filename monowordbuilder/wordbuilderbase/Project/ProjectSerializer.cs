@@ -49,8 +49,7 @@ namespace Whee.WordBuilder.Model
 			return result;
 		}
 	
-		public static bool ReadLines(object context, TextReader reader, LineParserDelegate parser, [System.Runtime.InteropServices.OptionalAttribute, System.Runtime.InteropServices.DefaultParameterValueAttribute(0)] ref  // ERROR: Optional parameters aren't supported in C#
-	int lineNumber)
+		public static bool ReadLines(object context, TextReader reader, LineParserDelegate parser, ref int lineNumber)
 		{
 			string line = reader.ReadLine();
 			while (line != null) {

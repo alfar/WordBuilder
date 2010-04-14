@@ -37,6 +37,6 @@ Global
 		{CD4D4718-76EA-460F-8519-2DC7C86AF117}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = monowordbuilder.csproj
+		StartupItem = gtkwordbuilder\gtkwordbuilder.csproj
 	EndGlobalSection
 EndGlobal

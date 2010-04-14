@@ -1,24 +1,34 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" ctype="Workspace" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="test/ContextTest.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="test\CsvExporterTest.cs" ctype="Workbench">
     <Files>
-      <File FileName="Main.cs" Line="29" Column="20" />
-      <File FileName="wordbuilderbase/Controller/GeneratorController.cs" Line="1" Column="1" />
-      <File FileName="test/DocumentControllerTest.cs" Line="142" Column="1" />
-      <File FileName="wordbuilderbase/Controller/DocumentController.cs" Line="113" Column="1" />
-      <File FileName="wordbuilderbase/Model/Document.cs" Line="29" Column="5" />
-      <File FileName="test/ContextTest.cs" Line="97" Column="1" />
+      <File FileName="Main.cs" Line="1" Column="1" />
+      <File FileName="wordbuilderbase\Controller\GeneratorController.cs" Line="105" Column="58" />
+      <File FileName="test\DocumentControllerTest.cs" Line="287" Column="1" />
+      <File FileName="wordbuilderbase\Controller\DocumentController.cs" Line="1" Column="1" />
+      <File FileName="wordbuilderbase\Model\Document.cs" Line="1" Column="1" />
+      <File FileName="test\ContextTest.cs" Line="1" Column="1" />
+      <File FileName="gtkwordbuilder\ExportDialog.cs" Line="20" Column="16" />
+      <File FileName="test\CsvExporterTest.cs" Line="55" Column="3" />
+      <File FileName="wordbuilderbase\Helpers\IExporter.cs" Line="9" Column="46" />
+      <File FileName="test\GeneratorControllerTest.cs" Line="244" Column="1" />
+      <File FileName="gtkwordbuilder\MainWindow.cs" Line="98" Column="41" />
+      <File FileName="wordbuilderbase\Exporters\CsvExporter.cs" Line="20" Column="37" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="gtkwordbuilder" expanded="True" />
+          <Node name="gtkwordbuilder" expanded="True">
+            <Node name="UserInterface" expanded="True" />
+          </Node>
           <Node name="monowordbuilder" expanded="True" />
           <Node name="test" expanded="True">
-            <Node name="ContextTest.cs" selected="True" />
+            <Node name="CsvExporterTest.cs" selected="True" />
           </Node>
           <Node name="wordbuilderbase" expanded="True">
             <Node name="Controller" expanded="True" />
+            <Node name="Exporters" expanded="True" />
+            <Node name="Helpers" expanded="True" />
             <Node name="Model" expanded="True" />
           </Node>
         </State>
@@ -28,9 +38,6 @@
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
         <State />
-      </Pad>
-      <Pad Id="ConnectionManagerPad">
-        <State expanded="True" selected="True" />
       </Pad>
       <Pad Id="MonoDevelop.NUnit.TestPad">
         <State expanded="True" selected="True" />

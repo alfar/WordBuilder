@@ -42,6 +42,7 @@
     <Compile Include="ContextTest.cs" />
     <Compile Include="RuleTest.cs" />
     <Compile Include="GeneratorControllerTest.cs" />
+    <Compile Include="CsvExporterTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\wordbuilderbase\wordbuilderbase.csproj">

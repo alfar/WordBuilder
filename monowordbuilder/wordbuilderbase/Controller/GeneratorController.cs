@@ -15,13 +15,15 @@ using System.Collections.Generic;
 using Whee.WordBuilder.Model;
 using Whee.WordBuilder.Helpers;
 using Whee.WordBuilder.UIHelpers;
+using Whee.WordBuilder.Exporters;
 
 namespace Whee.WordBuilder.Controller
 {
 	public class GeneratorController
 	{
-		public GeneratorController(IResultViewHelper resultViewHelper, IClipBoardHelper clipBoardHelper, ITextViewHelper detailsTextViewHelper)
+		public GeneratorController(IFileSystem fileSystem, IResultViewHelper resultViewHelper, IClipBoardHelper clipBoardHelper, ITextViewHelper detailsTextViewHelper)
 		{
+			m_FileSystem = fileSystem;
 			m_ResultViewHelper = resultViewHelper;
 			m_ResultViewHelper.SelectionChanged += HandleM_ResultViewHelperSelectionChanged;
 			m_ClipBoardHelper = clipBoardHelper;
@@ -33,6 +35,7 @@ namespace Whee.WordBuilder.Controller
 			OnTreeViewSelectionChanged(m_ResultViewHelper.GetSelectedItems());
 		}
 		
+		private IFileSystem m_FileSystem;
 		private IResultViewHelper m_ResultViewHelper;
 		private IClipBoardHelper m_ClipBoardHelper;
 		private ITextViewHelper m_DetailsTextViewHelper;
@@ -98,9 +101,9 @@ namespace Whee.WordBuilder.Controller
 			m_DetailsTextViewHelper.OnDocumentChanged(this, RenderContexts(items, DescriptionRenderer));
 		}
 		
-		public void Export(IExportHelper exporter)
+		public void Export(IExporter exporter, string path)
 		{
-			exporter.Export(m_ResultViewHelper.GetAllItems());
+			exporter.Export(m_ResultViewHelper.GetAllItems(), path, m_FileSystem);
 		}
 	}
 }

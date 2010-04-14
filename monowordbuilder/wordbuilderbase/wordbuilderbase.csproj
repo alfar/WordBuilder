@@ -78,11 +78,14 @@
     <Compile Include="UIHelpers\IClipBoardHelper.cs" />
     <Compile Include="UIHelpers\IWarningViewHelper.cs" />
     <Compile Include="UIHelpers\WarningEventArgs.cs" />
-    <Compile Include="Helpers\IExportHelper.cs" />
+    <Compile Include="Exporters\CsvExporter.cs" />
+    <Compile Include="Exporters\ExporterFactory.cs" />
+    <Compile Include="Exporters\IExporter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Model\Events\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Exporters\" />
   </ItemGroup>
 </Project>
