@@ -154,6 +154,59 @@ namespace test
 		}
 		
 		[Test()]
+		public void TestColumns()
+		{
+			m_ResultViewHelper.Expect("AddColumn", "Determinate", "!Test");
+			
+			for (int i = 0; i < 10; i++) {
+				m_ResultViewHelper.Expect("AddItem");				
+			}
+			
+			DynamicMock random = new DynamicMock(typeof(IRandom));
+			Project project = new Project((IRandom)random.MockInstance);
+			
+			Rule rule = new Rule();
+			
+			rule.Name = "test";
+			rule.Probability = 1.0;
+			rule.LineNumber = 1;
+			
+			LiteralCommand a = new LiteralCommand();
+			a.Literal = "a";
+			rule.Commands.Add(a);
+
+			Rule rule2 = new Rule();
+			
+			rule2.Name = "test2";
+			rule2.Probability = 1.0;
+			rule2.LineNumber = 1;
+			
+			LiteralCommand b= new LiteralCommand();
+			b.Literal = "b";
+			rule2.Commands.Add(b);
+
+			project.Rules.Add(rule);
+			project.Rules.Add(rule2);
+			
+			MarkCommand m = new MarkCommand();
+			m.Name = "Test";
+			m.Value = "yes";
+			
+			rule2.Commands.Add(m);
+			
+			project.StartRules.Add("test", 5);
+			project.StartRules.Add("test2", 5);
+			
+			project.Columns.Add("Determinate", "!Test");
+			
+			
+			m_GeneratorController.Generate(project);
+
+			Assert.AreEqual(2, project.StartRules.Count);
+			m_ResultViewHelper.Verify();			
+		}
+		
+		[Test()]
 		public void TestCopy()
 		{
 			List<Context> selected = new List<Context>();

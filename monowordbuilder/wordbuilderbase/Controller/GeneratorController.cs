@@ -53,6 +53,10 @@ namespace Whee.WordBuilder.Controller
 					project.StartRules.Add("root", 100);
 				}
 				
+				foreach (string col in project.Columns.Keys) {
+					m_ResultViewHelper.AddColumn(col, project.Columns[col]);
+				}
+				
 				foreach (string ruleiter in project.StartRules.Keys) {
 					for (int c = 1; c <= project.StartRules[ruleiter]; c++) {
 						Context item = project.GetWord(ruleiter);

@@ -96,7 +96,7 @@ namespace Whee.WordBuilder.Model
 				if (Marks.ContainsKey (mark)) {
 					return Marks[mark];
 				}
-			} else if (parts[0].StartsWith ("*")) {
+			} else if (parts[0].StartsWith ("*") && project != null) {
 				Rule r = project.Rules.GetRuleByName (parts[0].Substring (1));
 				
 				Context c = new Context ();

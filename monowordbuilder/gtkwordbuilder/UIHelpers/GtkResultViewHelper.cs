@@ -20,6 +20,7 @@ namespace Whee.WordBuilder.UIHelpers
 	{
 		public GtkResultViewHelper(TreeView resultsTreeView)
 		{
+			m_Columns = new Dictionary<string, string>();
 			m_ResultsTreeView = resultsTreeView;
 			m_ResultsTreeView.Selection.Changed += HandleM_ResultsTreeViewSelectionChanged;
 			m_ResultsTreeView.Selection.Mode = SelectionMode.Multiple;
@@ -53,12 +54,43 @@ namespace Whee.WordBuilder.UIHelpers
 		public void Clear ()
 		{
 			m_Results.Clear();
+			m_Columns.Clear();
+			ResetColumns();
 		}
+
+		private void ResetColumns()
+		{
+			List<TreeViewColumn> colstoremove = new List<TreeViewColumn>(m_ResultsTreeView.Columns);
+			
+			foreach (TreeViewColumn col in colstoremove)
+			{
+				m_ResultsTreeView.RemoveColumn(col);
+			}
+			
+			TreeViewColumn wordCol = new TreeViewColumn();
+			wordCol.Title = "Word";
+			
+			CellRendererText wordColRenderer = new CellRendererText();
+			wordCol.PackStart(wordColRenderer, true);
 		
+			wordCol.AddAttribute(wordColRenderer, "text", 1);
+		
+			m_ResultsTreeView.AppendColumn(wordCol);			
+		}
 		
 		public void AddItem (Context context)
 		{
-			m_Results.AppendValues(context, context.ToString());			
+			List<object> values = new List<object>();
+			
+			values.Add(context);
+			values.Add(context.ToString());
+			
+			foreach(string col in m_Columns.Keys)
+			{
+				values.Add(context.GetColumn(m_Columns[col], null));
+			}
+			
+			m_Results.AppendValues(values.ToArray());			
 		}
 				
 		public System.Collections.Generic.List<Context> GetSelectedItems ()
@@ -95,6 +127,60 @@ namespace Whee.WordBuilder.UIHelpers
 		}
 
 		public event EventHandler<EventArgs> SelectionChanged;		
+
+		private Dictionary<string, string> m_Columns;
+		
+		public void AddColumn (string title, string accessor)
+		{
+			m_Columns[title] = accessor;
+			
+			List<Context> items = new List<Context>();
+			TreeIter iter;
+			for (bool run = m_Results.GetIterFirst(out iter); run; run = m_Results.IterNext(ref iter))
+			{
+				items.Add((Context)m_Results.GetValue(iter, 0));
+			}
+			
+			List<Type> columns = new List<Type>();
+			columns.Add(typeof(Context));
+			columns.Add(typeof(string));
+
+			List<TreeViewColumn> viewColumns = new List<TreeViewColumn>();
+
+			ResetColumns();
+			
+			int i = 2;
+			foreach(string col in m_Columns.Keys)
+			{
+				columns.Add(typeof(string));
+
+				TreeViewColumn wordCol = new TreeViewColumn();
+				wordCol.Title = col;
+				
+				CellRendererText wordColRenderer = new CellRendererText();
+				wordCol.PackStart(wordColRenderer, true);
+			
+				wordCol.AddAttribute(wordColRenderer, "text", i);
+				i++;
+			
+				viewColumns.Add(wordCol);
+			}
+			
+			m_Results.Dispose();
+			m_Results = new ListStore(columns.ToArray());
+			m_ResultsTreeView.Model = m_Results;
+			
+			foreach(TreeViewColumn wordCol in viewColumns)
+			{
+				m_ResultsTreeView.AppendColumn(wordCol);
+			}
+			
+			foreach (Context item in items)
+			{
+				AddItem(item);
+			}
+		}
+		
 		#endregion
 	}
 }

@@ -18,6 +18,7 @@ namespace Whee.WordBuilder.UIHelpers
 	public interface IResultViewHelper
 	{
 		void Clear();
+		void AddColumn(string title, string accessor);
 		void AddItem(Context context);
 		List<Context> GetSelectedItems();
 		List<Context> GetAllItems();
