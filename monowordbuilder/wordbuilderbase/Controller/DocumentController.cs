@@ -13,6 +13,7 @@ using Whee.WordBuilder.Model;
 using Whee.WordBuilder.Model.Events;
 using Whee.WordBuilder.Helpers;
 using Whee.WordBuilder.UIHelpers;
+using Whee.WordBuilder.ProjectV2;
 
 namespace Whee.WordBuilder.Controller
 {
@@ -41,8 +42,9 @@ namespace Whee.WordBuilder.Controller
 			{
 				m_updating = true;
 				m_model.Text = e.NewText;
-				m_updating = false;				
+				m_updating = false;
 			}
+            m_textView.DoHighlighting(GetProjectNode());
 		}
 
 		private void HandleM_modelDocumentChanged (object sender, DocumentChangedEventArgs e)
@@ -50,8 +52,8 @@ namespace Whee.WordBuilder.Controller
 			if (!m_updating) 
 			{
 				m_updating = true;
-				m_textView.OnDocumentChanged(this, e.NewText);
-				m_updating = false;				
+				m_textView.OnDocumentChanged(this, e.NewText, GetProjectNode());
+				m_updating = false;
 			}
 		}
 
@@ -143,25 +145,24 @@ namespace Whee.WordBuilder.Controller
 			
 			return result;
 		}
-		
-		public Whee.WordBuilder.Model.Project Compile()
-		{
-			Project result = ProjectSerializer.LoadProjectString(m_model.Text);
-			
-			m_WarningViewHelper.Clear();
-			foreach(string warning in result.Warnings)
-			{
-				m_WarningViewHelper.AddWarning(warning);
-			}
-		
-			if (0 == result.Warnings.Count)
-			{
-				return result;
-			}
-			else
-			{
-				return null;
-			}
-		}
+
+        public ProjectNode GetProjectNode()
+        {
+            m_WarningViewHelper.Clear();
+            return Whee.WordBuilder.ProjectV2.ProjectSerializer.LoadString(m_model.Text, null, m_WarningViewHelper) as ProjectNode;
+        }
+
+        public Project Compile()
+        {
+            ProjectNode project = GetProjectNode();
+            Project result = new Project(project);
+
+            if (!m_WarningViewHelper.HasWarnings)
+            {
+                return result;
+            }
+
+            return null;
+        }
 	}
 }

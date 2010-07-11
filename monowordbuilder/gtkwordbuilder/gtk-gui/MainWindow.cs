@@ -113,7 +113,7 @@ public partial class MainWindow {
         this.UIManager.InsertActionGroup(w1, 0);
         this.AddAccelGroup(this.UIManager.AccelGroup);
         this.Name = "MainWindow";
-        this.Title = "WordBuilder";
+        this.Title = "WordBuilder v3.0.0";
         this.Icon = Stetic.IconLoader.LoadIcon(this, "gtk-sort-ascending", Gtk.IconSize.Menu, 16);
         this.WindowPosition = ((Gtk.WindowPosition)(4));
         // Container child MainWindow.Gtk.Container+ContainerChild

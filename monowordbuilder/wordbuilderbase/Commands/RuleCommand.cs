@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Whee.WordBuilder.ProjectV2;
 
 namespace Whee.WordBuilder.Model.Commands
 {
@@ -31,17 +32,36 @@ namespace Whee.WordBuilder.Model.Commands
 				_Rule = parts[1];
 			}
 		}
+
+        public override void LoadCommand(Whee.WordBuilder.ProjectV2.IProjectSerializer serializer)
+        {
+            m_lineNumber = serializer.LineNumber;
+            Token name = serializer.ReadTextToken(this);
+
+            if (name != null)
+            {
+                name.Type = TokenType.Name;
+                Rule = name.Text;
+            }
+
+            if (serializer.ReadTextToken(this) != null)
+            {
+                serializer.Warn("The rule command requires 1 argument.");
+            }
+        }
 	
 		public override void WriteCommand(System.IO.TextWriter writer)
 		{
 			writer.WriteLine("Rule {0}", Rule);
 		}
-	
-		public override void CheckSanity(Project project)
-		{
-			if (project.Rules.GetRuleByName(Rule) == null) {
-				project.Warnings.Add(string.Format("Line {0}: The rule '{1}' does not exist.", LineNumber, Rule));
-			}
-		}
-	}
+
+        public override void CheckSanity(Project project, Whee.WordBuilder.ProjectV2.IProjectSerializer serializer)
+        {
+            m_project = project;
+            if (project.Rules.GetRuleByName(Rule) == null)
+            {
+                serializer.Warn(string.Format("Line {0}: The rule '{1}' does not exist.", LineNumber, Rule));
+            }
+        }
+    }
 }

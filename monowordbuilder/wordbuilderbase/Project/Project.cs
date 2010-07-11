@@ -1,16 +1,55 @@
 using System;
 using System.Collections.Generic;
 using Whee.WordBuilder.Helpers;
+using Whee.WordBuilder.ProjectV2;
 
 namespace Whee.WordBuilder.Model
 {
 	public class Project
 	{
-		public Project(IRandom random)
-		{
-			m_Random = random;
-			m_Rules = new RuleCollection(m_Random);
-		}
+        [Obsolete()]
+        public Project(IRandom random)
+        {
+            m_Random = random;
+            m_Rules = new RuleCollection(m_Random);
+        }
+        
+        public Project(ProjectNode root)
+        {
+            m_Random = root.Serializer.Random;
+            m_Rules = new RuleCollection(m_Random);
+
+            foreach (IProjectNode node in root.Children)
+            {
+                switch (node.NodeType)
+                {
+                    case ProjectNodeType.TokenSetDeclaration:
+                        this.TokenSets.Add(new TokenSet(node, m_Random));
+                        break;
+                    case ProjectNodeType.RuleDeclaration:
+                        this.Rules.Add(new Rule(node as RuleNode));
+                        break;
+                    case ProjectNodeType.StartingRuleDeclaration:
+                        StartingRuleNode srn = node as StartingRuleNode;
+                        this.StartRules.Add(srn.Name, srn.Amount);
+                        break;
+                    case ProjectNodeType.ColumnDeclaration:
+                        ColumnNode cn = node as ColumnNode;
+                        this.Columns.Add(cn.Title, cn.Expression);
+                        break;
+                    default:
+                        break;
+                }                
+            }
+
+            foreach (Rule r in this.Rules)
+            {
+                foreach (Whee.WordBuilder.Model.Commands.CommandBase c in r.Commands)
+                {
+                    c.CheckSanity(this, root.Serializer);
+                }
+            }
+        }
 		
 		private IRandom m_Random;
 
@@ -25,7 +64,7 @@ namespace Whee.WordBuilder.Model
 		}
 		
 		public TokenSet CreateTokenSet() {
-			return new TokenSet(m_Random);
+			return new TokenSet(null, m_Random);
 		}
 
 		private Dictionary<string, string> _columns = new Dictionary<string, string>();

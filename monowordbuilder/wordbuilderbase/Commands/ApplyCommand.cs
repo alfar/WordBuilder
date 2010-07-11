@@ -12,14 +12,7 @@ namespace Whee.WordBuilder.Model.Commands
 		public CommandCollection Commands {
 			get { return _commands; }
 		}
-	
-		public override void CheckSanity(Project project)
-		{
-			foreach (CommandBase cmd in Commands) {
-				cmd.CheckSanity(project);
-			}
-		}
-	
+		
 		public override void Execute(Context context)
 		{
 			List<Context> branchList = new List<Context>();
@@ -45,7 +38,28 @@ namespace Whee.WordBuilder.Model.Commands
 				Commands.Execute(c);
 			}
 		}
-	
+
+        public override void LoadCommand(Whee.WordBuilder.ProjectV2.IProjectSerializer serializer)
+        {
+            m_lineNumber = serializer.LineNumber;
+
+            ProjectV2.CommandBlockNode cbn = new ProjectV2.CommandBlockNode(serializer);
+
+            if (cbn.Commands.Count > 0)
+            {
+                Children.Add(cbn);
+
+                foreach (CommandBase cmd in cbn.Commands)
+                {
+                    Commands.Add(cmd);
+                }
+            }
+            else
+            {
+                serializer.Warn("The apply command expects a command block.");
+            }
+        }
+
 		public override void LoadCommand(Project project, System.IO.TextReader reader, string line, ref int lineNumber)
 		{
 			base.LoadCommand(project, reader, line, ref lineNumber);
@@ -76,5 +90,21 @@ namespace Whee.WordBuilder.Model.Commands
 			Commands.WriteCommands(writer);
 			writer.WriteLine("}");
 		}
-	}
+
+        public override void CheckSanity(Project project, Whee.WordBuilder.ProjectV2.IProjectSerializer serializer)
+        {
+            foreach (CommandBase cmd in Commands)
+            {
+                cmd.CheckSanity(project, serializer);
+            }
+        }
+
+        public override bool RequireNewLine
+        {
+            get
+            {
+                return false;
+            }
+        }
+    }
 }

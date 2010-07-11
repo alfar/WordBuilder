@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -31,12 +31,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MyClass.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Controller\DocumentController.cs" />
     <Compile Include="Model\Document.cs" />
+    <Compile Include="ProjectV2\BlockNodeBase.cs" />
+    <Compile Include="ProjectV2\ColumnNode.cs" />
+    <Compile Include="ProjectV2\WeightedCommandBlockNode.cs" />
+    <Compile Include="ProjectV2\TranslationBlockNode.cs" />
+    <Compile Include="ProjectV2\TranslationNode.cs" />
+    <Compile Include="ProjectV2\WeightedCommandNode.cs" />
     <Compile Include="UIHelpers\ITextViewHelper.cs" />
     <Compile Include="Model\Events\DocumentChangedEventArgs.cs" />
     <Compile Include="Helpers\IFileSystem.cs" />
@@ -81,11 +89,19 @@
     <Compile Include="Exporters\CsvExporter.cs" />
     <Compile Include="Exporters\ExporterFactory.cs" />
     <Compile Include="Exporters\IExporter.cs" />
+    <Compile Include="ProjectV2\ProjectNodeBase.cs" />
+    <Compile Include="ProjectV2\ProjectSerializer.cs" />
+    <Compile Include="ProjectV2\IProjectSerializer.cs" />
+    <Compile Include="ProjectV2\ProjectNodeType.cs" />
+    <Compile Include="ProjectV2\IProjectNode.cs" />
+    <Compile Include="ProjectV2\ProjectNode.cs" />
+    <Compile Include="ProjectV2\Token.cs" />
+    <Compile Include="ProjectV2\TokenType.cs" />
+    <Compile Include="ProjectV2\TokenSetNode.cs" />
+    <Compile Include="ProjectV2\StartingRuleNode.cs" />
+    <Compile Include="ProjectV2\Exceptions\ParseException.cs" />
+    <Compile Include="ProjectV2\CommandBlockNode.cs" />
+    <Compile Include="ProjectV2\RuleNode.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Model\Events\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="Exporters\" />
-  </ItemGroup>
 </Project>

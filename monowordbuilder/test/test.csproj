@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -28,21 +28,33 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NMock2, Version=2.0.0.44, Culture=neutral, PublicKeyToken=37d3be0adc87c2b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Components\NMock2.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="nunit.core, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
     <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
     <Reference Include="nunit.mocks, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ApplyCommandTest.cs" />
+    <Compile Include="Commands\BranchCommandTest.cs" />
+    <Compile Include="Commands\LiteralCommandTest.cs" />
+    <Compile Include="Commands\RuleCommandTest.cs" />
     <Compile Include="DocumentControllerTest.cs" />
     <Compile Include="DocumentTest.cs" />
+    <Compile Include="ProjectV2\TranslationNodeTest.cs" />
     <Compile Include="TokenSetTest.cs" />
     <Compile Include="ContextTest.cs" />
     <Compile Include="RuleTest.cs" />
     <Compile Include="GeneratorControllerTest.cs" />
     <Compile Include="CsvExporterTest.cs" />
+    <Compile Include="ProjectV2\ProjectSerializerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\wordbuilderbase\wordbuilderbase.csproj">

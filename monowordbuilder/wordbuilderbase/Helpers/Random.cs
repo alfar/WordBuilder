@@ -16,8 +16,10 @@ namespace Whee.WordBuilder.Helpers
 	{
 		private static System.Random s_Random = new System.Random();
 
-		public Random ()
-		{	
+        public static IRandom Instance = new Random();
+
+		private Random ()
+		{
 		}
 
 		#region IRandom implementation

@@ -33,22 +33,44 @@ namespace Whee.WordBuilder.Model.Commands
 				_TokenSet = parts[1];
 			}
 		}
-	
+
+        public override void LoadCommand(Whee.WordBuilder.ProjectV2.IProjectSerializer serializer)
+        {
+            m_lineNumber = serializer.LineNumber;
+
+            ProjectV2.Token tokenSet = serializer.ReadTextToken(this);
+
+            if (tokenSet != null)
+            {
+                _TokenSet = tokenSet.Text;
+
+                if (serializer.ReadTextToken(this) != null)
+                {
+                    serializer.Warn("The prefix command requires one argument.");
+                }
+            }
+            else
+            {
+                serializer.Warn("The prefix command requires one argument.");
+            }
+        }
+
 		public override void WriteCommand(System.IO.TextWriter writer)
 		{
 			writer.WriteLine("Prefix {0}", TokenSet);
 		}
-	
-	
-		public override void CheckSanity(Project project)
-		{
-			int count = project.TokenSets.CountByName(TokenSet);
-			if (count == 0) {
-				project.Warnings.Add(string.Format("Line {0}: The token set '{1}' does not exist.", LineNumber, TokenSet));
-			}
-			else if (count > 1) {
-				project.Warnings.Add(string.Format("Line {0}: Multiple token sets with the name '{1}' exist.", LineNumber, TokenSet));
-			}
-		}
-	}
+
+        public override void CheckSanity(Project project, Whee.WordBuilder.ProjectV2.IProjectSerializer serializer)
+        {
+            int count = project.TokenSets.CountByName(TokenSet);
+            if (count == 0)
+            {
+                serializer.Warn(string.Format("Line {0}: The token set '{1}' does not exist.", LineNumber, TokenSet));
+            }
+            else if (count > 1)
+            {
+                serializer.Warn(string.Format("Line {0}: Multiple token sets with the name '{1}' exist.", LineNumber, TokenSet));
+            }
+        }
+    }
 }

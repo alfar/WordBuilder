@@ -9,15 +9,16 @@
 //------------------------------------------------------------------------------
 
 using System;
-
+using Whee.WordBuilder.ProjectV2;
 
 namespace Whee.WordBuilder.UIHelpers
 {
 	public interface ITextViewHelper
 	{
 		void Clear();
-		void OnDocumentChanged(Object sender, string newText);
+		void OnDocumentChanged(Object sender, string newText, IProjectNode project);
 		void GotoLine(int linenumber);
 		event EventHandler<Whee.WordBuilder.Model.Events.DocumentChangedEventArgs> BufferChanged;
+        void DoHighlighting(ProjectNode project);
 	}
 }

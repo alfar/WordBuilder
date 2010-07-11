@@ -4,25 +4,17 @@ namespace Whee.WordBuilder.Model.Commands
 {
 	[Highlight(RegEx = "^\\s*capitalize ", Color = "Green")]
 	public class CapitalizeCommand : CommandBase
-	{
-	
-		public override void CheckSanity(Project project)
-		{
-			if (_Index == 0) {
-				project.Warnings.Add(string.Format("Line {0}: The capitalize command requires the first argument to be a non-zero integer.", LineNumber));
-			}
-		}
-	
-		private int _Index;
-		public int Index {
-			get { return _Index; }
-			set { _Index = value; }
+	{	
+		private int _Position;
+		public int Position {
+			get { return _Position; }
+			set { _Position = value; }
 		}
 	
 		public override void Execute(Context context)
 		{
 			if (context.Tokens.Count > 0) {
-				int pos = _Index;
+				int pos = _Position;
 				if (pos < 0) {
 					pos = context.Tokens.Count + pos;
 				}
@@ -39,6 +31,33 @@ namespace Whee.WordBuilder.Model.Commands
 				}
 			}
 		}
+
+        public override void LoadCommand(Whee.WordBuilder.ProjectV2.IProjectSerializer serializer)
+        {
+            m_lineNumber = serializer.LineNumber;
+
+            double position = 0;
+            bool found = false;
+            ProjectV2.Token posToken = serializer.ReadNumericToken(this, ref position, out found);
+            if (posToken != null)
+            {
+                _Position = (int)position;
+
+                if (serializer.ReadTextToken(this) != null)
+                {
+                    serializer.Warn("The capitalize command requires zero or one argument.");
+                }
+            }
+            else if (found)
+            {
+                serializer.Warn("The capitalize command requires the first argument to be an integer.");
+            }
+            else
+            {
+                _Position = -1;
+            }
+
+        }
 	
 		public override void LoadCommand(Project project, System.IO.TextReader reader, string line, ref int lineNumber)
 		{
@@ -47,10 +66,10 @@ namespace Whee.WordBuilder.Model.Commands
 			List<string> parts = ProjectSerializer.ReadTokens(line);
 	
 			if (parts.Count == 1) {
-				_Index = -1;
+				_Position = -1;
 			}
 			else if (parts.Count == 2) {
-				if (!int.TryParse(parts[1], out _Index)) {
+				if (!int.TryParse(parts[1], out _Position)) {
 					project.Warnings.Add(string.Format("Line {0}: The capitalize command requires the first argument to be an integer.", lineNumber));
 				}
 			}
@@ -61,7 +80,15 @@ namespace Whee.WordBuilder.Model.Commands
 	
 		public override void WriteCommand(System.IO.TextWriter writer)
 		{
-			writer.WriteLine("Capitalize {0}", _Index);
+			writer.WriteLine("Capitalize {0}", _Position);
 		}
-	}
+
+        public override void CheckSanity(Project project, Whee.WordBuilder.ProjectV2.IProjectSerializer serializer)
+        {
+            if (_Position == 0)
+            {
+                serializer.Warn(string.Format("Line {0}: The capitalize command requires the first argument to be a non-zero integer.", LineNumber));
+            }
+        }
+    }
 }

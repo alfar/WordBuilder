@@ -14,325 +14,345 @@ using Whee.WordBuilder.Model;
 using Whee.WordBuilder.Controller;
 using Whee.WordBuilder.UIHelpers;
 using Whee.WordBuilder.Helpers;
-using NUnit.Mocks;
+using NMock2;
 
 namespace test
 {
-	[TestFixture()]
-	public class DocumentControllerTest
-	{
+    [TestFixture()]
+    public class DocumentControllerTest
+    {
 
-		[SetUp()]
-		public void Setup()
-		{
-			m_Document = new Document();
-			m_TextViewHelper = new DynamicMock(typeof(ITextViewHelper));
-			m_FileSystem = new DynamicMock(typeof(IFileSystem));
-			m_FileDialogHelper = new DynamicMock(typeof(IFileDialogHelper));
-			m_WarningViewHelper = new DynamicMock(typeof(IWarningViewHelper));
-			
-			m_DocumentController = new DocumentController((IWarningViewHelper)m_WarningViewHelper.MockInstance, (IFileSystem)m_FileSystem.MockInstance, (IFileDialogHelper)m_FileDialogHelper.MockInstance, (ITextViewHelper)m_TextViewHelper.MockInstance, m_Document);
-		}
+        [SetUp()]
+        public void Setup()
+        {
+            m_Mockery = new Mockery();
+            m_Document = new Document();
+            m_TextViewHelper = m_Mockery.NewMock<ITextViewHelper>();
+            m_FileSystem = m_Mockery.NewMock<IFileSystem>();
+            m_FileDialogHelper = m_Mockery.NewMock<IFileDialogHelper>();
+            m_WarningViewHelper = m_Mockery.NewMock<IWarningViewHelper>();
 
-		private Document m_Document;
-		private DocumentController m_DocumentController;
-		private DynamicMock m_TextViewHelper;
-		private DynamicMock m_FileSystem;
-		private DynamicMock m_WarningViewHelper;
-		private DynamicMock m_FileDialogHelper;
-		
-		[Test()]
-		public void TestConstructor()
-		{
-			Assert.IsNotNull(m_DocumentController);
-		}
-		
-		[Test()]
-		public void TestNew()
-		{
-			m_Document.Text = "abc";
+            Expect.Once.On(m_TextViewHelper).EventAdd("BufferChanged", Is.Anything);
+            Expect.Once.On(m_WarningViewHelper).EventAdd("WarningActivated", Is.Anything);
+            m_DocumentController = new DocumentController(m_WarningViewHelper, m_FileSystem, m_FileDialogHelper, m_TextViewHelper, m_Document);
+        }
 
-			m_FileDialogHelper.ExpectAndReturn("ShowSaveCheckDialog", SaveCheckDialogResult.NoSave);
-			m_TextViewHelper.ExpectNoCall("OnDocumentChanged");
-			m_TextViewHelper.Expect("Clear");
-			m_DocumentController.New();
-			
-			Assert.IsEmpty(m_Document.Text);
-			
-			m_TextViewHelper.Verify();
-		}
-		
-		[Test()]
-		public void TestTransferTextFromModel()
-		{
-			m_Document.Text = "abc";
-			m_TextViewHelper.Expect("OnDocumentChanged", m_DocumentController, "def");
-			m_Document.Text = "def";
-			m_TextViewHelper.Verify();			
-		}
+        private Mockery m_Mockery;
+        private Document m_Document;
+        private DocumentController m_DocumentController;
+        private ITextViewHelper m_TextViewHelper;
+        private IFileSystem m_FileSystem;
+        private IWarningViewHelper m_WarningViewHelper;
+        private IFileDialogHelper m_FileDialogHelper;
 
-		[Test()]
-		public void TestTransferTextToModel()
-		{
-			m_Document.Text = "abc";
-			
-			m_TextViewHelper.ExpectNoCall("OnDocumentChanged");
-			m_DocumentController.OnTextViewChanged(m_TextViewHelper, "abcd");
-			
-			Assert.AreEqual("abcd", m_Document.Text);
-			m_TextViewHelper.Verify();
-		}
-		
-		[Test()]
-		public void TestSaveWithFileName()
-		{
-			m_Document.Text = "abc";
-			m_Document.FileName = @"c:\abc.wordo";
-					
-			m_FileSystem.Expect("WriteAllText", @"c:\abc.wordo", "abc");
+        [Test()]
+        public void TestConstructor()
+        {
+            Assert.IsNotNull(m_DocumentController);
+        }
 
-			m_DocumentController.Save();
+        [Test()]
+        public void TestNew()
+        {
+            SetText("tokens abc a b c");
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
 
-			m_FileSystem.Verify();
-		}
-		
-		[Test()]
-		public void TestSaveWithoutFileName()
-		{
-			m_Document.Text = "abc";
-			
-			m_FileDialogHelper.ExpectAndReturn("ShowSaveDialog", @"c:\abc.wordo");
-			
-			m_FileSystem.Expect("WriteAllText", @"c:\abc.wordo", "abc");
+            Expect.Once.On(m_FileDialogHelper).Method("ShowSaveCheckDialog").Will(Return.Value(SaveCheckDialogResult.NoSave));
+            Expect.Never.On(m_TextViewHelper).Method("OnDocumentChanged");
+            NewDocument();
+            Assert.IsEmpty(m_Document.Text);
 
-			m_DocumentController.Save();
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+        }
 
-			m_FileDialogHelper.Verify();
-			m_FileSystem.Verify();
-			
-			Assert.AreEqual(@"c:\abc.wordo", m_Document.FileName);
-		}		
+        [Test()]
+        public void TestTransferTextFromModel()
+        {
+            SetText("tokens abc a b c");
+            SetText("tokens def d e f");
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+        }
 
-		[Test()]
-		public void TestSaveWithoutFileNameCanceled()
-		{
-			m_Document.Text = "abc";
-			
-			m_FileDialogHelper.ExpectAndReturn("ShowSaveDialog", null);
-			
-			m_FileSystem.ExpectNoCall("WriteAllText");
+        [Test()]
+        public void TestTransferTextToModel()
+        {
+            SetText("tokens abc a b c");
 
-			m_DocumentController.Save();
+            Expect.Never.On(m_TextViewHelper).Method("OnDocumentChanged");
+            m_DocumentController.OnTextViewChanged(m_TextViewHelper, "tokens abcd a b c d");
 
-			m_FileDialogHelper.Verify();
-			m_FileSystem.Verify();
-			Assert.IsNull(m_Document.FileName);
-		}
+            Assert.AreEqual("tokens abcd a b c d", m_Document.Text);
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+        }
 
-		[Test()]
-		public void TestSaveAs()
-		{
-			m_Document.Text = "abc";
-			m_Document.FileName = @"c:\abc.wordo";
+        [Test()]
+        public void TestSaveWithFileName()
+        {
+            SetText("tokens abc a b c");
+            m_Document.FileName = @"c:\abc.wordo";
 
-			m_FileDialogHelper.ExpectAndReturn("ShowSaveDialog", @"c:\abc2.wordo");
-			
-			m_FileSystem.Expect("WriteAllText", @"c:\abc2.wordo", "abc");
+            Expect.Once.On(m_FileSystem).Method("WriteAllText").With(@"c:\abc.wordo", "tokens abc a b c");
 
-			m_DocumentController.SaveAs();
+            m_DocumentController.Save();
 
-			m_FileDialogHelper.Verify();
-			m_FileSystem.Verify();
-			
-			Assert.AreEqual(@"c:\abc2.wordo", m_Document.FileName);
-		}		
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+        }
 
-		[Test()]
-		public void TestSaveAsCanceled()
-		{
-			m_Document.Text = "abc";
-			m_Document.FileName = @"c:\abc.wordo";
-			
-			m_FileDialogHelper.ExpectAndReturn("ShowSaveDialog", null);
-			
-			m_FileSystem.ExpectNoCall("WriteAllText");
+        [Test()]
+        public void TestSaveWithoutFileName()
+        {
+            SetText("tokens abc a b c");
 
-			m_DocumentController.SaveAs();
+            Expect.Once.On(m_FileDialogHelper).Method("ShowSaveDialog").Will(Return.Value(@"c:\abc.wordo"));
 
-			m_FileDialogHelper.Verify();
-			m_FileSystem.Verify();
-			Assert.AreEqual(@"c:\abc.wordo", m_Document.FileName);
-		}
+            Expect.Once.On(m_FileSystem).Method("WriteAllText").With(@"c:\abc.wordo", "tokens abc a b c");
 
-		[Test()]
-		public void TestOpen()
-		{
-			m_FileDialogHelper.ExpectAndReturn("ShowOpenDialog", @"c:\abc.wordo");
-			
-			m_FileSystem.ExpectAndReturn("ReadAllText", "abc", @"c:\abc.wordo");
+            m_DocumentController.Save();
 
-			m_DocumentController.Open();
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
 
-			m_FileDialogHelper.Verify();
-			m_FileSystem.Verify();
-			
-			Assert.AreEqual(@"c:\abc.wordo", m_Document.FileName);
-		}
-		
-		[Test()]
-		public void TestCheckSave()
-		{
-			m_FileDialogHelper.ExpectNoCall("ShowSaveCheckDialog");
-			Assert.AreEqual(SaveCheckDialogResult.NoSave, m_DocumentController.CheckSave());
-			m_FileDialogHelper.Verify();
+            Assert.AreEqual(@"c:\abc.wordo", m_Document.FileName);
+        }
 
-			m_Document.Text = "abc";		
-			m_FileDialogHelper.ExpectAndReturn("ShowSaveCheckDialog", SaveCheckDialogResult.Save);			
-			Assert.AreEqual(SaveCheckDialogResult.Save, m_DocumentController.CheckSave());
-			m_FileDialogHelper.Verify();
+        [Test()]
+        public void TestSaveWithoutFileNameCanceled()
+        {
+            SetText("tokens abc a b c");
 
-			m_FileDialogHelper.ExpectAndReturn("ShowSaveCheckDialog", SaveCheckDialogResult.NoSave);
-			Assert.AreEqual(SaveCheckDialogResult.NoSave, m_DocumentController.CheckSave());
-			m_FileDialogHelper.Verify();
-			
-			m_FileDialogHelper.ExpectAndReturn("ShowSaveCheckDialog", SaveCheckDialogResult.Cancel);
-			Assert.AreEqual(SaveCheckDialogResult.Cancel, m_DocumentController.CheckSave());
-			m_FileDialogHelper.Verify();			
-		}
-		
-		[Test()]
-		public void TestNewWithDirty()
-		{
-			m_Document.Text = "abc";
-			
-			m_FileDialogHelper.ExpectAndReturn("ShowSaveCheckDialog", SaveCheckDialogResult.NoSave);
-			
-			m_DocumentController.New();
-			
-			m_FileDialogHelper.Verify();
+            Expect.Once.On(m_FileDialogHelper).Method("ShowSaveDialog").Will(Return.Value(null));
 
-			Assert.IsEmpty(m_Document.Text);
-		}
+            Expect.Never.On(m_FileSystem).Method("WriteAllText");
 
-		[Test()]
-		public void TestNewWithDirtyCancelled()
-		{
-			m_Document.Text = "abc";
-			
-			m_FileDialogHelper.ExpectAndReturn("ShowSaveCheckDialog", SaveCheckDialogResult.Cancel);
-			
-			m_DocumentController.New();
-			
-			m_FileDialogHelper.Verify();
+            m_DocumentController.Save();
 
-			Assert.AreEqual("abc", m_Document.Text);
-		}
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+            Assert.IsNull(m_Document.FileName);
+        }
 
-		[Test()]
-		public void TestNewWithDirtySave()
-		{
-			m_Document.Text = "abc";
-			
-			m_Document.FileName = @"c:\abc.wordo";
-			
-			m_FileDialogHelper.ExpectAndReturn("ShowSaveCheckDialog", SaveCheckDialogResult.Save);
-			m_FileSystem.Expect("WriteAllText", @"c:\abc.wordo", "abc");
-			
-			m_DocumentController.New();
-			
-			m_FileDialogHelper.Verify();
-			m_FileSystem.Verify();
-			
-			Assert.IsEmpty(m_Document.Text);
-		}
+        [Test()]
+        public void TestSaveAs()
+        {
+            SetText("tokens abc a b c");
+            m_Document.FileName = @"c:\abc.wordo";
 
-		[Test()]
-		public void TestOpenWithDirty()
-		{
-			m_Document.Text = "abc";
-			
-			m_FileDialogHelper.ExpectAndReturn("ShowSaveCheckDialog", SaveCheckDialogResult.NoSave);
-			m_FileDialogHelper.ExpectAndReturn("ShowOpenDialog", @"c:\abc.wordo");
+            Expect.Once.On(m_FileDialogHelper).Method("ShowSaveDialog").Will(Return.Value(@"c:\abc2.wordo"));
 
-			m_FileSystem.ExpectAndReturn("ReadAllText", "def", @"c:\abc.wordo");
+            Expect.Once.On(m_FileSystem).Method("WriteAllText").With(@"c:\abc2.wordo", "tokens abc a b c");
 
-			m_DocumentController.Open();
-			
-			m_FileDialogHelper.Verify();			
-			m_FileSystem.Verify();
-			
-			Assert.AreEqual("def", m_Document.Text);
-		}
+            m_DocumentController.SaveAs();
 
-		[Test()]
-		public void TestOpenWithDirtyCancelled()
-		{
-			m_Document.Text = "abc";
-			
-			m_FileDialogHelper.ExpectAndReturn("ShowSaveCheckDialog", SaveCheckDialogResult.Cancel);
-			
-			m_DocumentController.Open();
-			
-			m_FileDialogHelper.Verify();
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
 
-			Assert.AreEqual("abc", m_Document.Text);
-		}
+            Assert.AreEqual(@"c:\abc2.wordo", m_Document.FileName);
+        }
 
-		[Test()]
-		public void TestOpenWithDirtySave()
-		{
-			m_Document.Text = "abc";
-			
-			m_Document.FileName = @"c:\abc.wordo";
-			
-			m_FileDialogHelper.ExpectAndReturn("ShowSaveCheckDialog", SaveCheckDialogResult.Save);
-			m_FileSystem.Expect("WriteAllText", @"c:\abc.wordo", "abc");
+        [Test()]
+        public void TestSaveAsCanceled()
+        {
+            SetText("tokens abc a b c");
+            m_Document.FileName = @"c:\abc.wordo";
 
-			m_FileDialogHelper.ExpectAndReturn("ShowOpenDialog", @"c:\def.wordo");
-			m_FileSystem.ExpectAndReturn("ReadAllText", "def", @"c:\def.wordo");
-			
-			m_DocumentController.Open();
-			
-			m_FileDialogHelper.Verify();
-			m_FileSystem.Verify();
-			
-			Assert.AreEqual("def", m_Document.Text);
-		}
-		
-		[Test()]
-		public void TestCompile()
-		{
-			m_Document.Text = "rule root {\n  literal a\n}\n";
-			
-			Project project = m_DocumentController.Compile();
-			
-			Assert.IsNotNull(project);
-			Assert.IsNotNull(project.Rules.GetRuleByName("root"));
-			Assert.IsEmpty(project.Warnings);
-		}
-		
-		[Test()]
-		public void TestWarnings()
-		{
-			m_Document.Text = "rule root {\n  token a\n}\n";
+            Expect.Once.On(m_FileDialogHelper).Method("ShowSaveDialog").Will(Return.Value(null));
 
-			m_WarningViewHelper.Expect("Clear");
-			m_WarningViewHelper.Expect("AddWarning");
-			Project project = m_DocumentController.Compile();
-			
-			Assert.IsNull(project);
+            Expect.Never.On(m_FileSystem).Method("WriteAllText");
 
-			m_WarningViewHelper.Verify();
-		}
-		
-		[Test()]
-		public void TestGotoLine()
-		{
-			m_TextViewHelper.Expect("GotoLine", 2);
-			
-			m_DocumentController.GotoLine(2);
-			
-			m_TextViewHelper.Verify();
-		}
-	}
+            m_DocumentController.SaveAs();
+
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+            Assert.AreEqual(@"c:\abc.wordo", m_Document.FileName);
+        }
+
+        [Test()]
+        public void TestOpen()
+        {
+            Expect.Once.On(m_FileDialogHelper).Method("ShowOpenDialog").Will(Return.Value(@"c:\abc.wordo"));
+
+            Expect.Once.On(m_FileSystem).Method("ReadAllText").With(@"c:\abc.wordo").Will(Return.Value("tokens abc a b c"));
+
+            Expect.Once.On(m_WarningViewHelper).Method("Clear");
+            Expect.Once.On(m_TextViewHelper).Method("OnDocumentChanged");
+            m_DocumentController.Open();
+
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+
+            Assert.AreEqual(@"c:\abc.wordo", m_Document.FileName);
+        }
+
+        [Test()]
+        public void TestCheckSave()
+        {
+            Expect.Never.On(m_FileDialogHelper).Method("ShowSaveCheckDialog");
+            Assert.AreEqual(SaveCheckDialogResult.NoSave, m_DocumentController.CheckSave());
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+
+            SetText("tokens abc a b c");
+            Expect.Once.On(m_FileDialogHelper).Method("ShowSaveCheckDialog").Will(Return.Value(SaveCheckDialogResult.Save));
+            Expect.Once.On(m_FileDialogHelper).Method("ShowSaveDialog");
+            Assert.AreEqual(SaveCheckDialogResult.Save, m_DocumentController.CheckSave());
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+
+            Expect.Once.On(m_FileDialogHelper).Method("ShowSaveCheckDialog").Will(Return.Value(SaveCheckDialogResult.NoSave));
+            Assert.AreEqual(SaveCheckDialogResult.NoSave, m_DocumentController.CheckSave());
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+
+            Expect.Once.On(m_FileDialogHelper).Method("ShowSaveCheckDialog").Will(Return.Value(SaveCheckDialogResult.Cancel));
+            Assert.AreEqual(SaveCheckDialogResult.Cancel, m_DocumentController.CheckSave());
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+        }
+
+        [Test()]
+        public void TestNewWithDirty()
+        {
+            SetText("tokens abc a b c");
+
+            Expect.Once.On(m_FileDialogHelper).Method("ShowSaveCheckDialog").Will(Return.Value(SaveCheckDialogResult.NoSave));
+
+            NewDocument();
+
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+
+            Assert.IsEmpty(m_Document.Text);
+        }
+
+        [Test()]
+        public void TestNewWithDirtyCancelled()
+        {
+            SetText("tokens abc a b c");
+
+            Expect.Once.On(m_FileDialogHelper).Method("ShowSaveCheckDialog").Will(Return.Value(SaveCheckDialogResult.Cancel));
+
+            Expect.Never.On(m_TextViewHelper).Method("Clear");
+            m_DocumentController.New();
+
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+
+            Assert.AreEqual("tokens abc a b c", m_Document.Text);
+        }
+
+        [Test()]
+        public void TestNewWithDirtySave()
+        {
+            SetText("tokens abc a b c");
+
+            m_Document.FileName = @"c:\abc.wordo";
+
+            Expect.Once.On(m_FileDialogHelper).Method("ShowSaveCheckDialog").Will(Return.Value(SaveCheckDialogResult.Save));
+            Expect.Once.On(m_FileSystem).Method("WriteAllText").With(@"c:\abc.wordo", "tokens abc a b c");
+
+            NewDocument();
+
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+
+            Assert.IsEmpty(m_Document.Text);
+        }
+
+        [Test()]
+        public void TestOpenWithDirty()
+        {
+            SetText("tokens abc a b c");
+
+            Expect.Once.On(m_FileDialogHelper).Method("ShowSaveCheckDialog").Will(Return.Value(SaveCheckDialogResult.NoSave));
+            Expect.Once.On(m_FileDialogHelper).Method("ShowOpenDialog").Will(Return.Value(@"c:\abc.wordo"));
+
+            Expect.Once.On(m_FileSystem).Method("ReadAllText").With(@"c:\abc.wordo").Will(Return.Value("tokens def d e f"));
+
+            Expect.Once.On(m_WarningViewHelper).Method("Clear");
+            Expect.Once.On(m_TextViewHelper).Method("OnDocumentChanged");
+            m_DocumentController.Open();
+
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+
+            Assert.AreEqual("tokens def d e f", m_Document.Text);
+        }
+
+        [Test()]
+        public void TestOpenWithDirtyCancelled()
+        {
+            SetText("tokens abc a b c");
+
+            Expect.Once.On(m_FileDialogHelper).Method("ShowSaveCheckDialog").Will(Return.Value(SaveCheckDialogResult.Cancel));
+
+            m_DocumentController.Open();
+
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+
+            Assert.AreEqual("tokens abc a b c", m_Document.Text);
+        }
+
+        [Test()]
+        public void TestOpenWithDirtySave()
+        {
+            SetText("tokens abc a b c");
+
+            m_Document.FileName = @"c:\abc.wordo";
+
+            Expect.Once.On(m_FileDialogHelper).Method("ShowSaveCheckDialog").Will(Return.Value(SaveCheckDialogResult.Save));
+            Expect.Once.On(m_FileSystem).Method("WriteAllText").With(@"c:\abc.wordo", "tokens abc a b c");
+
+            Expect.Once.On(m_FileDialogHelper).Method("ShowOpenDialog").Will(Return.Value(@"c:\def.wordo"));
+            Expect.Once.On(m_FileSystem).Method("ReadAllText").With(@"c:\def.wordo").Will(Return.Value("tokens def d e f"));
+
+            Expect.Once.On(m_TextViewHelper).Method("OnDocumentChanged");
+            Expect.Once.On(m_WarningViewHelper).Method("Clear");
+            m_DocumentController.Open();
+
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+
+            Assert.AreEqual("tokens def d e f", m_Document.Text);
+        }
+
+        [Test()]
+        public void TestCompile()
+        {
+            SetText("rule root {\n  literal a\n}\n");
+
+            Expect.Once.On(m_WarningViewHelper).Method("Clear");
+            Expect.Once.On(m_WarningViewHelper).GetProperty("HasWarnings").Will(Return.Value(false));
+            Project project = m_DocumentController.Compile();
+
+            Assert.IsNotNull(project);
+            Assert.IsNotNull(project.Rules.GetRuleByName("root"));
+            Assert.IsEmpty(project.Warnings);
+        }
+
+        [Test()]
+        public void TestWarnings()
+        {
+            SetText("rule root {\n  token a\n}\n");
+
+            Expect.Once.On(m_WarningViewHelper).Method("Clear");
+            Expect.Once.On(m_WarningViewHelper).Method("AddWarning");
+            Expect.Once.On(m_WarningViewHelper).GetProperty("HasWarnings").Will(Return.Value(true));
+            Project project = m_DocumentController.Compile();
+
+            Assert.IsNull(project);
+
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+        }
+
+        [Test()]
+        public void TestGotoLine()
+        {
+            Expect.Once.On(m_TextViewHelper).Method("GotoLine").With(2);
+
+            m_DocumentController.GotoLine(2);
+
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+        }
+
+        private void SetText(string text)
+        {
+            Expect.Once.On(m_TextViewHelper).Method("OnDocumentChanged");
+            Expect.Once.On(m_WarningViewHelper).Method("Clear");
+            m_Document.Text = text;
+        }
+
+        private void NewDocument()
+        {
+            Expect.Once.On(m_TextViewHelper).Method("Clear");
+            m_DocumentController.New();
+        }
+    }
 }

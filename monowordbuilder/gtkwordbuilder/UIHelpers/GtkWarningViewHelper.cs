@@ -66,16 +66,24 @@ namespace Whee.WordBuilder.UIHelpers
 		{
 			m_WarningsScrolledWindow.Visible = true;
 			m_Warnings.AppendValues(message);
+            m_HasWarnings = true;
 		}
 
 		public void Clear ()
 		{
 			m_WarningsScrolledWindow.Visible = false;
 			m_Warnings.Clear();
+            m_HasWarnings = false;
 		}
 		
 		public event EventHandler<WarningEventArgs> WarningActivated;
-		
-		#endregion
-	}
+
+        private bool m_HasWarnings = false;
+        public bool HasWarnings
+        {
+            get { return m_HasWarnings; }
+        }
+
+        #endregion
+    }
 }

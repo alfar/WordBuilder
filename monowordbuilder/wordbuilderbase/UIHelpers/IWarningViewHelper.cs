@@ -12,10 +12,11 @@ using System;
 
 namespace Whee.WordBuilder.UIHelpers
 {
-	public interface IWarningViewHelper
-	{
-		void Clear();
-		void AddWarning(string message);
-		event EventHandler<WarningEventArgs> WarningActivated;
-	}
+    public interface IWarningViewHelper
+    {
+        void Clear();
+        void AddWarning(string message);
+        bool HasWarnings { get; }
+        event EventHandler<WarningEventArgs> WarningActivated;
+    }
 }

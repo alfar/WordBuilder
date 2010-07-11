@@ -23,7 +23,38 @@ namespace Whee.WordBuilder.Model.Commands
 		{
 			context.Mark(Name, Value);
 		}
-	
+
+        public override void LoadCommand(Whee.WordBuilder.ProjectV2.IProjectSerializer serializer)
+        {
+            m_lineNumber = serializer.LineNumber;
+
+            ProjectV2.Token name = serializer.ReadTextToken(this);
+            if (name != null)
+            {
+                Name = name.Text;
+                name.Type = Whee.WordBuilder.ProjectV2.TokenType.Name;
+
+                ProjectV2.Token value = serializer.ReadTextToken(this);
+                if (value != null)
+                {
+                    Value = value.Text;
+
+                    if (serializer.ReadTextToken(this) != null)
+                    {
+                        serializer.Warn("The mark command requires 2 arguments.");
+                    }
+                }
+                else
+                {
+                    serializer.Warn("The mark command requires 2 arguments.");
+                }
+            }
+            else
+            {
+                serializer.Warn("The mark command requires 2 arguments.");
+            }
+        }
+
 		public override void LoadCommand(Project project, System.IO.TextReader reader, string line, ref int lineNumber)
 		{
 			base.LoadCommand(project, reader, line, ref lineNumber);
@@ -43,10 +74,9 @@ namespace Whee.WordBuilder.Model.Commands
 		{
 			writer.WriteLine("Mark {0} {1}", _Name, _Value);
 		}
-	
-		public override void CheckSanity(Project project)
-		{
-	
-		}
-	}
+
+        public override void CheckSanity(Project project, Whee.WordBuilder.ProjectV2.IProjectSerializer serializer)
+        {
+        }
+    }
 }

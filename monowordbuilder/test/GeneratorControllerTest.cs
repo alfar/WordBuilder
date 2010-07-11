@@ -9,7 +9,6 @@
 //------------------------------------------------------------------------------
 
 using NUnit.Framework;
-using NUnit.Mocks;
 using System;
 using System.Collections.Generic;
 
@@ -19,285 +18,300 @@ using Whee.WordBuilder.UIHelpers;
 using Whee.WordBuilder.Exporters;
 using Whee.WordBuilder.Model;
 using Whee.WordBuilder.Model.Commands;
+using NMock2;
 
 namespace test
 {
+    [TestFixture()]
+    public class GeneratorControllerTest
+    {
+        [SetUp()]
+        public void Setup()
+        {
+            m_Mockery = new Mockery();
+
+            m_FileSystem = m_Mockery.NewMock<IFileSystem>();
+            m_ClipBoardHelper = m_Mockery.NewMock<IClipBoardHelper>();
+            m_ResultViewHelper = m_Mockery.NewMock<IResultViewHelper>();
+            m_DetailsTextViewHelper = m_Mockery.NewMock<ITextViewHelper>();
+            m_ExportHelper = m_Mockery.NewMock<IExporter>();
+            Expect.Once.On(m_ResultViewHelper).EventAdd("SelectionChanged", Is.Anything);
+            m_GeneratorController = new GeneratorController(m_FileSystem, m_ResultViewHelper, m_ClipBoardHelper, m_DetailsTextViewHelper);
+        }
+
+        private Mockery m_Mockery;
+        private IFileSystem m_FileSystem;
+        private IExporter m_ExportHelper;
+        private ITextViewHelper m_DetailsTextViewHelper;
+        private IResultViewHelper m_ResultViewHelper;
+        private IClipBoardHelper m_ClipBoardHelper;
+        private GeneratorController m_GeneratorController;
+
+        [Test()]
+        public void TestClear()
+        {
+            Expect.Once.On(m_ResultViewHelper).Method("Clear");
+            m_GeneratorController.Clear();
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+        }
+
+        [Test()]
+        public void TestGenerateNoStartingRules()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                Expect.Once.On(m_ResultViewHelper).Method("AddItem");
+            }
+
+            IRandom random = m_Mockery.NewMock<IRandom>();
+            Project project = new Project(random);
+
+            Rule rule = new Rule();
+
+            rule.Name = "root";
+            rule.Probability = 1.0;
+            rule.LineNumber = 1;
+
+            Expect.AtLeastOnce.On(random).Method("NextDouble").Will(Return.Value((double)0.5));
+
+            LiteralCommand a = new LiteralCommand();
+            a.Literal = "a";
+            rule.Commands.Add(a);
+
+            project.Rules.Add(rule);
+
+            m_GeneratorController.Generate(project);
+
+            Assert.AreEqual(1, project.StartRules.Count);
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+        }
+
+        [Test()]
+        public void TestGenerateOneStartingRule()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Expect.Once.On(m_ResultViewHelper).Method("AddItem");
+            }
+
+            IRandom random = m_Mockery.NewMock<IRandom>();
+            Project project = new Project(random);
+
+            Rule rule = new Rule();
+
+            rule.Name = "test";
+            rule.Probability = 1.0;
+            rule.LineNumber = 1;
+
+            LiteralCommand a = new LiteralCommand();
+            a.Literal = "a";
+            rule.Commands.Add(a);
+
+            project.Rules.Add(rule);
+
+            project.StartRules.Add("test", 10);
+
+            Expect.AtLeastOnce.On(random).Method("NextDouble").Will(Return.Value((double)0.5));
+
+            m_GeneratorController.Generate(project);
+
+            Assert.AreEqual(1, project.StartRules.Count);
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+        }
+
+        [Test()]
+        public void TestGenerateTwoStartingRules()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Expect.Once.On(m_ResultViewHelper).Method("AddItem");
+            }
+
+            IRandom random = m_Mockery.NewMock<IRandom>();
+            Project project = new Project(random);
+
+            Rule rule = new Rule();
+
+            rule.Name = "test";
+            rule.Probability = 1.0;
+            rule.LineNumber = 1;
+
+            LiteralCommand a = new LiteralCommand();
+            a.Literal = "a";
+            rule.Commands.Add(a);
+
+            Rule rule2 = new Rule();
+
+            rule2.Name = "test2";
+            rule2.Probability = 1.0;
+            rule2.LineNumber = 1;
+
+            LiteralCommand b = new LiteralCommand();
+            b.Literal = "b";
+            rule2.Commands.Add(b);
+
+            project.Rules.Add(rule);
+            project.Rules.Add(rule2);
+
+            project.StartRules.Add("test", 5);
+            project.StartRules.Add("test2", 5);
+
+            Expect.AtLeastOnce.On(random).Method("NextDouble").Will(Return.Value((double)0.5));
+
+            m_GeneratorController.Generate(project);
+
+            Assert.AreEqual(2, project.StartRules.Count);
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+        }
+
+        [Test()]
+        public void TestColumns()
+        {
+            Expect.Once.On(m_ResultViewHelper).Method("AddColumn").With("Determinate", "!Test");
+
+            for (int i = 0; i < 10; i++)
+            {
+                Expect.Once.On(m_ResultViewHelper).Method("AddItem");
+            }
+
+            IRandom random = m_Mockery.NewMock<IRandom>();
+            Project project = new Project(random);
+
+            Rule rule = new Rule();
+
+            Expect.AtLeastOnce.On(random).Method("NextDouble").Will(Return.Value((double)0.5));
+
+            rule.Name = "test";
+            rule.Probability = 1.0;
+            rule.LineNumber = 1;
+
+            LiteralCommand a = new LiteralCommand();
+            a.Literal = "a";
+            rule.Commands.Add(a);
+
+            Rule rule2 = new Rule();
+
+            rule2.Name = "test2";
+            rule2.Probability = 1.0;
+            rule2.LineNumber = 1;
+
+            LiteralCommand b = new LiteralCommand();
+            b.Literal = "b";
+            rule2.Commands.Add(b);
+
+            project.Rules.Add(rule);
+            project.Rules.Add(rule2);
+
+            MarkCommand m = new MarkCommand();
+            m.Name = "Test";
+            m.Value = "yes";
+
+            rule2.Commands.Add(m);
+
+            project.StartRules.Add("test", 5);
+            project.StartRules.Add("test2", 5);
+
+            project.Columns.Add("Determinate", "!Test");
 
 
-	[TestFixture()]
-	public class GeneratorControllerTest
-	{
-		[SetUp()]
-		public void Setup()
-		{
-			m_FileSystem = new DynamicMock(typeof(IFileSystem));
-			m_ClipBoardHelper = new DynamicMock(typeof(IClipBoardHelper));
-			m_ResultViewHelper = new DynamicMock(typeof(IResultViewHelper));
-			m_DetailsTextViewHelper = new DynamicMock(typeof(ITextViewHelper));
-			m_ExportHelper = new DynamicMock(typeof(IExporter));
-			m_GeneratorController = new GeneratorController((IFileSystem)m_FileSystem.MockInstance, (IResultViewHelper)m_ResultViewHelper.MockInstance, (IClipBoardHelper)m_ClipBoardHelper.MockInstance, (ITextViewHelper)m_DetailsTextViewHelper.MockInstance);			
-		}
-		
-		private DynamicMock m_FileSystem;
-		private DynamicMock m_ExportHelper;
-		private DynamicMock m_DetailsTextViewHelper;
-		private DynamicMock m_ResultViewHelper;
-		private DynamicMock m_ClipBoardHelper;
-		private GeneratorController m_GeneratorController;
+            m_GeneratorController.Generate(project);
 
-		[Test()]
-		public void TestClear()
-		{
-			m_ResultViewHelper.Expect("Clear");
-			m_GeneratorController.Clear();
-			m_ResultViewHelper.Verify();
-		}
-		
-		[Test()]
-		public void TestGenerateNoStartingRules()
-		{
-			for (int i = 0; i < 100; i++) {
-				m_ResultViewHelper.Expect("AddItem");				
-			}
-			
-			DynamicMock random = new DynamicMock(typeof(IRandom));
-			Project project = new Project((IRandom)random.MockInstance);
-			
-			Rule rule = new Rule();
-			
-			rule.Name = "root";
-			rule.Probability = 1.0;
-			rule.LineNumber = 1;
-			
-			LiteralCommand a = new LiteralCommand();
-			a.Literal = "a";
-			rule.Commands.Add(a);
-			                  
-			project.Rules.Add(rule);
-			
-			m_GeneratorController.Generate(project);
+            Assert.AreEqual(2, project.StartRules.Count);
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+        }
 
-			Assert.AreEqual(1, project.StartRules.Count);
-			m_ResultViewHelper.Verify();
-		}
+        [Test()]
+        public void TestCopy()
+        {
+            List<Context> selected = new List<Context>();
 
-		[Test()]
-		public void TestGenerateOneStartingRule()
-		{
-			for (int i = 0; i < 10; i++) {
-				m_ResultViewHelper.Expect("AddItem");				
-			}
-			
-			DynamicMock random = new DynamicMock(typeof(IRandom));
-			Project project = new Project((IRandom)random.MockInstance);
-			
-			Rule rule = new Rule();
-			
-			rule.Name = "test";
-			rule.Probability = 1.0;
-			rule.LineNumber = 1;
-			
-			LiteralCommand a = new LiteralCommand();
-			a.Literal = "a";
-			rule.Commands.Add(a);
-			                  
-			project.Rules.Add(rule);
-			
-			project.StartRules.Add("test", 10);
-			
-			m_GeneratorController.Generate(project);
+            Context result = new Context();
+            result.Tokens.Add("a");
+            result.Tokens.Add("b");
+            result.Tokens.Add("c");
+            selected.Add(result);
+            Expect.Once.On(m_ResultViewHelper).Method("GetSelectedItems").Will(Return.Value(selected));
 
-			Assert.AreEqual(1, project.StartRules.Count);
-			m_ResultViewHelper.Verify();
-		}
+            Expect.Once.On(m_ClipBoardHelper).Method("Copy").With("abc");
+            m_GeneratorController.Copy();
 
-		[Test()]
-		public void TestGenerateTwoStartingRules()
-		{
-			for (int i = 0; i < 10; i++) {
-				m_ResultViewHelper.Expect("AddItem");				
-			}
-			
-			DynamicMock random = new DynamicMock(typeof(IRandom));
-			Project project = new Project((IRandom)random.MockInstance);
-			
-			Rule rule = new Rule();
-			
-			rule.Name = "test";
-			rule.Probability = 1.0;
-			rule.LineNumber = 1;
-			
-			LiteralCommand a = new LiteralCommand();
-			a.Literal = "a";
-			rule.Commands.Add(a);
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+        }
 
-			Rule rule2 = new Rule();
-			
-			rule2.Name = "test2";
-			rule2.Probability = 1.0;
-			rule2.LineNumber = 1;
-			
-			LiteralCommand b= new LiteralCommand();
-			b.Literal = "b";
-			rule2.Commands.Add(b);
+        [Test()]
+        public void TestCopyAdvanced()
+        {
+            List<Context> selected = new List<Context>();
 
-			project.Rules.Add(rule);
-			project.Rules.Add(rule2);
-			
-			project.StartRules.Add("test", 5);
-			project.StartRules.Add("test2", 5);
-			
-			m_GeneratorController.Generate(project);
+            Context result = new Context();
+            result.Tokens.Add("a");
+            result.Tokens.Add("b");
+            result.Tokens.Add("c");
 
-			Assert.AreEqual(2, project.StartRules.Count);
-			m_ResultViewHelper.Verify();
-		}
-		
-		[Test()]
-		public void TestColumns()
-		{
-			m_ResultViewHelper.Expect("AddColumn", "Determinate", "!Test");
-			
-			for (int i = 0; i < 10; i++) {
-				m_ResultViewHelper.Expect("AddItem");				
-			}
-			
-			DynamicMock random = new DynamicMock(typeof(IRandom));
-			Project project = new Project((IRandom)random.MockInstance);
-			
-			Rule rule = new Rule();
-			
-			rule.Name = "test";
-			rule.Probability = 1.0;
-			rule.LineNumber = 1;
-			
-			LiteralCommand a = new LiteralCommand();
-			a.Literal = "a";
-			rule.Commands.Add(a);
+            Context branch = result.Branch("b1");
+            branch.Tokens.Add("d");
 
-			Rule rule2 = new Rule();
-			
-			rule2.Name = "test2";
-			rule2.Probability = 1.0;
-			rule2.LineNumber = 1;
-			
-			LiteralCommand b= new LiteralCommand();
-			b.Literal = "b";
-			rule2.Commands.Add(b);
+            selected.Add(result);
+            Expect.Once.On(m_ResultViewHelper).Method("GetSelectedItems").Will(Return.Value(selected));
 
-			project.Rules.Add(rule);
-			project.Rules.Add(rule2);
-			
-			MarkCommand m = new MarkCommand();
-			m.Name = "Test";
-			m.Value = "yes";
-			
-			rule2.Commands.Add(m);
-			
-			project.StartRules.Add("test", 5);
-			project.StartRules.Add("test2", 5);
-			
-			project.Columns.Add("Determinate", "!Test");
-			
-			
-			m_GeneratorController.Generate(project);
+            Expect.Once.On(m_ClipBoardHelper).Method("Copy").With(String.Format("abc{0}\tb1: abcd", Environment.NewLine));
+            m_GeneratorController.CopyDescription();
 
-			Assert.AreEqual(2, project.StartRules.Count);
-			m_ResultViewHelper.Verify();			
-		}
-		
-		[Test()]
-		public void TestCopy()
-		{
-			List<Context> selected = new List<Context>();
-			
-			Context result = new Context();
-			result.Tokens.Add("a");
-			result.Tokens.Add("b");
-			result.Tokens.Add("c");
-			selected.Add(result);
-			m_ResultViewHelper.ExpectAndReturn("GetSelectedItems", selected);
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+        }
 
-			m_ClipBoardHelper.Expect("Copy", "abc");
-			m_GeneratorController.Copy();
-			
-			m_ResultViewHelper.Verify();
-			m_ClipBoardHelper.Verify();
-		}
-		
-		[Test()]
-		public void TestCopyAdvanced()
-		{
-			List<Context> selected = new List<Context>();
-			
-			Context result = new Context();
-			result.Tokens.Add("a");
-			result.Tokens.Add("b");
-			result.Tokens.Add("c");
-			
-			Context branch = result.Branch("b1");
-			branch.Tokens.Add("d");
-			
-			selected.Add(result);
-			m_ResultViewHelper.ExpectAndReturn("GetSelectedItems", selected);
+        [Test()]
+        public void TestDetailsView()
+        {
+            List<Context> selected = new List<Context>();
 
-			m_ClipBoardHelper.Expect("Copy", String.Format("abc{0}\tb1: abcd", Environment.NewLine));
-			m_GeneratorController.CopyDescription();
-			
-			m_ResultViewHelper.Verify();
-			m_ClipBoardHelper.Verify();
-		}
+            Context result = new Context();
+            result.Tokens.Add("a");
+            result.Tokens.Add("b");
+            result.Tokens.Add("c");
 
-		[Test()]
-		public void TestDetailsView()
-		{
-			List<Context> selected = new List<Context>();
-			
-			Context result = new Context();
-			result.Tokens.Add("a");
-			result.Tokens.Add("b");
-			result.Tokens.Add("c");
-			
-			Context branch = result.Branch("b1");
-			branch.Tokens.Add("d");
-			
-			selected.Add(result);
+            Context branch = result.Branch("b1");
+            branch.Tokens.Add("d");
 
-			m_DetailsTextViewHelper.Expect("OnDocumentChanged", m_GeneratorController, string.Format("abc{0}\tb1: abcd", Environment.NewLine));
+            selected.Add(result);
 
-			m_GeneratorController.OnTreeViewSelectionChanged(selected);
-			
-			m_DetailsTextViewHelper.Verify();
-		}
-		
-		[Test()]
-		public void TestGenerateNullProject()
-		{			
-			m_GeneratorController.Generate(null);
-		}
-		
-		[Test()]
-		public void TestExport()
-		{
-			List<Context> selected = new List<Context>();
-			
-			Context result = new Context();
-			result.Tokens.Add("a");
-			result.Tokens.Add("b");
-			result.Tokens.Add("c");
-			
-			Context branch = result.Branch("b1");
-			branch.Tokens.Add("d");
-			
-			selected.Add(result);
-			
-			m_ResultViewHelper.ExpectAndReturn("GetAllItems", selected);
-			m_ExportHelper.Expect("Export");
-			
-			m_GeneratorController.Export((IExporter)m_ExportHelper.MockInstance, @"c:\abc.csv");
-					
-			m_ResultViewHelper.Verify();
-			m_ExportHelper.Verify();
-		}
-	}
+            Expect.Once.On(m_DetailsTextViewHelper).Method("OnDocumentChanged").With(m_GeneratorController, string.Format("abc{0}\tb1: abcd", Environment.NewLine), Is.Anything);
+
+            m_GeneratorController.OnTreeViewSelectionChanged(selected);
+
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+        }
+
+        [Test()]
+        public void TestGenerateNullProject()
+        {
+            m_GeneratorController.Generate(null);
+        }
+
+        [Test()]
+        public void TestExport()
+        {
+            List<Context> selected = new List<Context>();
+
+            Context result = new Context();
+            result.Tokens.Add("a");
+            result.Tokens.Add("b");
+            result.Tokens.Add("c");
+
+            Context branch = result.Branch("b1");
+            branch.Tokens.Add("d");
+
+            selected.Add(result);
+
+            Expect.Once.On(m_ResultViewHelper).Method("GetAllItems").Will(Return.Value(selected));
+            Expect.Once.On(m_ExportHelper).Method("Export");
+
+            m_GeneratorController.Export(m_ExportHelper, @"c:\abc.csv");
+
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+            m_Mockery.VerifyAllExpectationsHaveBeenMet();
+        }
+    }
 }

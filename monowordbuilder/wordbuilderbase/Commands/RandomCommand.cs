@@ -9,13 +9,6 @@ namespace Whee.WordBuilder.Model.Commands
 	public class RandomCommand : CommandBase
 	{
 	
-		public override void CheckSanity(Project project)
-		{
-			foreach (WeightedCommand cmd in _Commands) {
-				cmd.Command.CheckSanity(project);
-			}
-		}
-	
 		private static Random _Random = new Random();
 	
 		public override void Execute(Context context)
@@ -41,6 +34,21 @@ namespace Whee.WordBuilder.Model.Commands
 		public List<WeightedCommand> Commands {
 			get { return _Commands; }
 		}
+
+        public override void LoadCommand(Whee.WordBuilder.ProjectV2.IProjectSerializer serializer)
+        {
+            ProjectV2.WeightedCommandBlockNode wcbn = new ProjectV2.WeightedCommandBlockNode(serializer);
+
+            Children.Add(wcbn);
+
+            foreach (ProjectV2.WeightedCommandNode wcn in wcbn.Children)
+            {
+                WeightedCommand wc = new WeightedCommand();
+                wc.Weight = wcn.Weight;
+                wc.Command = wcn.Command;
+                Commands.Add(wc);
+            }
+        }
 	
 		public override void LoadCommand(Project project, System.IO.TextReader reader, string line, ref int lineNumber)
 		{
@@ -77,5 +85,21 @@ namespace Whee.WordBuilder.Model.Commands
 	
 			writer.WriteLine("}");
 		}
-	}
+
+        public override void CheckSanity(Project project, Whee.WordBuilder.ProjectV2.IProjectSerializer serializer)
+        {
+            foreach (WeightedCommand cmd in _Commands)
+            {
+                cmd.Command.CheckSanity(project, serializer);
+            }
+        }
+
+        public override bool RequireNewLine
+        {
+            get
+            {
+                return false;
+            }
+        }
+    }
 }

@@ -29,15 +29,35 @@ namespace Whee.WordBuilder.Model.Commands
 				_Literal = parts[1];
 			}
 		}
-	
+
+        public override void LoadCommand(Whee.WordBuilder.ProjectV2.IProjectSerializer serializer)
+        {
+            m_lineNumber = serializer.LineNumber;
+            ProjectV2.Token literal = serializer.ReadTextToken(this);
+            if (literal != null)
+            {
+                Literal = literal.Text;
+
+                if (serializer.ReadTextToken(this) != null)
+                {
+                    serializer.Warn("The prelit command requires 1 argument.");
+                }
+            }
+            else
+            {
+                serializer.Warn("The prelit command requires 1 argument.");
+            }
+
+        }
+
 		public override void WriteCommand(System.IO.TextWriter writer)
 		{
 			writer.WriteLine("PreLit {0}", ProjectSerializer.SecureString(_Literal));
 		}
-	
-	
-		public override void CheckSanity(Project project)
-		{
-		}
-	}
+
+
+        public override void CheckSanity(Project project, Whee.WordBuilder.ProjectV2.IProjectSerializer serializer)
+        {
+        }
+    }
 }

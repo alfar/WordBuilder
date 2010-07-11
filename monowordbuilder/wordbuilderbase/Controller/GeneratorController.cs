@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using Whee.WordBuilder.Model;
 using Whee.WordBuilder.Helpers;
 using Whee.WordBuilder.UIHelpers;
+using Whee.WordBuilder.ProjectV2;
 using Whee.WordBuilder.Exporters;
 
 namespace Whee.WordBuilder.Controller
@@ -45,7 +46,7 @@ namespace Whee.WordBuilder.Controller
 			m_ResultViewHelper.Clear();
 		}
 		
-		public void Generate(Whee.WordBuilder.Model.Project project)
+		public void Generate(Project project)
 		{
 			if (project != null)
 			{
@@ -102,7 +103,7 @@ namespace Whee.WordBuilder.Controller
 		
 		public void OnTreeViewSelectionChanged(List<Context> items)
 		{
-			m_DetailsTextViewHelper.OnDocumentChanged(this, RenderContexts(items, DescriptionRenderer));
+			m_DetailsTextViewHelper.OnDocumentChanged(this, RenderContexts(items, DescriptionRenderer), null);
 		}
 		
 		public void Export(IExporter exporter, string path)

@@ -96,7 +96,7 @@ namespace test
 		[Test()]
 		public void TestGetColumn()
 		{
-			Project p = new Project(null);
+			Project p = new Project(Whee.WordBuilder.Helpers.Random.Instance);
 			Context c = new Context();
 			
 			c.Tokens.Add("a");

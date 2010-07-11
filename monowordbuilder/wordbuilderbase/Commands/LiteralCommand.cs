@@ -16,8 +16,28 @@ namespace Whee.WordBuilder.Model.Commands
 		{
 			context.Tokens.Add(Literal);
 		}
-	
-		public override void LoadCommand(Project project, System.IO.TextReader reader, string line, ref int lineNumber)
+
+        public override void LoadCommand(Whee.WordBuilder.ProjectV2.IProjectSerializer serializer)
+        {
+            m_lineNumber = serializer.LineNumber;
+            ProjectV2.Token literal = serializer.ReadTextToken(this);
+            if (literal != null)
+            {
+                Literal = literal.Text;
+
+                if (serializer.ReadTextToken(this) != null)
+                {
+                    serializer.Warn("The literal command requires 1 argument.");
+                }
+            }
+            else
+            {
+                serializer.Warn("The literal command requires 1 argument.");
+            }
+
+        }
+
+        public override void LoadCommand(Project project, System.IO.TextReader reader, string line, ref int lineNumber)
 		{
 			base.LoadCommand(project, reader, line, ref lineNumber);
 			List<string> parts = ProjectSerializer.ReadTokens(line);
@@ -34,10 +54,10 @@ namespace Whee.WordBuilder.Model.Commands
 		{
 			writer.WriteLine("Literal {0}", ProjectSerializer.SecureString(_Literal));
 		}
-	
-	
-		public override void CheckSanity(Project project)
-		{
-		}
-	}
+
+
+        public override void CheckSanity(Project project, Whee.WordBuilder.ProjectV2.IProjectSerializer serializer)
+        {
+        }
+    }
 }

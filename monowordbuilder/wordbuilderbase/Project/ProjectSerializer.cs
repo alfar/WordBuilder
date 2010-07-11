@@ -14,12 +14,10 @@ namespace Whee.WordBuilder.Model
 		private ProjectSerializer()
 		{
 		}
-		
-		private static IRandom s_Random = new Whee.WordBuilder.Helpers.Random();
-	
+			
 		public static Project LoadProject(string path)
 		{
-			Project result = new Project(s_Random);
+            Project result = new Project(Whee.WordBuilder.Helpers.Random.Instance);
 	
 			try {
 				using (StreamReader tr = new StreamReader(path, System.Text.Encoding.UTF8)) {
@@ -35,7 +33,7 @@ namespace Whee.WordBuilder.Model
 	
 		public static Project LoadProjectString(string code)
 		{
-			Project result = new Project(s_Random);
+            Project result = new Project(Whee.WordBuilder.Helpers.Random.Instance);
 	
 			try {
 				using (StringReader tr = new StringReader(code)) {
@@ -216,27 +214,27 @@ namespace Whee.WordBuilder.Model
 	
 		private static void ReadProject(Project project, TextReader reader)
 		{
-			int linenumber = 0;
+            //int linenumber = 0;
 			
-			if (!ReadLines(project, reader, ParseProject, ref linenumber)) {
-				project.Warnings.Add("The code was not read to the end of the document");
-			}
+            //if (!ReadLines(project, reader, ParseProject, ref linenumber)) {
+            //    project.Warnings.Add("The code was not read to the end of the document");
+            //}
 	
-			if (project.StartRules.Count == 0) {
-				project.StartRules.Add("root", 100);
-			}
+            //if (project.StartRules.Count == 0) {
+            //    project.StartRules.Add("root", 100);
+            //}
 	
-			foreach (string sr in project.StartRules.Keys) {
-				if (project.Rules.GetRuleByName(sr) == null) {
-					project.Warnings.Add(string.Format("The starting rule '{0}' does not exist.", sr));
-				}
-			}
+            //foreach (string sr in project.StartRules.Keys) {
+            //    if (project.Rules.GetRuleByName(sr) == null) {
+            //        project.Warnings.Add(string.Format("The starting rule '{0}' does not exist.", sr));
+            //    }
+            //}
 	
-			foreach (Rule r in project.Rules) {
-				foreach (CommandBase c in r.Commands) {
-					c.CheckSanity(project);
-				}
-			}
+            //foreach (Rule r in project.Rules) {
+            //    foreach (CommandBase c in r.Commands) {
+            //        c.CheckSanity(project);
+            //    }
+            //}
 		}
 	
 		private static bool ParseProject(object context, TextReader reader, string line, ref int lineNumber)
@@ -250,7 +248,7 @@ namespace Whee.WordBuilder.Model
 					string command = ReadToken(line, ref start);
 	
 					if (command.Equals("tokens", StringComparison.CurrentCultureIgnoreCase)) {
-						TokenSet tks = new TokenSet(s_Random);
+                        TokenSet tks = new TokenSet(null, Whee.WordBuilder.Helpers.Random.Instance);
 						int len = line.Length;
 						string token = ReadToken(line, ref start);
 						tks.Name = token;
@@ -291,7 +289,7 @@ namespace Whee.WordBuilder.Model
 						project.TokenSets.Add(tks);
 					}
 					else if (command.Equals("rule", StringComparison.CurrentCultureIgnoreCase)) {
-						Rule r = new Rule();
+						Rule r = new Rule(null);
 						r.Name = ReadToken(line, ref start);
 						r.LineNumber = lineNumber;
 						double probability = 1;
