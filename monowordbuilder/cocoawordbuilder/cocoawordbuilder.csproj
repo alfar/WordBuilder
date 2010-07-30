@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B3B7767C-C742-482D-8C4A-1D90285DCA8E}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Whee.WordBuilder.Cocoa</RootNamespace>
+    <AssemblyName>cocoawordbuilder</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="nant.build" />
+    <None Include="en.lproj\Main.xib" />
+    <None Include="lib\NAnt.Monobjc.dll" />
+    <None Include="lib\Monobjc.dll" />
+    <None Include="lib\Monobjc.Cocoa.dll" />
+    <None Include="lib\libmonobjc.2.dylib" />
+    <None Include="lib\libmonobjc.1.dylib" />
+    <None Include="en.lproj\ExportAsView.xib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MainClass.cs" />
+    <Compile Include="ApplicationController.cs" />
+    <Compile Include="UIHelpers\CocoaWarningViewHelper.cs" />
+    <Compile Include="UIHelpers\CocoaFileDialogHelper.cs" />
+    <Compile Include="UIHelpers\CocoaTextViewHelper.cs" />
+    <Compile Include="UIHelpers\CocoaResultViewHelper.cs" />
+    <Compile Include="UIHelpers\CocoaResultsDataSource.cs" />
+    <Compile Include="UIHelpers\CocoaClipBoardHelper.cs" />
+    <Compile Include="UIHelpers\CocoaTextFieldHelper.cs" />
+    <Compile Include="UIHelpers\ExportAsViewController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Monobjc, Version=2.0.505.0, Culture=neutral, PublicKeyToken=d5a8d181860c16be">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Monobjc.dll</HintPath>
+    </Reference>
+    <Reference Include="Monobjc.Cocoa, Version=2.0.505.0, Culture=neutral, PublicKeyToken=d5a8d181860c16be">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Monobjc.Cocoa.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\wordbuilderbase\wordbuilderbase.csproj">
+      <Project>{443D90FC-817F-4D32-AF69-092E5A6EE944}</Project>
+      <Name>wordbuilderbase</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UIHelpers\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>
