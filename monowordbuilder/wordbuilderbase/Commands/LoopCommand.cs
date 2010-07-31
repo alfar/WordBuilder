@@ -114,7 +114,7 @@ namespace Whee.WordBuilder.Model.Commands
                             }
                             else
                             {
-                                serializer.Warn("Expected numbers only");
+                                serializer.Warn("Expected numbers only", this);
                             }
                         }
 

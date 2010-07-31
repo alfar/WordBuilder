@@ -65,7 +65,6 @@
         <Policies>
           <DotNetNamingPolicy DirectoryNamespaceAssociation="Flat" ResourceNamePolicy="FileFormatDefault" />
         </Policies>
-        <GtkDesignInfo generateGettext="false" />
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>

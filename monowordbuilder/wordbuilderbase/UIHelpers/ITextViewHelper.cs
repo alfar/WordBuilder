@@ -17,7 +17,7 @@ namespace Whee.WordBuilder.UIHelpers
 	{
 		void Clear();
 		void OnDocumentChanged(Object sender, string newText, IProjectNode project);
-		void GotoLine(int linenumber);
+		void GotoIndex(int index);
 		event EventHandler<Whee.WordBuilder.Model.Events.DocumentChangedEventArgs> BufferChanged;
         void DoHighlighting(ProjectNode project);
 	}

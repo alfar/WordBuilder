@@ -32,34 +32,18 @@ namespace Whee.WordBuilder.Model.Commands
                 _Amount = (int)amount;
                 if (serializer.ReadTextToken(this) != null)
                 {
-                    serializer.Warn("The leave command requires zero or one argument.");
+                    serializer.Warn("The leave command requires zero or one argument.", this);
                 }
             }
             else if (found)
             {
-                serializer.Warn("The leave command requires the first argument to be a positive integer.");
+                serializer.Warn("The leave command requires the first argument to be a positive integer.", this);
             }
             else
             {
                 _Amount = 1;
             }
         }
-
-		public override void LoadCommand(Project project, System.IO.TextReader reader, string line, ref int lineNumber)
-		{
-			base.LoadCommand(project, reader, line, ref lineNumber);
-	
-			List<string> parts = ProjectSerializer.ReadTokens(line);
-	
-			if (parts.Count == 1) {
-				_Amount = 1;
-			}
-			else if (parts.Count == 2) {
-				if (!int.TryParse(parts[1], out _Amount)) {
-					project.Warnings.Add(string.Format("Line {0}: Leave command requires a positive integer or zero as its second argument.", m_lineNumber));
-				}
-			}
-		}
 	
 		public override void WriteCommand(System.IO.TextWriter writer)
 		{
@@ -70,7 +54,7 @@ namespace Whee.WordBuilder.Model.Commands
         {
             if (_Amount < 0)
             {
-                serializer.Warn(string.Format("Line {0}: Leave command requires a positive integer or zero as its second argument.", m_lineNumber));
+                serializer.Warn("Leave command requires a positive integer or zero as its second argument.", this);
             }
         }
     }

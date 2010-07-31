@@ -70,7 +70,7 @@ namespace Whee.WordBuilder.ProjectV2
                             // LoadColumn();
                             break;
                         default:
-                            m_serializer.Warn("'" + directive.Text + "' is not a valid directive.");
+                            m_serializer.Warn("'" + directive.Text + "' is not a valid directive.", this);
                             break;
                     }
                 }

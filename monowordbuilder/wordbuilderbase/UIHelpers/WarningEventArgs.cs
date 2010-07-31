@@ -15,12 +15,12 @@ namespace Whee.WordBuilder.UIHelpers
 
 	public class WarningEventArgs : EventArgs
 	{
-		public WarningEventArgs (int linenumber)
+		public WarningEventArgs (int index)
 		{
-			LineNumber = linenumber;
+			Index = index;
 		}
 		
-		public int LineNumber {
+		public int Index {
 			get;
 			set;
 		}

@@ -246,7 +246,7 @@ namespace Whee.WordBuilder.Model.Commands
             m_project = project;
             if (_stringmapping.Count == 0)
             {
-                serializer.Warn(string.Format("Line {0}: The Translate command requires at least one translation directive.", LineNumber));
+                serializer.Warn("The Translate command requires at least one translation directive.", this);
             }
 
             foreach (string[] key in _stringmapping.Keys)

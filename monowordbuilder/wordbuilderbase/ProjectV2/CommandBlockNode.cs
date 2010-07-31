@@ -45,7 +45,7 @@ namespace Whee.WordBuilder.ProjectV2
                 }
                 else
                 {
-                    m_serializer.Warn(string.Format("Command '{0}' not found.", command.Text));
+                    m_serializer.Warn(string.Format("Command '{0}' not found.", command.Text), this);
                     command.Type = TokenType.Error;
                 }
             }

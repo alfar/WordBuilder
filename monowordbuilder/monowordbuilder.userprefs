@@ -1,30 +1,42 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" ctype="Workspace" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="wordbuilderbase\ProjectV2\CommandBlockNode.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="cocoawordbuilder/UIHelpers/CocoaTextViewHelper.cs" ctype="Workbench">
     <Files>
-      <File FileName="wordbuilderbase\ProjectV2\ProjectSerializer.cs" Line="154" Column="4" />
-      <File FileName="test\ProjectV2\ProjectSerializerTest.cs" Line="201" Column="24" />
-      <File FileName="wordbuilderbase\ProjectV2\RuleNode.cs" Line="24" Column="49" />
-      <File FileName="wordbuilderbase\ProjectV2\CommandBlockNode.cs" Line="45" Column="1" />
-      <File FileName="wordbuilderbase\ProjectV2\IProjectSerializer.cs" Line="20" Column="3" />
+      <File FileName="cocoawordbuilder/UIHelpers/ExportAsViewController.cs" Line="57" Column="1" />
+      <File FileName="gtkwordbuilder/ExportDialog.cs" Line="41" Column="31" />
+      <File FileName="cocoawordbuilder/ApplicationController.cs" Line="105" Column="19" />
+      <File FileName="cocoawordbuilder/nant.build" Line="122" Column="1" />
+      <File FileName="cocoawordbuilder/UIHelpers/CocoaClipBoardHelper.cs" Line="24" Column="4" />
+      <File FileName="cocoawordbuilder/UIHelpers/CocoaTextViewHelper.cs" Line="68" Column="3" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="gtkwordbuilder" expanded="True" />
-          <Node name="test" expanded="True">
-            <Node name="ProjectV2" expanded="True" />
+          <Node name="cocoawordbuilder" expanded="True">
+            <Node name="en.lproj" expanded="True" />
+            <Node name="lib" expanded="True" />
+            <Node name="UIHelpers" expanded="True">
+              <Node name="CocoaTextViewHelper.cs" selected="True" />
+            </Node>
+          </Node>
+          <Node name="gtkwordbuilder" expanded="True">
+            <Node name="gtk-gui" expanded="True" />
+            <Node name="UIHelpers" expanded="True" />
           </Node>
           <Node name="wordbuilderbase" expanded="True">
-            <Node name="ProjectV2" expanded="True">
-              <Node name="CommandBlockNode.cs" selected="True" />
-            </Node>
+            <Node name="Commands" expanded="True" />
+            <Node name="Controller" expanded="True" />
+            <Node name="Helpers" expanded="True" />
+            <Node name="Project" expanded="True" />
+            <Node name="ProjectV2" expanded="True" />
             <Node name="UIHelpers" expanded="True" />
           </Node>
         </State>
       </Pad>
       <Pad Id="ClassPad">
-        <State expanded="True" selected="True" />
+        <State expanded="True">
+          <Node name="gtkwordbuilder" selected="True" />
+        </State>
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
         <State />
@@ -34,4 +46,8 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches ctype="PinnedWatchStore" />
 </Properties>

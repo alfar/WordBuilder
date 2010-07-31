@@ -46,12 +46,12 @@ namespace Whee.WordBuilder.Model.Commands
 
                 if (serializer.ReadTextToken(this) != null)
                 {
-                    serializer.Warn("The prefix command requires one argument.");
+                    serializer.Warn("The prefix command requires one argument.", this);
                 }
             }
             else
             {
-                serializer.Warn("The prefix command requires one argument.");
+                serializer.Warn("The prefix command requires one argument.", this);
             }
         }
 
@@ -65,11 +65,11 @@ namespace Whee.WordBuilder.Model.Commands
             int count = project.TokenSets.CountByName(TokenSet);
             if (count == 0)
             {
-                serializer.Warn(string.Format("Line {0}: The token set '{1}' does not exist.", LineNumber, TokenSet));
+                serializer.Warn(string.Format("The token set '{0}' does not exist.", TokenSet), this);
             }
             else if (count > 1)
             {
-                serializer.Warn(string.Format("Line {0}: Multiple token sets with the name '{1}' exist.", LineNumber, TokenSet));
+                serializer.Warn(string.Format("Multiple token sets with the name '{0}' exist.", TokenSet), this);
             }
         }
     }

@@ -27,12 +27,12 @@ namespace Whee.WordBuilder.Model.Commands
 
                 if (serializer.ReadTextToken(this) != null)
                 {
-                    serializer.Warn("The literal command requires 1 argument.");
+                    serializer.Warn("The literal command requires 1 argument.", this);
                 }
             }
             else
             {
-                serializer.Warn("The literal command requires 1 argument.");
+                serializer.Warn("The literal command requires 1 argument.", this);
             }
 
         }

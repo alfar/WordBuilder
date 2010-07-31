@@ -51,7 +51,7 @@ namespace Whee.WordBuilder.ProjectV2
 
                 if (amount == null && found)
                 {
-                    m_serializer.Warn(string.Format("Amount specified ({1}) for starting rule '{0}' was not a number.", m_Name, amount.Text));
+                    m_serializer.Warn(string.Format("Amount specified ({1}) for starting rule '{0}' was not a number.", m_Name, amount.Text), this);
                 }
 
                 lineBreak = m_serializer.ReadLineBreakToken(this);

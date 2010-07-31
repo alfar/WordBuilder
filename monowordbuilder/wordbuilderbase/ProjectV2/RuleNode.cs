@@ -37,7 +37,7 @@ namespace Whee.WordBuilder.ProjectV2
             }
             else
             {
-                m_serializer.Warn("Name expected");
+                m_serializer.Warn("Name expected", this);
             }
         }
 
