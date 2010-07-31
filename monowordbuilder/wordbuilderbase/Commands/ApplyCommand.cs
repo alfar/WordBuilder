@@ -56,7 +56,7 @@ namespace Whee.WordBuilder.Model.Commands
             }
             else
             {
-                serializer.Warn("The apply command expects a command block.");
+                serializer.Warn("The apply command expects a command block.", this);
             }
         }
 

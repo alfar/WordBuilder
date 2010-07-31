@@ -30,14 +30,13 @@ namespace Whee.WordBuilder.ProjectV2
 		
 		private void LoadDirectives()
 		{
-            Token indentation = null;
             Token directive = null;
 
             bool ended = false;
 
             while (!ended)
             {
-                indentation = m_serializer.ReadIndentationToken(this);
+                m_serializer.ReadIndentationToken(this);
                 directive = m_serializer.ReadTextToken(this);
 
                 if (directive != null)
@@ -70,7 +69,8 @@ namespace Whee.WordBuilder.ProjectV2
                             // LoadColumn();
                             break;
                         default:
-                            m_serializer.Warn("'" + directive.Text + "' is not a valid directive.");
+                            m_serializer.Warn("'" + directive.Text + "' is not a valid directive.", new ProblemAreaNode(directive.Offset));
+						    directive.Type = TokenType.Error;
                             break;
                     }
                 }
@@ -79,20 +79,6 @@ namespace Whee.WordBuilder.ProjectV2
                     ended = m_serializer.ReadLineBreakToken(this).Length == 0;
                 }
             }
-
-            //Token t = m_serializer.ReadToken(TokenType.Directive | TokenType.Indentation | TokenType.LineBreak);
-            //while (t != null)
-            //{
-            //    switch(t.Type)
-            //    {
-            //    case TokenType.Directive:
-            //        switch (t.Text.ToLower())
-            //        {
-            //        }
-            //        break;
-            //    }
-            //    t = m_serializer.ReadToken(TokenType.Directive | TokenType.Indentation | TokenType.LineBreak);
-            //}
 		}
 	}
 }

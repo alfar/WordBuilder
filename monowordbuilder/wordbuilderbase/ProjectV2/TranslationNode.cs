@@ -36,7 +36,7 @@ namespace Whee.WordBuilder.ProjectV2
 
             if (part == null)
             {
-                m_serializer.Warn("Each translation expects a => as part of the expression");
+                m_serializer.Warn("Each translation expects a => as part of the expression", this);
                 Successful = false;
             }
             else

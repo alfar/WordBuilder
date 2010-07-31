@@ -39,12 +39,12 @@ namespace Whee.WordBuilder.Model.Commands
                 _Amount = (int)amount;
                 if (serializer.ReadTextToken(this) != null)
                 {
-                    serializer.Warn("The drop command requires zero or one argument.");
+                    serializer.Warn("The drop command requires zero or one argument.", this);
                 }
             }
             else if (found)
             {
-                serializer.Warn("The drop command requires the first argument to be a positive integer.");
+                serializer.Warn("The drop command requires the first argument to be a positive integer.", this);
             }
             else
             {
@@ -80,7 +80,7 @@ namespace Whee.WordBuilder.Model.Commands
         {
             if (_Amount <= 0)
             {
-                serializer.Warn(string.Format("Line {0}: Drop command requires a positive integer as its second argument.", m_lineNumber));
+                serializer.Warn("Drop command requires a positive integer as its second argument.", this);
             }
         }
     }

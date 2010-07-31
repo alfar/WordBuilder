@@ -28,7 +28,7 @@ namespace Whee.WordBuilder.Model.Commands
 
             if (serializer.ReadTextToken(this) != null)
             {
-                serializer.Warn("The repeat command requires zero arguments.");
+                serializer.Warn("The repeat command requires zero arguments.", this);
             }
         }
 

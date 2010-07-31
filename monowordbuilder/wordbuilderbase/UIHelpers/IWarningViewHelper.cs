@@ -9,13 +9,14 @@
 //------------------------------------------------------------------------------
 
 using System;
+using Whee.WordBuilder.ProjectV2;
 
 namespace Whee.WordBuilder.UIHelpers
 {
     public interface IWarningViewHelper
     {
         void Clear();
-        void AddWarning(string message);
+        void AddWarning(IProjectNode node, string message);
         bool HasWarnings { get; }
         event EventHandler<WarningEventArgs> WarningActivated;
     }

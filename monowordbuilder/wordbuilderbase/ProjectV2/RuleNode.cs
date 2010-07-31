@@ -32,12 +32,16 @@ namespace Whee.WordBuilder.ProjectV2
                 {
                     Probability = num;
                 }
+				else
+				{
+					Probability = 1.0;
+				}
 
                 Children.Add(new CommandBlockNode(serializer));
             }
             else
             {
-                m_serializer.Warn("Name expected");
+                m_serializer.Warn("Name expected", new ProblemAreaNode(serializer.Position));
             }
         }
 

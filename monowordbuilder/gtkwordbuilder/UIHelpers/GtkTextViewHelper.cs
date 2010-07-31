@@ -90,9 +90,9 @@ namespace Whee.WordBuilder.UIHelpers
             }
         }
 
-		public void GotoLine (int linenumber)
+		public void GotoIndex(int index)
 		{
-			TextIter iter = m_textView.Buffer.GetIterAtLine(linenumber);
+			TextIter iter = m_textView.Buffer.GetIterAtOffset(index);
 			m_textView.Buffer.PlaceCursor(iter);
 			m_textView.PlaceCursorOnscreen();
 			m_textView.GrabFocus();

@@ -191,6 +191,7 @@ namespace Whee.WordBuilder.ProjectV2
 
         public Token ReadTextToken(IProjectNode node)
         {
+			m_warningsToNode = node;
             CheckForComments(node);
             StringBuilder sb = new StringBuilder();
             int start = m_Offset;
@@ -206,6 +207,7 @@ namespace Whee.WordBuilder.ProjectV2
 
         public Token ReadNumericToken(IProjectNode node, ref double value, out bool found)
         {
+			m_warningsToNode = node;
             CheckForComments(node);
             found = false;
             StringBuilder sb = new StringBuilder();
@@ -230,6 +232,7 @@ namespace Whee.WordBuilder.ProjectV2
 
         public Token ReadIndentationToken(IProjectNode node)
         {
+			m_warningsToNode = node;
             CheckForComments(node);
             StringBuilder sb = new StringBuilder();
             int start = m_Offset;
@@ -249,6 +252,7 @@ namespace Whee.WordBuilder.ProjectV2
 
         public Token ReadLineBreakToken(IProjectNode node)
         {
+			m_warningsToNode = node;
             CheckForComments(node);
             StringBuilder sb = new StringBuilder();
             int start = m_Offset;
@@ -269,6 +273,7 @@ namespace Whee.WordBuilder.ProjectV2
 
         public Token ReadBlockStarterToken(IProjectNode node)
         {
+			m_warningsToNode = node;
             CheckForComments(node);
             int nextChar = Peek();
 
@@ -285,6 +290,7 @@ namespace Whee.WordBuilder.ProjectV2
 
         public Token ReadBlockEnderToken(IProjectNode node)
         {
+			m_warningsToNode = node;
             CheckForComments(node);
             int nextChar = Peek();
 
@@ -333,8 +339,8 @@ namespace Whee.WordBuilder.ProjectV2
                 }
                 else
                 {
-                    Warn("Expected ] to end repeating token");
-                }
+                    Warn("Expected ] to end repeating token", m_warningsToNode);
+				}
             }
             else
             {
@@ -346,6 +352,7 @@ namespace Whee.WordBuilder.ProjectV2
 
         public Token ReadSquaredBlockToken(IProjectNode node)
         {
+			m_warningsToNode = node;
             CheckForComments(node);
             StringBuilder sb = new StringBuilder();
             StringBuilder datasb = new StringBuilder();
@@ -363,6 +370,7 @@ namespace Whee.WordBuilder.ProjectV2
 
         public Token ReadRepeatingToken(IProjectNode node, out int repetitions, out string data)
         {
+			m_warningsToNode = node;
             CheckForComments(node);
             StringBuilder sb = new StringBuilder();
             StringBuilder datasb = new StringBuilder();
@@ -422,24 +430,19 @@ namespace Whee.WordBuilder.ProjectV2
             return t;
         }
 
-        public void Warn(string message)
-        {
+		public void Warn(string message, IProjectNode node)
+		{
             if (WarningViewHelper != null)
             {
-                if (m_lineNumber > 0)
-                {
-                    WarningViewHelper.AddWarning(string.Format("Line {0}: {1}", m_lineNumber, message));
-                }
-                else
-                {
-                    WarningViewHelper.AddWarning(message);
-                }
+                WarningViewHelper.AddWarning(node, message);
             }
-        }
+		}
 
         public int LineNumber
         {
             get { return m_lineNumber; }
         }
+		
+		private IProjectNode m_warningsToNode;
     }
 }

@@ -422,12 +422,11 @@ namespace test
             Token t = ps.ReadTextToken(pn);
             Assert.AreEqual(1, t.LineNumber);
 
-            Token newLine = ps.ReadLineBreakToken(pn);
-
+            ps.ReadLineBreakToken(pn);
             t = ps.ReadTextToken(pn);
             Assert.AreEqual(2, t.LineNumber);
 
-            newLine = ps.ReadLineBreakToken(pn);
+            ps.ReadLineBreakToken(pn);
 
             t = ps.ReadTextToken(pn);
             Assert.AreEqual(4, t.LineNumber);

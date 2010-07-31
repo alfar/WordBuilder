@@ -333,11 +333,11 @@ namespace test
         }
 
         [Test()]
-        public void TestGotoLine()
+        public void TestGotoIndex()
         {
-            Expect.Once.On(m_TextViewHelper).Method("GotoLine").With(2);
+            Expect.Once.On(m_TextViewHelper).Method("GotoIndex").With(2);
 
-            m_DocumentController.GotoLine(2);
+            m_DocumentController.GotoIndex(2);
 
             m_Mockery.VerifyAllExpectationsHaveBeenMet();
         }

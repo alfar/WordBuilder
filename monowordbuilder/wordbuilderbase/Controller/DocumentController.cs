@@ -33,7 +33,7 @@ namespace Whee.WordBuilder.Controller
 
 		void HandleM_WarningViewHelperWarningActivated (object sender, WarningEventArgs e)
 		{
-			GotoLine(e.LineNumber - 1);
+			GotoIndex(e.Index);
 		}
 
 		void HandleM_textViewBufferChanged (object sender, DocumentChangedEventArgs e)
@@ -82,9 +82,9 @@ namespace Whee.WordBuilder.Controller
 			m_updating = false;
 		}
 
-		public void GotoLine(int linenumber)
+		public void GotoIndex(int index)
 		{
-			m_textView.GotoLine(linenumber);
+			m_textView.GotoIndex(index);
 		}
 		
 		public void Save()

@@ -41,35 +41,20 @@ namespace Whee.WordBuilder.Model.Commands
 
                     if (serializer.ReadTextToken(this) != null)
                     {
-                        serializer.Warn("The mark command requires 2 arguments.");
+                        serializer.Warn("The mark command requires 2 arguments.", this);
                     }
                 }
                 else
                 {
-                    serializer.Warn("The mark command requires 2 arguments.");
+                    serializer.Warn("The mark command requires 2 arguments.", this);
                 }
             }
             else
             {
-                serializer.Warn("The mark command requires 2 arguments.");
+                serializer.Warn("The mark command requires 2 arguments.", this);
             }
         }
 
-		public override void LoadCommand(Project project, System.IO.TextReader reader, string line, ref int lineNumber)
-		{
-			base.LoadCommand(project, reader, line, ref lineNumber);
-	
-			List<string> parts = ProjectSerializer.ReadTokens(line);
-	
-			if (parts.Count != 3) {
-				project.Warnings.Add(string.Format("Line {0}: The mark command requires 2 arguments.", lineNumber));
-			}
-			else {
-				_Name = parts[1];
-				_Value = parts[2];
-			}
-		}
-	
 		public override void WriteCommand(System.IO.TextWriter writer)
 		{
 			writer.WriteLine("Mark {0} {1}", _Name, _Value);

@@ -46,7 +46,7 @@ namespace Whee.WordBuilder.ProjectV2
                 {
                     m_serializer.RollBackToken(indentation);
                 }
-                m_serializer.Warn("The expected block is empty. Check indentation.");
+                m_serializer.Warn("The expected block is empty. Check indentation.", this);
                 return;
             }
 
@@ -69,7 +69,7 @@ namespace Whee.WordBuilder.ProjectV2
                 {
                     if (!useIndentation)
                     {
-                        m_serializer.Warn("Expected } before end of file.");
+                        m_serializer.Warn("Expected } before end of file.", this);
                     }
                     ended = true;
                 }
@@ -113,7 +113,7 @@ namespace Whee.WordBuilder.ProjectV2
                         {
                             if (!useIndentation)
                             {
-                                m_serializer.Warn("Expected } before end of file.");
+                                m_serializer.Warn("Expected } before end of file.", this);
                             }
                             ended = true;
                         }
@@ -128,7 +128,7 @@ namespace Whee.WordBuilder.ProjectV2
 
                     if (newLine == null && requireNewLine)
                     {
-                        m_serializer.Warn("New line expected");
+                        m_serializer.Warn("New line expected", this);
                     }
 
                     starting = false;

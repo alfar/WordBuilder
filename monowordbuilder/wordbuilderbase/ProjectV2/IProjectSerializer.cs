@@ -33,7 +33,7 @@ namespace Whee.WordBuilder.ProjectV2
         int LastIndentationLevel { get; }
         int CurrentIndentationLevel { get; }
         Whee.WordBuilder.Helpers.IRandom Random { get; }
-        void Warn(string message);
+        void Warn(string message, IProjectNode node);
 		
         //Token ReadToken(TokenType expectedTypes);
         //Token ReadToken(TokenType expectedTypes, int expectedIndentation);

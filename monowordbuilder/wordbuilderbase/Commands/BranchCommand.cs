@@ -40,17 +40,17 @@ namespace Whee.WordBuilder.Model.Commands
 
                     if (serializer.ReadTextToken(this) != null)
                     {
-                        serializer.Warn("The branch command requires 2 arguments.");
+                        serializer.Warn("The branch command requires 2 arguments.", this);
                     }
                 }
                 else
                 {
-                    serializer.Warn("The branch command requires 2 arguments.");
+                    serializer.Warn("The branch command requires 2 arguments.", this);
                 }
             }
             else
             {
-                serializer.Warn("The branch command requires 2 arguments.");
+                serializer.Warn("The branch command requires 2 arguments.", this);
             }
         }
 
@@ -79,7 +79,7 @@ namespace Whee.WordBuilder.Model.Commands
             m_project = project;
             if (project.Rules.GetRuleByName(Rule) == null)
             {
-                serializer.Warn(string.Format("Line {0}: The rule '{1}' does not exist.", LineNumber, Rule));
+                serializer.Warn(string.Format("The rule '{0}' does not exist.", Rule), this);
             }            
         }
     }

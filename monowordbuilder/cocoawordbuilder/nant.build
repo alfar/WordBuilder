@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<project name="Monobjc Application" default="build" basedir=".">
+  <description>Monobjc Application Build File</description>
+
+  <property name="lib.dir" value="lib" overwrite="false"/>
+  <property name="build.dir" value="build" overwrite="false"/>
+  <property name="dist.dir" value="dist" overwrite="false"/>
+
+  <property name="app.name" value="cocoawordbuilder" overwrite="false"/>
+
+  <!-- ===============================================================================
+  Remove all the generated files
+  ================================================================================ -->
+  <target name="clean" description="Remove all the generated files">
+    <delete dir="${build.dir}" failonerror="false" />
+    <delete dir="${dist.dir}" failonerror="false" />
+  </target>
+
+  <!-- ===============================================================================
+  Prepare the build
+  ================================================================================ -->
+  <target name="prepare" description="Prepare the build">
+
+    <!-- Creates folders -->
+    <mkdir dir="${build.dir}" failonerror="false" />
+    <mkdir dir="${dist.dir}" failonerror="false" />
+
+    <!-- Loads custom tasks -->
+    <loadtasks assembly="${lib.dir}/NAnt.Monobjc.dll" />
+
+  </target>
+
+  <!-- ===============================================================================
+  Build the application
+  ================================================================================ -->
+  <target name="build" description="Build the application" depends="prepare">
+
+    <!-- Compile source files -->
+    <csc target="exe" output="${build.dir}/${app.name}.exe">
+      <sources>
+        <include name="**/*.cs"/>
+      </sources>
+      <references basedir="${lib.dir}">
+        <include name="Monobjc.dll"/>
+        <include name="Monobjc.Cocoa.dll"/>
+      	<include name="../../wordbuilderbase/bin/Debug/wordbuilderbase.dll" />
+      </references>
+    </csc>
+
+   
+   
+    <!-- Compile the XIB file to a NIB file -->
+    <ibtool xibfile="en.lproj/Main.xib" todir="en.lproj"/>
+    <ibtool xibfile="en.lproj/ExportAsView.xib" todir="en.lproj"/>
+
+    <!-- Create the application bundle -->
+    <mkappl name="${app.name}"
+        todir="${dist.dir}">
+      <!-- Copy bridge libraries -->
+      <copy-in-macos basedir="${lib.dir}">
+        <include name="libmonobjc.*.dylib"/>
+      </copy-in-macos>
+     
+      <!-- Copy executable -->
+      <copy-in-resources basedir="${build.dir}">
+        <include name="${app.name}.exe"/>
+      </copy-in-resources>
+
+      <!-- Copy libraries -->
+      <copy-in-resources basedir="${lib.dir}">
+        <include name="Monobjc.dll"/>
+        <include name="Monobjc.Cocoa.dll"/>
+      </copy-in-resources>
+      
+      <!-- Copy wordbuilderbase -->
+      <copy-in-resources basedir="../wordbuilderbase/bin/Debug">
+      	<include name="wordbuilderbase.dll" />
+      </copy-in-resources>
+
+      <!-- Copy other files or folder -->
+      <copy-in-resources basedir=".">
+        <include name="*.lproj/*.nib"/>
+      </copy-in-resources>
+     
+    </mkappl>
+   
+  </target>
+
+  <!-- ===============================================================================
+  Build the native application
+  ================================================================================ -->
+  <target name="native" description="Build the application" depends="prepare">
+
+    <!-- Compile source files -->
+    <csc target="exe" output="${build.dir}/${app.name}.exe">
+      <sources>
+        <include name="**/*.cs"/>
+      </sources>
+      <references basedir="${lib.dir}">
+        <include name="Monobjc.dll"/>
+        <include name="Monobjc.Cocoa.dll"/>
+      	<include name="../../wordbuilderbase/bin/Debug/wordbuilderbase.dll" />
+      </references>
+    </csc>
+
+    <!-- Compile the XIB file to a NIB file -->
+    <ibtool xibfile="en.lproj/Main.xib" todir="en.lproj"/>
+    <ibtool xibfile="en.lproj/ExportAsView.xib" todir="en.lproj"/>
+
+    <!-- Generate a native binary that embeds everything -->
+    <mkbundle exe="${build.dir}/${app.name}.exe"
+        todir="${build.dir}"
+
+        target="MACOSX_10_5"
+
+        binary-caching="true"
+        universal="false">
+      <search-in basedir="../wordbuilderbase/bin/Debug"/>
+      <search-in basedir="${lib.dir}"/>
+    </mkbundle>
+
+    <!-- Create the application bundle -->
+    <mkappl name="${app.name}"
+        todir="${dist.dir}"
+        native="true">
+      <!-- Copy bridge libraries -->
+      <copy-in-macos basedir="${lib.dir}">
+        <include name="libmonobjc.*.dylib"/>
+      </copy-in-macos>
+     
+      <!-- Copy executable -->
+      <copy-in-macos basedir="${build.dir}">
+        <include name="${app.name}"/>
+        <include name="lib*.dylib"/>
+      </copy-in-macos>
+
+      <!-- Copy other files or folder -->
+      <copy-in-resources basedir=".">
+        <include name="*.lproj/*.nib"/>
+      </copy-in-resources>
+     
+    </mkappl>
+   
+  </target>
+ 
+</project>

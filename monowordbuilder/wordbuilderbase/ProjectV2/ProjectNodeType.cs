@@ -22,6 +22,7 @@ namespace Whee.WordBuilder.ProjectV2
 		ColumnDeclaration,
 		Command,
 		CommandBlock,
-        Translation
+        Translation,
+		ProblemArea
 	}
 }

@@ -27,7 +27,7 @@ namespace Whee.WordBuilder.ProjectV2
             }
             else
             {
-                m_serializer.Warn("The column directive expects two arguments, a title and an expression.");
+                m_serializer.Warn("The column directive expects two arguments, a title and an expression.", this);
             }
 
             Token exprToken = m_serializer.ReadTextToken(this);
@@ -37,13 +37,13 @@ namespace Whee.WordBuilder.ProjectV2
             }
             else
             {
-                m_serializer.Warn("The column directive expects two arguments, a title and an expression.");
+                m_serializer.Warn("The column directive expects two arguments, a title and an expression.", this);
             }
 
             Token lineBreak = m_serializer.ReadLineBreakToken(this);
             if (lineBreak == null)
             {
-                m_serializer.Warn("The column directive expects no more than two arguments, a title and an expression.");
+                m_serializer.Warn("The column directive expects no more than two arguments, a title and an expression.", this);
             }
         }
 

@@ -30,7 +30,7 @@ namespace Whee.WordBuilder.UIHelpers
 		
 			m_WarningsTreeView.AppendColumn(warningCol);
 		
-			m_Warnings = new ListStore(typeof(string));
+			m_Warnings = new ListStore(typeof(string), typeof(Whee.WordBuilder.ProjectV2.IProjectNode));
 			m_WarningsTreeView.Model = m_Warnings;
 			
 			m_WarningsTreeView.RowActivated += HandleM_WarningsTreeViewRowActivated;
@@ -42,18 +42,9 @@ namespace Whee.WordBuilder.UIHelpers
 			{
 				TreeIter iter;
 				m_Warnings.GetIter(out iter, args.Path);
-				
-				string warning = (string)m_Warnings.GetValue(iter, 0);
-				
-				if (warning.StartsWith("Line "))
-				{
-					int line = 0;
-					
-					if (int.TryParse(warning.Substring(5, warning.IndexOf(':') - 5), out line))
-					{
-						WarningActivated(this, new WarningEventArgs(line));
-					}
-				}
+
+				Whee.WordBuilder.ProjectV2.IProjectNode node = (Whee.WordBuilder.ProjectV2.IProjectNode)m_Warnings.GetValue(iter, 1);
+				WarningActivated(this, new WarningEventArgs(node.Index));
 			}
 		}
 		
@@ -62,10 +53,10 @@ namespace Whee.WordBuilder.UIHelpers
 		private ListStore m_Warnings;
 
 		#region IWarningViewHelper implementation
-		public void AddWarning(string message)
+		public void AddWarning(Whee.WordBuilder.ProjectV2.IProjectNode node, string message)
 		{
 			m_WarningsScrolledWindow.Visible = true;
-			m_Warnings.AppendValues(message);
+			m_Warnings.AppendValues(message, node);
             m_HasWarnings = true;
 		}
 

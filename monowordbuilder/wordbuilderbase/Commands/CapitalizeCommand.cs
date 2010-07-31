@@ -45,12 +45,12 @@ namespace Whee.WordBuilder.Model.Commands
 
                 if (serializer.ReadTextToken(this) != null)
                 {
-                    serializer.Warn("The capitalize command requires zero or one argument.");
+                    serializer.Warn("The capitalize command requires zero or one argument.", this);
                 }
             }
             else if (found)
             {
-                serializer.Warn("The capitalize command requires the first argument to be an integer.");
+                serializer.Warn("The capitalize command requires the first argument to be an integer.", this);
             }
             else
             {
@@ -70,11 +70,11 @@ namespace Whee.WordBuilder.Model.Commands
 			}
 			else if (parts.Count == 2) {
 				if (!int.TryParse(parts[1], out _Position)) {
-					project.Warnings.Add(string.Format("Line {0}: The capitalize command requires the first argument to be an integer.", lineNumber));
+					project.Warnings.Add("The capitalize command requires the first argument to be an integer.");
 				}
 			}
 			else {
-				project.Warnings.Add(string.Format("Line {0}: The capitalize command requires zero or one argument.", lineNumber));
+				project.Warnings.Add("The capitalize command requires zero or one argument.");
 			}
 		}
 	
@@ -87,7 +87,7 @@ namespace Whee.WordBuilder.Model.Commands
         {
             if (_Position == 0)
             {
-                serializer.Warn(string.Format("Line {0}: The capitalize command requires the first argument to be a non-zero integer.", LineNumber));
+                serializer.Warn("The capitalize command requires the first argument to be a non-zero integer.", this);
             }
         }
     }

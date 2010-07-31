@@ -42,21 +42,21 @@ namespace Whee.WordBuilder.ProjectV2
                     }
                     else
                     {
-                        m_serializer.Warn(string.Format("Command '{0}' not found.", command.Text));
+                        m_serializer.Warn(string.Format("Command '{0}' not found.", command.Text), this);
                         command.Type = TokenType.Error;
                         Successful = false;
                     }
                 }
                 else
                 {
-                    m_serializer.Warn("Expected a command");
+                    m_serializer.Warn("Expected a command", this);
                     probabilityToken.Type = TokenType.Error;
                     Successful = false;
                 }
             }
             else if (found)
             {
-                m_serializer.Warn("Expected a probability expressed as a decimal number.");
+                m_serializer.Warn("Expected a probability expressed as a decimal number.", this);
                 Successful = false;
 
                 m_serializer.ReadTextToken(this).Type = TokenType.Error;

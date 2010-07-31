@@ -1,25 +1,21 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" ctype="Workspace" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="wordbuilderbase\ProjectV2\CommandBlockNode.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="wordbuilderbase/ProjectV2/BlockNodeBase.cs" ctype="Workbench">
     <Files>
-      <File FileName="wordbuilderbase\ProjectV2\ProjectSerializer.cs" Line="154" Column="4" />
-      <File FileName="test\ProjectV2\ProjectSerializerTest.cs" Line="201" Column="24" />
-      <File FileName="wordbuilderbase\ProjectV2\RuleNode.cs" Line="24" Column="49" />
-      <File FileName="wordbuilderbase\ProjectV2\CommandBlockNode.cs" Line="45" Column="1" />
-      <File FileName="wordbuilderbase\ProjectV2\IProjectSerializer.cs" Line="20" Column="3" />
+      <File FileName="wordbuilderbase/ProjectV2/ProjectSerializer.cs" Line="431" Column="39" />
+      <File FileName="wordbuilderbase/Commands/ApplyCommand.cs" Line="59" Column="28" />
+      <File FileName="wordbuilderbase/ProjectV2/BlockNodeBase.cs" Line="49" Column="30" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="gtkwordbuilder" expanded="True" />
-          <Node name="test" expanded="True">
-            <Node name="ProjectV2" expanded="True" />
-          </Node>
+          <Node name="monowordbuilder" expanded="True" />
           <Node name="wordbuilderbase" expanded="True">
+            <Node name="Commands" expanded="True" />
             <Node name="ProjectV2" expanded="True">
-              <Node name="CommandBlockNode.cs" selected="True" />
+              <Node name="BlockNodeBase.cs" selected="True" />
             </Node>
-            <Node name="UIHelpers" expanded="True" />
           </Node>
         </State>
       </Pad>
@@ -34,4 +30,8 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches ctype="PinnedWatchStore" />
 </Properties>

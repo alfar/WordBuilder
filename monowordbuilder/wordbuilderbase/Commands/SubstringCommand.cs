@@ -80,52 +80,21 @@ namespace Whee.WordBuilder.Model.Commands
                     _EndIndex = (int)amount;
                     if (serializer.ReadTextToken(this) != null)
                     {
-                        serializer.Warn("The substring command requires one or two arguments.");
+                        serializer.Warn("The substring command requires one or two arguments.", this);
                     }
                 }
                 else if (found)
                 {
-                    serializer.Warn("The substring command requires its arguments to be positive integers.");
+                    serializer.Warn("The substring command requires its arguments to be positive integers.", this);
                 }
             }
             else if (found)
             {
-                serializer.Warn("The substring command requires its arguments to be positive integers.");
+                serializer.Warn("The substring command requires its arguments to be positive integers.", this);
             }
             else
             {
-                serializer.Warn("The substring command requires one or two arguments.");
-            }
-        }
-
-        public override void LoadCommand(Project project, System.IO.TextReader reader, string line, ref int lineNumber)
-        {
-            base.LoadCommand(project, reader, line, ref lineNumber);
-
-            List<string> parts = ProjectSerializer.ReadTokens(line);
-
-            if (parts.Count == 2)
-            {
-                if (!int.TryParse(parts[1], out _StartIndex))
-                {
-                    project.Warnings.Add(string.Format("Line {0}: Substring command requires an integer as its first argument.", m_lineNumber));
-                }
-            }
-            else if (parts.Count == 3)
-            {
-                if (!int.TryParse(parts[1], out _StartIndex))
-                {
-                    project.Warnings.Add(string.Format("Line {0}: Substring command requires an integer as its first argument.", m_lineNumber));
-                }
-
-                if (!int.TryParse(parts[2], out _EndIndex))
-                {
-                    project.Warnings.Add(string.Format("Line {0}: Substring command requires an integer as its second argument.", m_lineNumber));
-                }
-            }
-            else
-            {
-                project.Warnings.Add(string.Format("Line {0}: Substring command requires one or two integer arguments.", m_lineNumber));
+                serializer.Warn("The substring command requires one or two arguments.", this);
             }
         }
 
@@ -138,11 +107,11 @@ namespace Whee.WordBuilder.Model.Commands
         {
             if (_StartIndex > 0 && _EndIndex > 0 && _EndIndex < _StartIndex)
             {
-                serializer.Warn(string.Format("Line {0}: You want to start after the end?"));
+                serializer.Warn("You want to start after the end?", this);
             }
             if (_StartIndex < 0 && _EndIndex < 0 && _EndIndex < _StartIndex)
             {
-                serializer.Warn(string.Format("Line {0}: You want to start after the end?"));
+                serializer.Warn("You want to start after the end?", this);
             }
         }
     }

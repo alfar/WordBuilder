@@ -40,12 +40,12 @@ namespace Whee.WordBuilder.Model.Commands
 
                 if (serializer.ReadTextToken(this) != null)
                 {
-                    serializer.Warn("The prelit command requires 1 argument.");
+                    serializer.Warn("The prelit command requires 1 argument.", this);
                 }
             }
             else
             {
-                serializer.Warn("The prelit command requires 1 argument.");
+                serializer.Warn("The prelit command requires 1 argument.", this);
             }
 
         }
