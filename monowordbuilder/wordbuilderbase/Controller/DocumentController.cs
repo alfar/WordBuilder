@@ -29,8 +29,23 @@ namespace Whee.WordBuilder.Controller
 			m_model.DocumentChanged += HandleM_modelDocumentChanged;
 			m_WarningViewHelper = warningViewHelper;
 			m_WarningViewHelper.WarningActivated += HandleM_WarningViewHelperWarningActivated;
+			if (model.Dirty) {
+				m_textView.OnDocumentChanged(this, model.Text, null);
+			}
 		}
 
+		public Document Document
+		{
+			get { return m_model; }
+			set 
+			{ 
+				m_model.DocumentChanged -= HandleM_modelDocumentChanged;
+				m_model = value;
+				m_model.DocumentChanged += HandleM_modelDocumentChanged;
+			}
+		}
+				
+		
 		void HandleM_WarningViewHelperWarningActivated (object sender, WarningEventArgs e)
 		{
 			GotoIndex(e.Index);

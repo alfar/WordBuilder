@@ -52,10 +52,11 @@
     <!-- Compile the XIB file to a NIB file -->
     <ibtool xibfile="en.lproj/Main.xib" todir="en.lproj"/>
     <ibtool xibfile="en.lproj/ExportAsView.xib" todir="en.lproj"/>
+    <ibtool xibfile="en.lproj/Document.xib" todir="en.lproj"/>
 
     <!-- Create the application bundle -->
     <mkappl name="${app.name}"
-        todir="${dist.dir}">
+        todir="${dist.dir}" infoplist="Info_mono.plist">
       <!-- Copy bridge libraries -->
       <copy-in-macos basedir="${lib.dir}">
         <include name="libmonobjc.*.dylib"/>
@@ -106,6 +107,7 @@
     <!-- Compile the XIB file to a NIB file -->
     <ibtool xibfile="en.lproj/Main.xib" todir="en.lproj"/>
     <ibtool xibfile="en.lproj/ExportAsView.xib" todir="en.lproj"/>
+    <ibtool xibfile="en.lproj/Document.xib" todir="en.lproj"/>
 
     <!-- Generate a native binary that embeds everything -->
     <mkbundle exe="${build.dir}/${app.name}.exe"
@@ -122,7 +124,7 @@
     <!-- Create the application bundle -->
     <mkappl name="${app.name}"
         todir="${dist.dir}"
-        native="true">
+        native="true" infoplist="Info.plist">
       <!-- Copy bridge libraries -->
       <copy-in-macos basedir="${lib.dir}">
         <include name="libmonobjc.*.dylib"/>

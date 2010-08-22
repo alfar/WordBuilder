@@ -35,6 +35,7 @@ namespace Whee.WordBuilder.ProjectV2
 		
 		private void LoadParameters()
 		{
+
 			Token name = m_serializer.ReadTextToken(this);
 			if (name != null)
 			{
@@ -45,8 +46,23 @@ namespace Whee.WordBuilder.ProjectV2
             Token lb = m_serializer.ReadLineBreakToken(this);
 			while (lb == null)
 			{
-                Token tok = m_serializer.ReadTextToken(this);
-                m_Tokens.Add(tok.Text);
+				int reps = 0;
+				string data;
+	            Token rep = m_serializer.ReadRepeatingToken(this, out reps, out data);
+	
+	            if (rep != null)
+	            {
+					for (int i = 0; i < reps; i++)
+					{
+						m_Tokens.AddRange(data.Split(' '));
+					}
+				}
+				else
+				{
+	               Token tok = m_serializer.ReadTextToken(this);
+     	           m_Tokens.Add(tok.Text);
+				}
+				
                 lb = m_serializer.ReadLineBreakToken(this);
 			}
 		}

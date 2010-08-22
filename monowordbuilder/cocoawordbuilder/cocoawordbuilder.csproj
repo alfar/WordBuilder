@@ -40,6 +40,8 @@
     <None Include="lib\libmonobjc.2.dylib" />
     <None Include="lib\libmonobjc.1.dylib" />
     <None Include="en.lproj\ExportAsView.xib" />
+    <None Include="en.lproj\Document.xib" />
+    <None Include="Info.plist" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainClass.cs" />
@@ -52,6 +54,7 @@
     <Compile Include="UIHelpers\CocoaClipBoardHelper.cs" />
     <Compile Include="UIHelpers\CocoaTextFieldHelper.cs" />
     <Compile Include="UIHelpers\ExportAsViewController.cs" />
+    <Compile Include="UIHelpers\WordBuilderDocument.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Monobjc, Version=2.0.505.0, Culture=neutral, PublicKeyToken=d5a8d181860c16be">

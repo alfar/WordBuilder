@@ -18,9 +18,14 @@ namespace Whee.WordBuilder.Model
 
 	public class Document
 	{
-
 		public Document ()
 		{
+			Dirty = false;
+		}
+		
+		public Document (string initialText)
+		{
+			m_Text = initialText;
 			Dirty = false;
 		}
 		
