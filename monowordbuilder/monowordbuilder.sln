@@ -1,9 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "monowordbuilder", "monowordbuilder.csproj", "{06518BDB-7EAB-488B-80A2-E23BC493E3A3}"
-EndProject
-Project("{9344bdbb-3e7f-41fc-a0dd-8665d75ee146}") = "Packages", "Packages.mdproj", "{A19E3FD2-E223-4CEE-BC8D-0E18ECBBEB03}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{CD4D4718-76EA-460F-8519-2DC7C86AF117}"
 EndProject
@@ -55,12 +53,6 @@ Global
 		{443D90FC-817F-4D32-AF69-092E5A6EE944}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{443D90FC-817F-4D32-AF69-092E5A6EE944}.Release|x86.ActiveCfg = Release|Any CPU
 		{443D90FC-817F-4D32-AF69-092E5A6EE944}.Release|x86.Build.0 = Release|Any CPU
-		{A19E3FD2-E223-4CEE-BC8D-0E18ECBBEB03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A19E3FD2-E223-4CEE-BC8D-0E18ECBBEB03}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{A19E3FD2-E223-4CEE-BC8D-0E18ECBBEB03}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A19E3FD2-E223-4CEE-BC8D-0E18ECBBEB03}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A19E3FD2-E223-4CEE-BC8D-0E18ECBBEB03}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{A19E3FD2-E223-4CEE-BC8D-0E18ECBBEB03}.Release|x86.ActiveCfg = Release|Any CPU
 		{B3B7767C-C742-482D-8C4A-1D90285DCA8E}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{B3B7767C-C742-482D-8C4A-1D90285DCA8E}.Debug|Any CPU.Build.0 = Debug|x86
 		{B3B7767C-C742-482D-8C4A-1D90285DCA8E}.Debug|Mixed Platforms.ActiveCfg = Debug|x86

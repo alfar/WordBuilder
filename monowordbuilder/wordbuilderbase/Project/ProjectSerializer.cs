@@ -15,38 +15,6 @@ namespace Whee.WordBuilder.Model
 		{
 		}
 			
-		public static Project LoadProject(string path)
-		{
-            Project result = new Project(Whee.WordBuilder.Helpers.Random.Instance);
-	
-			try {
-				using (StreamReader tr = new StreamReader(path, System.Text.Encoding.UTF8)) {
-					ReadProject(result, tr);
-				}
-			}
-			catch (Exception ex) {
-				result.Warnings.Add(ex.Message);
-			}
-	
-			return result;
-		}
-	
-		public static Project LoadProjectString(string code)
-		{
-            Project result = new Project(Whee.WordBuilder.Helpers.Random.Instance);
-	
-			try {
-				using (StringReader tr = new StringReader(code)) {
-					ReadProject(result, tr);
-				}
-			}
-			catch (Exception ex) {
-				result.Warnings.Add(ex.Message);
-			}
-	
-			return result;
-		}
-	
 		public static bool ReadLines(object context, TextReader reader, LineParserDelegate parser, ref int lineNumber)
 		{
 			string line = reader.ReadLine();
