@@ -9,11 +9,11 @@
 //------------------------------------------------------------------------------
 
 using NUnit.Framework;
-using NMock2;
 using System;
 using System.IO;
 using Whee.WordBuilder.Helpers;
 using Whee.WordBuilder.ProjectV2;
+using NMock2;
 
 namespace test
 {
@@ -95,7 +95,7 @@ namespace test
 
             Whee.WordBuilder.Model.Commands.CommandBase cb = cbn.Children[0] as Whee.WordBuilder.Model.Commands.CommandBase;
 
-            Assert.IsInstanceOfType(typeof(Whee.WordBuilder.Model.Commands.LoopCommand), cb);
+            Assert.IsInstanceOf<Whee.WordBuilder.Model.Commands.LoopCommand>(cb);
 
             Assert.AreEqual(1, cb.Children.Count);            
         }
@@ -124,7 +124,7 @@ namespace test
 
             Whee.WordBuilder.Model.Commands.CommandBase cb = cbn.Children[0] as Whee.WordBuilder.Model.Commands.CommandBase;
 
-            Assert.IsInstanceOfType(typeof(Whee.WordBuilder.Model.Commands.LoopCommand), cb);
+            Assert.IsInstanceOf<Whee.WordBuilder.Model.Commands.LoopCommand>(cb);
 
             Assert.AreEqual(1, cb.Children.Count);
         }

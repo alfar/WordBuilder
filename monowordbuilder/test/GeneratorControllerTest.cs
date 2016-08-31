@@ -35,11 +35,11 @@ namespace test
             m_ResultViewHelper = m_Mockery.NewMock<IResultViewHelper>();
             m_DetailsTextViewHelper = m_Mockery.NewMock<ITextViewHelper>();
             m_ExportHelper = m_Mockery.NewMock<IExporter>();
-            Expect.Once.On(m_ResultViewHelper).EventAdd("SelectionChanged", Is.Anything);
+            Expect.Once.On(m_ResultViewHelper).EventAdd("SelectionChanged", NMock2.Is.Anything);
             m_GeneratorController = new GeneratorController(m_FileSystem, m_ResultViewHelper, m_ClipBoardHelper, m_DetailsTextViewHelper);
         }
 
-        private Mockery m_Mockery;
+        private NMock2.Mockery m_Mockery;
         private IFileSystem m_FileSystem;
         private IExporter m_ExportHelper;
         private ITextViewHelper m_DetailsTextViewHelper;
@@ -277,7 +277,7 @@ namespace test
 
             selected.Add(result);
 
-            Expect.Once.On(m_DetailsTextViewHelper).Method("OnDocumentChanged").With(m_GeneratorController, string.Format("abc{0}\tb1: abcd", Environment.NewLine), Is.Anything);
+            Expect.Once.On(m_DetailsTextViewHelper).Method("OnDocumentChanged").With(m_GeneratorController, string.Format("abc{0}\tb1: abcd", Environment.NewLine), NMock2.Is.Anything);
 
             m_GeneratorController.OnTreeViewSelectionChanged(selected);
 

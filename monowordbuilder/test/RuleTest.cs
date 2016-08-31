@@ -10,9 +10,9 @@
 
 using NUnit.Framework;
 using System;
-using NUnit.Mocks;
 using Whee.WordBuilder.Model;
 using Whee.WordBuilder.Helpers;
+using NSubstitute;
 
 namespace test
 {
@@ -22,15 +22,15 @@ namespace test
 		[SetUp()]
 		public void Setup()
 		{
-			m_Random = new DynamicMock(typeof(IRandom));
+			m_Random = Substitute.For<IRandom>();
 		}
 
-		private DynamicMock m_Random;
+		private IRandom m_Random;
 
 		[Test()]
 		public void TestGetRuleByName()
 		{
-			RuleCollection rc = new RuleCollection((IRandom)m_Random.MockInstance);
+			RuleCollection rc = new RuleCollection(m_Random);
 			
 			Rule rule1 = new Rule();
 			rule1.Name = "r";
@@ -38,7 +38,7 @@ namespace test
 			
 			rc.Add(rule1);
 			
-			m_Random.ExpectAndReturn("NextDouble", 0.0);
+			m_Random.NextDouble().Returns(0.0);
 			Assert.AreSame(rule1, rc.GetRuleByName("r"));
 			
 			Rule rule2 = new Rule();
@@ -47,12 +47,12 @@ namespace test
 			
 			rc.Add(rule2);
 			
-			m_Random.ExpectAndReturn("NextDouble", 0.2);
+			m_Random.NextDouble().Returns(0.2);
 			Assert.AreSame(rule1, rc.GetRuleByName("r"), "rule 1 expected");
-			m_Random.ExpectAndReturn("NextDouble", 0.6);
+			m_Random.NextDouble().Returns(0.6);
 			Assert.AreSame(rule2, rc.GetRuleByName("r"), "rule 2 expected");
 			
-			m_Random.Verify();
+			m_Random.Received(3).NextDouble();
 		}
 	}
 }

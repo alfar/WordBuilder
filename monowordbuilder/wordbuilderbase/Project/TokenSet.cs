@@ -7,7 +7,6 @@ namespace Whee.WordBuilder.Model
 {
 	public class TokenSet
 	{
-        [Obsolete()]
         public TokenSet(IRandom random)
         {
             m_Random = random;

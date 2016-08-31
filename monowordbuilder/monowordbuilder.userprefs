@@ -1,41 +1,39 @@
-﻿<Properties StartupItem="monowordbuilder.csproj">
+﻿<Properties StartupItem="test\test.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="gtkwordbuilder\ExportDialog.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="cocoawordbuilder\ApplicationController.cs">
     <Files>
-      <File FileName="wordbuilderbase\ProjectV2\ProjectSerializer.cs" Line="429" Column="29" />
-      <File FileName="wordbuilderbase\ProjectV2\ProjectNode.cs" Line="73" Column="44" />
-      <File FileName="wordbuilderbase\Controller\DocumentController.cs" Line="1" Column="1" />
-      <File FileName="wordbuilderbase\ProjectV2\IProjectSerializer.cs" Line="17" Column="2" />
-      <File FileName="wordbuilderbase\ProjectV2\StartingRuleNode.cs" Line="54" Column="168" />
-      <File FileName="wordbuilderbase\ProjectV2\ColumnNode.cs" Line="45" Column="14" />
-      <File FileName="wordbuilderbase\ProjectV2\CommandBlockNode.cs" Line="34" Column="49" />
-      <File FileName="gtkwordbuilder\MainWindow.cs" Line="2" Column="7" />
-      <File FileName="gtkwordbuilder\UIHelpers\ClipBoardHelper.cs" Line="1" Column="1" />
-      <File FileName="test\Commands\ApplyCommandTest.cs" Line="1" Column="7" />
-      <File FileName="gtkwordbuilder\ExportDialog.cs" Line="11" Column="38" />
+      <File FileName="cocoawordbuilder\ApplicationController.cs" Line="5" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="monowordbuilder" expanded="True">
+            <Node name="cocoawordbuilder" expanded="True" selected="True" />
             <Node name="gtkwordbuilder" expanded="True">
               <Node name="References" expanded="True" />
               <Node name="UIHelpers" expanded="True" />
             </Node>
-            <Node name="monowordbuilder" expanded="True" selected="True">
-              <Node name="References" expanded="True" />
-            </Node>
             <Node name="test" expanded="True">
+              <Node name="References" expanded="True" />
+              <Node name="Packages" expanded="True" />
               <Node name="Commands" expanded="True" />
+              <Node name="ProjectV2" expanded="True" />
             </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="monowordbuilder" expanded="True" selected="True">
+            <Node name="test" expanded="True" />
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.ItemProperties.monowordbuilder PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.ItemProperties.test PreferredExecutionTarget="MonoDevelop.Default" />
 </Properties>

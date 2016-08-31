@@ -10,11 +10,11 @@
 
 using NUnit.Framework;
 using System;
+using NMock2;
 using Whee.WordBuilder.Model;
 using Whee.WordBuilder.Controller;
 using Whee.WordBuilder.UIHelpers;
 using Whee.WordBuilder.Helpers;
-using NMock2;
 
 namespace test
 {
@@ -32,8 +32,8 @@ namespace test
             m_FileDialogHelper = m_Mockery.NewMock<IFileDialogHelper>();
             m_WarningViewHelper = m_Mockery.NewMock<IWarningViewHelper>();
 
-            Expect.Once.On(m_TextViewHelper).EventAdd("BufferChanged", Is.Anything);
-            Expect.Once.On(m_WarningViewHelper).EventAdd("WarningActivated", Is.Anything);
+            Expect.Once.On(m_TextViewHelper).EventAdd("BufferChanged", NMock2.Is.Anything);
+            Expect.Once.On(m_WarningViewHelper).EventAdd("WarningActivated", NMock2.Is.Anything);
             m_DocumentController = new DocumentController(m_WarningViewHelper, m_FileSystem, m_FileDialogHelper, m_TextViewHelper, m_Document);
         }
 

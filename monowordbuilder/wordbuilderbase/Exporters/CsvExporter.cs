@@ -24,7 +24,7 @@ namespace Whee.WordBuilder.Exporters
 		}
 		
 		#region IExporter implementation
-		public void Export (System.Collections.Generic.List<Whee.WordBuilder.Model.Context> list, string path, IFileSystem fileSystem)
+		public void Export (System.Collections.Generic.List<Context> list, string path, IFileSystem fileSystem)
 		{
 			StringBuilder result = new StringBuilder();
 			List<string> columns = new List<string>();

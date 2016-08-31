@@ -9,8 +9,8 @@
 //------------------------------------------------------------------------------
 
 using NUnit.Framework;
+using NSubstitute;
 using System;
-using NUnit.Mocks;
 using System.Collections.Generic;
 
 using Whee.WordBuilder.Helpers;
@@ -25,12 +25,12 @@ namespace test
 	public class CsvExporterTest
 	{
 
-		private DynamicMock m_FileSystem;
+		private IFileSystem m_FileSystem;
 
 		[Test()]
 		public void TestExport()
 		{
-			m_FileSystem = new DynamicMock(typeof(IFileSystem));
+			m_FileSystem = Substitute.For<IFileSystem>();
 
 			List<Context> selected = new List<Context>();
 			
@@ -46,11 +46,9 @@ namespace test
 			
 			IExporter exporter = new CsvExporter();
 			
-			m_FileSystem.Expect("WriteAllText", @"c:\abc.csv", string.Format(".Word.;b1{0}abc;abcd{0}", Environment.NewLine));
+			exporter.Export(selected, @"c:\abc.csv", m_FileSystem);
 			
-			exporter.Export(selected, @"c:\abc.csv", (IFileSystem)m_FileSystem.MockInstance);
-			
-			m_FileSystem.Verify();
+			m_FileSystem.Received().WriteAllText(@"c:\abc.csv", string.Format(".Word.;b1{0}abc;abcd{0}", Environment.NewLine));
 		}
 	}
 }

@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 using NUnit.Framework;
-using NUnit.Mocks;
+using NSubstitute;
 using System;
 using Whee.WordBuilder.Model;
 using Whee.WordBuilder.Helpers;
@@ -30,13 +30,11 @@ namespace test
 			
 			dm.FileName = @"c:\abc.wordo";
 			
-			DynamicMock fs = new DynamicMock(typeof (IFileSystem));
-			
-			fs.Expect("WriteAllText", @"c:\abc.wordo", "abc");
-			
-			dm.Save((IFileSystem)fs.MockInstance);
-			
-			fs.Verify();
+			IFileSystem fs = Substitute.For<IFileSystem>();
+
+			dm.Save(fs);
+
+			fs.Received().WriteAllText(@"c:\abc.wordo", "abc");
 		}
 		
 		[Test()]
@@ -46,13 +44,13 @@ namespace test
 			
 			dm.FileName = @"c:\abc.wordo";
 			
-			DynamicMock fs = new DynamicMock(typeof (IFileSystem));
+			IFileSystem fs = Substitute.For<IFileSystem>();
 			
-			fs.ExpectAndReturn("ReadAllText", "abc", @"c:\abc.wordo");
+			fs.ReadAllText(@"c:\abc.wordo").Returns("abc");
 			
-			dm.Load((IFileSystem)fs.MockInstance);
+			dm.Load(fs);
 			
-			fs.Verify();
+			fs.Received().ReadAllText(@"c:\abc.wordo");
 			
 			Assert.AreEqual("abc", dm.Text);
 		}		
@@ -67,8 +65,8 @@ namespace test
 			Assert.IsTrue(dm.Dirty);
 
 			dm.FileName = @"c:\abc.wordo";			
-			DynamicMock fs = new DynamicMock(typeof (IFileSystem));			
-			dm.Save((IFileSystem)fs.MockInstance);
+			IFileSystem fs = Substitute.For<IFileSystem>();			
+			dm.Save(fs);
 			
 			Assert.IsFalse(dm.Dirty);
 			
@@ -76,13 +74,13 @@ namespace test
 			
 			Assert.IsTrue(dm.Dirty);
 			
-			dm.Save((IFileSystem)fs.MockInstance);
+			dm.Save(fs);
 			
 			Assert.IsFalse(dm.Dirty);
 
-			fs.ExpectAndReturn("ReadAllText", "abc3", @"c:\abc.wordo");
+			fs.ReadAllText(@"c:\abc.wordo").Returns("abc3");
 
-			dm.Load((IFileSystem)fs.MockInstance);
+			dm.Load(fs);
 
 			Assert.AreEqual("abc3", dm.Text);
 			Assert.IsFalse(dm.Dirty);			

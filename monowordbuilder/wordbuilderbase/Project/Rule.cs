@@ -6,7 +6,6 @@ namespace Whee.WordBuilder.Model
 {
 	public class Rule
 	{
-        [Obsolete()]
         public Rule()
         {
         }

@@ -1,9 +1,4 @@
 ﻿using NUnit.Framework;
-using NMock2;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Whee.WordBuilder.Helpers;
 using Whee.WordBuilder.ProjectV2;
 
 namespace test

@@ -9,8 +9,8 @@
 //------------------------------------------------------------------------------
 
 using NUnit.Framework;
+using NSubstitute;
 using System;
-using NUnit.Mocks;
 using Whee.WordBuilder.Helpers;
 using Whee.WordBuilder.Model;
 
@@ -22,37 +22,39 @@ namespace test
 		[SetUp()]
 		public void Setup()
 		{
-			m_Random = new DynamicMock(typeof(IRandom));
-			m_TokenSet = new TokenSet((IRandom)m_Random.MockInstance);
+			m_Random = Substitute.For<IRandom>();
+			m_TokenSet = new TokenSet(m_Random);
 			m_TokenSetCollection = new TokenSetCollection();
 		}
 		
 		private TokenSet m_TokenSet;
-		private DynamicMock m_Random;
+		private IRandom m_Random;
 		private TokenSetCollection m_TokenSetCollection;
 
 		[Test()]
 		public void TestGetToken()
 		{
 			m_TokenSet.Tokens.Add("a");
-			m_Random.ExpectAndReturn("Next", 0, 1);
+			m_Random.Next(1).Returns(0);
 			Assert.AreEqual("a", m_TokenSet.GetToken());
 
 			m_TokenSet.Tokens.Add("b");
-			m_Random.ExpectAndReturn("Next", 0, 2);
+			m_Random.Next(2).Returns(0);
 			Assert.AreEqual("a", m_TokenSet.GetToken());
 
-			m_Random.ExpectAndReturn("Next", 1, 2);
+			m_Random.Next(2).Returns(1);
 			Assert.AreEqual("b", m_TokenSet.GetToken());
+
+			m_Random.Received(3).Next(Arg.Any<Int32>());
 		}
 		
 		[Test()]
 		public void TestCountByName()
 		{
-			TokenSet a = new TokenSet((IRandom)m_Random.MockInstance);
+			TokenSet a = new TokenSet(m_Random);
 			a.Name = "a";
 			
-			TokenSet a2 = new TokenSet((IRandom)m_Random.MockInstance);
+			TokenSet a2 = new TokenSet(m_Random);
 			a2.Name = "a";
 			
 			Assert.AreEqual(0, m_TokenSetCollection.CountByName("a"));
@@ -69,10 +71,10 @@ namespace test
 		[Test()]
 		public void TestGetByName()
 		{
-			TokenSet a = new TokenSet((IRandom)m_Random.MockInstance);
+			TokenSet a = new TokenSet(m_Random);
 			a.Name = "a";
 			
-			TokenSet a2 = new TokenSet((IRandom)m_Random.MockInstance);
+			TokenSet a2 = new TokenSet(m_Random);
 			a2.Name = "a";
 			
 			Assert.IsNull(m_TokenSetCollection.FindByName("a"));

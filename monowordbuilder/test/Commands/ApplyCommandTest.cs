@@ -1,8 +1,4 @@
 ﻿using NUnit.Framework;
-using NMock2;
-using System;
-using System.IO;
-using Whee.WordBuilder.Helpers;
 using Whee.WordBuilder.ProjectV2;
 using Whee.WordBuilder.Model.Commands;
 
