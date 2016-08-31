@@ -6,15 +6,24 @@ namespace Whee.WordBuilder.Cocoa
 {
 	public class CocoaTextFieldHelper : UIHelpers.ITextViewHelper
 	{
-		public CocoaTextFieldHelper (NSTextField textField)
+		public CocoaTextFieldHelper(NSTextField textField)
 		{
 			m_textField = textField;
 		}
-		
+
 		private NSTextField m_textField;
-	
+
 		#region ITextViewHelper implementation
 		public event EventHandler<Model.Events.DocumentChangedEventArgs> BufferChanged;
+
+		protected virtual void OnBufferChanged(Model.Events.DocumentChangedEventArgs e)
+		{
+			EventHandler<Model.Events.DocumentChangedEventArgs> handler = this.BufferChanged;
+			if (handler != null)
+			{
+				handler(this, e);
+			}
+		}
 
 		public void Clear ()
 		{
